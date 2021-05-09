@@ -1,0 +1,73 @@
+<div id="background">
+  <div class="container">
+    <mat-card style="box-shadow: none !important; border-radius: 30px;">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+      </mat-card-header>
+      <span style="color:red;" *ngIf="message">{{message}}</span>
+      <mat-card-content>
+        <div class="row">
+      <img [src]="imgURL" id="image" (click)="clickUpload()">
+      <input #file type="file" accept='image/*' id="fileupload" (change)="preview(file.files)" />
+    </div>
+      
+    <div class="row">
+   
+      <div class="col-xl-12" >
+        
+  <mat-form-field  style="width: 80%;margin-left: 10%;">
+    <mat-label class="label">DESCRIPTION</mat-label>
+    <textarea class="label" matInput [(ngModel)]="post.description"></textarea>
+  </mat-form-field>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-xl-12" >
+      <mat-form-field style="width: 80%;margin-left: 10%;" class="label">
+        <mat-chip-list #chipList>
+          <mat-chip
+            *ngFor="let fruit of fruits"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(fruit)">
+            {{fruit}}
+            <mat-icon matChipRemove *ngIf="removable">x</mat-icon>
+          </mat-chip>
+          <input 
+            placeholder="TAG PEOPLE"
+            #fruitInput
+            [formControl]="fruitCtrl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" >
+          <mat-option class="label" *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+            {{fruit}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+      </div>
+     
+      </mat-card-content>
+    
+    <mat-card-actions>
+      <div class="row">
+        <div class="col-sm-6">
+          <button mat-raised-button color="primary" id="discardButton" (click)="onUpload()" value="upload"
+          class="addfiles">DISCARD</button>
+          
+        </div>
+        <div class="col-sm-6">
+          <button mat-raised-button color="primary" id="uploadButton" (click)="onUpload()" value="upload"
+          class="addfiles">UPLOAD</button>
+          
+        </div>
+      </div>
+    
+    </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
