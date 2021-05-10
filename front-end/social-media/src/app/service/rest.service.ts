@@ -24,6 +24,10 @@ public post(  url:string,body:any): Observable<any> {
     return throwError(
       'Something bad happened; please try again later.');
   }
+
+  public get(url:string){
+    return this.http.get(url).toPromise();
+  }
   constructor(private http: HttpClient) { }
 
 

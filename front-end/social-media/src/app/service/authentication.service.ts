@@ -1,33 +1,52 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable,of, of as observableOf, throwError } from 'rxjs'; // since RxJs 6
-import {Router} from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { Post } from '../model/post';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from '../model/user';
+import { Router } from '@angular/router';
+import { tap } from 'rxjs/internal/operators/tap';
 import { RestService } from './rest.service';
+import { TokenService } from './token.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
- login(body : any) : Observable<any> {
-    return this.restService.post("login", body).pipe(
+  private currentUser: Observable<User>
+  private currentUserSubject!: BehaviorSubject<any>;
+  check: boolean = false;
+
+  constructor(
+    private router: Router,
+    private restRequestService: RestService,
+    private tokenService: TokenService) {
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')!));
+    this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  getCurrentUser(): User {
+    return this.currentUserSubject.getValue().user;
+  }
+
+  login(body: any): Observable<any> {
+    return this.restRequestService.post("auth", body).pipe(
       tap(data => {
-        alert(data.message)
+        if (data.accessToken) {
+          this.tokenService.setToken(data.accessToken);
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+          this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')!));
+          this.router.navigateByUrl("/home");
+          return data;
+        }
       })
     )
   }
-  register(body : any) : Observable<any> {
-    return this.restService.post("register", body).pipe(
-      tap(data => {
-        alert(data.message)
-      })
-    )
+  
+
+  isLogged(): boolean {
+    return this.tokenService.getToken() != "";
   }
-  constructor(private http: HttpClient,private restService:RestService) { }
 
-
+  logout() {
+    this.tokenService.setToken("");
+    localStorage.removeItem('currentUser');
+    this.currentUserSubject.next(null);
+  }
 }

@@ -21,13 +21,17 @@ public class User {
     private String password;
     private String username;
 
-    @ManyToOne
+    @OneToMany
     @JoinColumn
-    private Role role;
+    private List<Role> roles;
+
+    @OneToMany
+    @JoinColumn
+    private List<Post> posts;
 
     @OneToOne
     @JoinColumn
-    private UserDetails details;
+    private Profile details;
 
 
 

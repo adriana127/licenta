@@ -21,7 +21,7 @@ export class CreatePostComponent {
       map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
   }  
   selectedFile!: File;
-  post: Post={id:0,user:{id:1,email:"Adriana",password:"12345",username:"",role:{id:0,name:"user"},followers:null,following:null},description:"",createdOn:new Date(),likes:[],comments:[],tags:[],photo:""};
+  post: Post={id:0,user:{id:1,email:"Adriana",password:"12345",username:"",roles:[{id:0,name:"user"}],followers:null,following:null,posts:null},description:"",createdOn:new Date(),likes:[],comments:[],tags:[],photo:""};
   retrievedImage: any;
   base64Data: any;
   retrieveResonse: any;

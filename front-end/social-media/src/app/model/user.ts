@@ -6,7 +6,8 @@ export interface User {
     email:string,
     password:string,
     username:string,
-    role:Role,
+    roles:Role[],
+    posts:any
     followers:any,
     following:any
   }

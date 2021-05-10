@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialogConfig ,MatDialog} from '@angular/material/dialog';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { NewsFeedPost } from 'src/app/model/newsfeedpost';
+import { Post } from 'src/app/model/post';
+import { PostService } from 'src/app/service/post.service';
 
 import { CreatePostComponent } from '../create-post/create-post.component'
 @Component({
@@ -9,58 +12,29 @@ import { CreatePostComponent } from '../create-post/create-post.component'
   styleUrls: ['./news-feed.component.css']
 })
 export class NewsFeedComponent implements OnInit {
-  cards = [
-    {
-      title: 'Card Title 1',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 2',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 3',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
-    {
-      title: 'Card Title 4',
-      description: 'Some quick example text to build on the card title and make up the bulk of the card content',
-      buttonText: 'Button',
-      img: 'https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg'
-    },
 
-  ];
-  constructor(private httpClient: HttpClient,private dialog:MatDialog) { 
-    this.httpClient.get('http://localhost:8080/post/3/', { responseType: 'blob' })
-    .subscribe(
-      res => {
-        this.createImage(res)
-      }
-    );
+  constructor(private httpClient: HttpClient, private dialog: MatDialog, private postService: PostService) {
   }
 
   imageToShow: any = null;
-  ngOnInit(): void {
+  posts!: NewsFeedPost[]
+  async ngOnInit(): Promise<void> {
+    await this.reloadData()
   }
-  private createImage(image: Blob) {
-      let reader = new FileReader();
-      reader.addEventListener("load", () => {
-        this.imageToShow = reader.result;
-      }, false);
-
-      reader.readAsDataURL(image);
+  async reloadData() {
+    await this.postService.loadData()
+    this.posts = this.postService.getNewsFeedPosts(10)
+    this.imageToShow = (this.postService.getPost(3))
   }
-  onCreate(){
+  onCreate() {
     this.dialog.open(CreatePostComponent, {
       width: '600px',
-      height:'700px'
+      height: '700px'
     })
-      }
+  }
+  async onLike(event: NewsFeedPost) {
+    this.postService.likePost(event.post.id).subscribe(async data=>{await this.reloadData()})
+    
+  }
 }
 

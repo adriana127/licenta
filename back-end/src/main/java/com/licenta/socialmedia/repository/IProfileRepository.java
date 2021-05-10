@@ -1,9 +1,9 @@
 package com.licenta.socialmedia.repository;
 
-import com.licenta.socialmedia.model.UserDetails;
+import com.licenta.socialmedia.model.Profile;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IUserDetailsRepository extends CrudRepository<UserDetails,Long> {
+public interface IProfileRepository extends CrudRepository<Profile,Long> {
 }

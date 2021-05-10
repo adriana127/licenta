@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
@@ -11,9 +12,9 @@ export class LoginComponent implements OnInit {
   loginForm:any;
   registerForm:any;
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private router: Router,private authenticationService: AuthenticationService) {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [
+      username: new FormControl('', [
         Validators.required,
         Validators.email
   
@@ -42,18 +43,17 @@ export class LoginComponent implements OnInit {
   }
   login() {
     this.authenticationService.login(this.loginForm.getRawValue())
-      .subscribe(data => {
-
-      }, err => {
-        alert(err.message)
-      });
+    .subscribe(data => {
+    }, err => {
+      alert(err.message)
+    });
   };
   register() {
-    this.authenticationService.register(this.registerForm.getRawValue())
-      .subscribe(data => {
+    // this.authenticationService.register(this.registerForm.getRawValue())
+    //   .subscribe(data => {
 
-      }, err => {
-        alert(err.message)
-      });
+    //   }, err => {
+    //     alert(err.message)
+    //   });
   };
 }

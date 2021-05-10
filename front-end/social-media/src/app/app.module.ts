@@ -24,6 +24,7 @@ import { StoriesComponent } from './component/home-page/stories/stories.componen
 import { SuggestionsComponent } from './component/home-page/suggestions/suggestions.component'; 
 import {ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './component/login/login.component';
+import { httpInterceptorProviders } from './service/httpinterceptor.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,10 +50,8 @@ import { LoginComponent } from './component/login/login.component';
     MatChipsModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
-
-
   ],
-  providers: [PostService,RestService],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
   entryComponents:[CreatePostComponent]
 })

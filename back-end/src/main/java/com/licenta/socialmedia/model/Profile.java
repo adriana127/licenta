@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @ToString
-public class UserDetails {
+public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

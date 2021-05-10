@@ -4,6 +4,7 @@ import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.repository.IUserRepository;
 import com.licenta.socialmedia.service.implementation.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +14,15 @@ import java.util.Optional;
 public class UserService implements IUserService {
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public User add(User user) {
-       return userRepository.save(user);
+
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     @Override
