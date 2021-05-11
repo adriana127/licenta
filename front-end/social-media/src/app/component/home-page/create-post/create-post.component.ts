@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { HttpClient, HttpEventType } from '@angular/common/http';
 import { Post } from 'src/app/model/post';
 import { PostService } from 'src/app/service/post.service';
 import { Observable } from 'rxjs';
@@ -15,7 +14,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 })
 export class CreatePostComponent {
 
-  constructor(private httpClient: HttpClient,private postService: PostService) { 
+  constructor(private postService: PostService) { 
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
       map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));

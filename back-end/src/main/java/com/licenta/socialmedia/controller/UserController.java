@@ -29,17 +29,7 @@ public class UserController {
     public void deleteUser(@RequestBody User user) throws Exception {
         userService.delete(user);
     }
-    @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/login")
-    public MessageResponse login(@RequestBody User user) throws Exception {
-        if(userService.findByEmail(user.getEmail()).equals(Optional.empty()))
-        return new MessageResponse(404,"User not found!",null);
-        else{
-            if(userService.checkPassword(userService.findByEmail(user.getEmail()),user.getPassword() ))
-                return new MessageResponse(200,"Welcome!",userService.findByEmail(user.getEmail()));
-            else return new MessageResponse(404,"Wrong password!",null);
-        }
-    }
+
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/register")
     public MessageResponse register(@RequestBody User user) throws Exception {

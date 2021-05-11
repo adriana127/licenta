@@ -71,7 +71,6 @@ console.log(this.newsfeedposts)
       .then(result => {
         this.likes = result as Like[]
       })
-      console.log(this.likes)
     await this.restService.get("http://localhost:8080/posts")
       .then(res => {
         this.posts = res as Post[]
@@ -81,7 +80,9 @@ console.log(this.newsfeedposts)
       this.posts.forEach((value: any) => {
         let isLiked = this.getLikeById(this.authenticationService.getCurrentUser().id,value.id) != null
         this.newsfeedposts.push({ post: Object.assign({}, value), liked: isLiked })
+        
       })
+      console.log(this.posts)
       this.newsfeedposts.forEach(value => {
         value.post.photo = "data:image/jpeg;base64," + value.post.photo
       })

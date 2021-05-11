@@ -9,15 +9,15 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  loginForm:any;
-  registerForm:any;
+  loginForm: any;
+  registerForm: any;
 
-  constructor(private router: Router,private authenticationService: AuthenticationService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,
         Validators.email
-  
+
       ]),
       password: new FormControl('',
         [Validators.required,
@@ -37,23 +37,30 @@ export class LoginComponent implements OnInit {
         Validators.minLength(6)
         ])
     });
-   }
+  }
 
   ngOnInit(): void {
   }
   login() {
     this.authenticationService.login(this.loginForm.getRawValue())
-    .subscribe(data => {
-    }, err => {
-      alert(err.message)
-    });
+      .subscribe(data => {
+      }, err => {
+        alert(err.message)
+      });
   };
   register() {
-    // this.authenticationService.register(this.registerForm.getRawValue())
-    //   .subscribe(data => {
-
-    //   }, err => {
-    //     alert(err.message)
-    //   });
-  };
+    this.authenticationService.register(this.registerForm.getRawValue())
+      .subscribe(data => {
+        console.log(data)
+        if (data.status === 201) {
+          this.authenticationService.login({
+            username: this.registerForm.getRawValue().email,
+            password: this.registerForm.getRawValue().password
+          }).subscribe(data => {
+          }, err => {
+            alert(err.message)
+          });
+        }
+      });
+  }
 }

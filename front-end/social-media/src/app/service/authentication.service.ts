@@ -22,7 +22,7 @@ export class AuthenticationService {
   }
 
   getCurrentUser(): User {
-    return this.currentUserSubject.getValue().user;
+    return this.currentUserSubject.getValue();
   }
 
   login(body: any): Observable<any> {
@@ -39,7 +39,14 @@ export class AuthenticationService {
     )
   }
   
-
+  register(body: any): Observable<any> {
+    return this.restRequestService.post("register", body).pipe(
+      tap(data => {
+        
+      })
+    )
+  }
+  
   isLogged(): boolean {
     return this.tokenService.getToken() != "";
   }

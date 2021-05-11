@@ -13,7 +13,7 @@ import { CreatePostComponent } from '../create-post/create-post.component'
 })
 export class NewsFeedComponent implements OnInit {
 
-  constructor(private httpClient: HttpClient, private dialog: MatDialog, private postService: PostService) {
+  constructor(private dialog: MatDialog, private postService: PostService) {
   }
 
   imageToShow: any = null;

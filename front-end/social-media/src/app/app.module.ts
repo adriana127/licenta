@@ -12,6 +12,8 @@ import { RestService } from './service/rest.service';
 import { HeaderComponent } from './component/header/header.component';
 import { HomeComponent } from './component/home-page/home/home.component';
 
+
+import {MatGridListModule} from '@angular/material/grid-list'; 
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import {MatChipsModule} from '@angular/material/chips'; 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,6 +27,10 @@ import { SuggestionsComponent } from './component/home-page/suggestions/suggesti
 import {ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './component/login/login.component';
 import { httpInterceptorProviders } from './service/httpinterceptor.service';
+import { ProfileComponent } from './component/profile-page/profile/profile.component';
+import { EditProfileComponent } from './component/profile-page/edit-profile/edit-profile.component';
+import { ProfileInformationComponent } from './component/profile-page/profile-information/profile-information.component';
+import { ProfilePostsComponent } from './component/profile-page/profile-posts/profile-posts.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +41,10 @@ import { httpInterceptorProviders } from './service/httpinterceptor.service';
     SuggestionsComponent,
     HomeComponent,
     LoginComponent,
+    ProfileComponent,
+    EditProfileComponent,
+    ProfileInformationComponent,
+    ProfilePostsComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +60,7 @@ import { httpInterceptorProviders } from './service/httpinterceptor.service';
     MatChipsModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
+    MatGridListModule,
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],

@@ -1,9 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=Patrick+Hand&display=swap');
 html, body {  
     background-color:rgb(255,208,196); 
     scrollbar-width:none;  
     scrollbar-color: rgb(125, 125, 138) rgb(255, 255, 255);  }
 
 
+    #addButton{
+        font-family: 'Itim', cursive;
+        background-color: white;
+        margin-bottom: 10px;
+        box-shadow:2px 2px 3px rgba(216, 134, 134, 0.459);
+    }

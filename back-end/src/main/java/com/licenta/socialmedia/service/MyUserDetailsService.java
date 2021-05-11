@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -23,8 +24,12 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByEmail(username).get();
-
+        User user;
+        if(userRepository.findByEmail(username).equals(Optional.empty()))
+        { user=null;}
+        else {
+             user = userRepository.findByEmail(username).get();
+        }
         if (user == null) {
             throw ApiExceptionResponse.builder().errors(Collections.singletonList("Bad credentials"))
                     .message("User not found").status(HttpStatus.NOT_FOUND).build();
