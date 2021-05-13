@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-create-post',
@@ -14,66 +15,60 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 })
 export class CreatePostComponent {
 
-  constructor(private postService: PostService) { 
+  constructor(private postService: PostService,
+    private authenticationService: AuthenticationService) {
+    this.post = { id: 0, user: this.authenticationService.getCurrentUser(), description: "", createdOn: new Date(), likes: [], comments: [], tags: [], photo: "" };
     this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
       map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
-  }  
+  }
   selectedFile!: File;
-  post: Post={id:0,user:{id:1,email:"Adriana",password:"12345",username:"",roles:[{id:0,name:"user"}],followers:null,following:null,posts:null},description:"",createdOn:new Date(),likes:[],comments:[],tags:[],photo:""};
+  post: Post;
   retrievedImage: any;
   base64Data: any;
   retrieveResonse: any;
 
   imageName: any;  //Gets called when the user selects an image
   ngOnInit(): void {
-    this.imgURL="https://i.stack.imgur.com/y9DpT.jpg";
-  } 
+    this.imgURL = "https://i.stack.imgur.com/y9DpT.jpg";
+  }
 
   public imagePath: any;
   imgURL: any;
   public message!: string;
- 
+
   preview(files: any) {
     if (files.length === 0)
       return;
- 
+
     var mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
       this.message = "Only images are supported.";
       return;
     }
     this.selectedFile = files[0];
- 
+
     var reader = new FileReader();
     this.imagePath = files;
-    reader.readAsDataURL(files[0]); 
-    reader.onload = (_event) => { 
-      this.imgURL = reader.result; 
-    }}
-  
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imgURL = reader.result;
+    }
+  }
 
-   clickUpload (): void{
+
+  clickUpload(): void {
     document.getElementById("fileupload")?.click();
-}
+  }
 
-  //Gets called when the user clicks on submit to upload the image
   onUpload() {
-    //FormData API provides methods and properties to allow us easily prepare form data to be sent with POST HTTP requests.
     const uploadImageData = new FormData();
-console.log(this.selectedFile)
-    //Make a call to the Spring Boot Application to save the image
-    this.postService.createPost(this.post,this.selectedFile)
+    this.postService.createPost(this.post, this.selectedFile)
       .subscribe((response) => {
-        // if (response.status === 200) {
-        //   this.message = 'Image uploaded successfully';
-        // } else {
-        //   this.message = 'Image not uploaded successfully';
-        // }
         alert(response)
       }
       );
-  }  
+  }
   visible = true;
   selectable = true;
   removable = true;

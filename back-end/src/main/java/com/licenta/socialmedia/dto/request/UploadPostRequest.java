@@ -7,6 +7,7 @@ import javax.persistence.Lob;
 
 public class UploadPostRequest {
     MultipartFile photo;
+    String post;
 
     public String getPost() {
         return post;
@@ -16,7 +17,6 @@ public class UploadPostRequest {
         this.post = post;
     }
 
-    String post;
 
     public MultipartFile getPhoto() {
         return photo;

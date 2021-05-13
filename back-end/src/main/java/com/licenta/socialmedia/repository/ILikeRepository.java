@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ILikeRepository extends CrudRepository<Like,Long> {
-    Like findByUserAndPost(User user, Post post);
 }

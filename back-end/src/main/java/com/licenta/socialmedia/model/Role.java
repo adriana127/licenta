@@ -17,7 +17,5 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    @OneToMany
-    @JoinColumn
-    private List<User> user;
+
 }

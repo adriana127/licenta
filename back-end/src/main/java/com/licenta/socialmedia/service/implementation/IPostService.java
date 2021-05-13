@@ -1,5 +1,6 @@
 package com.licenta.socialmedia.service.implementation;
 
+import com.licenta.socialmedia.model.Like;
 import com.licenta.socialmedia.model.Post;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface IPostService {
     void delete(Post user);
     Optional<Post> findById(Long id);
     List<Post> getAll();
+
 }

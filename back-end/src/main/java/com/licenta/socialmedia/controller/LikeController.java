@@ -1,6 +1,7 @@
 package com.licenta.socialmedia.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.licenta.socialmedia.dto.request.LikePostRequest;
 import com.licenta.socialmedia.dto.request.UploadPostRequest;
 import com.licenta.socialmedia.model.Like;
 import com.licenta.socialmedia.model.Post;
@@ -29,20 +30,27 @@ import java.util.zip.Inflater;
 @RestController
 @CrossOrigin(origins ="http://localhost:4200")
 @AllArgsConstructor
-
 public class LikeController {
 
     @Autowired
     private final LikeService likeService;
+    @Autowired
+    private final PostService postService;
 
     @PostMapping(value = "/like")
-    Like like(@RequestBody Like model) {
-        System.out.printf(model.toString());
-        return likeService.add(model);
+    Like like(@RequestBody LikePostRequest model) {
+        Like like= likeService.add(model.getLike());
+        Post post=postService.findById(model.getPostId()).get();
+        post.getLikes().add(like);
+        postService.add(post);
+        return like;
     }
     @PostMapping(value = "/unlike")
-    void unlike(@RequestBody Like model) {
-        likeService.delete(model);
+    void unlike(@RequestBody LikePostRequest model) {
+        postService.findById(model.getPostId()).get()
+                    .getLikes()
+                    .removeIf(like->(like.getUser().getId().equals(model.getLike().getUser().getId())));
+        likeService.delete(model.getLike());
     }
     @GetMapping(value = "/likes")
     List<Like> getAllLikes() {

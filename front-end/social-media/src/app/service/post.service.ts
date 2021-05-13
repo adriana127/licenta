@@ -9,16 +9,17 @@ import { RestService } from './rest.service';
 import { Like } from '../model/like';
 import { NewsFeedPost } from '../model/newsfeedpost';
 import { AuthenticationService } from './authentication.service';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class PostService {
-  getResult: any;
   posts!: Post[]
   newsfeedposts: NewsFeedPost[] = []
-  likes: Like[] = []
+  user: User
+
   public createPost(user: Post, image: File) {
     const formData: FormData = new FormData();
     formData.append('photo', image);
@@ -27,24 +28,19 @@ export class PostService {
     return this.restService.post("createPost", formData);
   }
 
-  getPost(id: number) {
-    return this.getResult;
-  }
   getAllPosts() {
     return this.posts;
   }
+
   getNewsFeedPosts(id: number) {
-console.log(this.newsfeedposts)
     return this.newsfeedposts;
   }
-  getAllLikes() {
-    return this.likes;
+
+  likePost(postId: number) {
+    return this.restService.post("like", { postId: postId, like: { user: this.authenticationService.getCurrentUser() } });
   }
-   likePost(postId: number) {
-     return  this.restService.post("like", { post: this.getPostById(postId), user: this.authenticationService.getCurrentUser() });
-  }
-  getNumberOfLikesPerPost(postId: number) {
-    return this.likes.filter(like => { like.post.id === postId }).length
+  unlikePost(postId: number) {
+    return this.restService.post("unlike", { postId: postId, like: { user: this.authenticationService.getCurrentUser() } });
   }
   getPostById(postId: number) {
     let post;
@@ -54,41 +50,38 @@ console.log(this.newsfeedposts)
     })
     return post
   }
-  getLikeById(userId: number,postId:number) {
-    let like;
-    this.likes.forEach(value => {
-      if (userId === value.user.id&&value.post.id===postId)
-      like = value
+
+  checkIfPostIsLikedByCurrentUser(likes: Like[], userId: number) {
+    let result = false;
+    likes.forEach(value => {
+      if (userId === value.user.id)
+        result = true
     })
-    return like
-  }
-  checkIfPostIsLikedByCurrentUser(postId: number, userId: number) {
-    return this.likes.filter(like => { like.post.id === postId && like.user.id === userId }).length > 0
+    return result
   }
   async loadData() {
     this.newsfeedposts = []
-    await this.restService.get("http://localhost:8080/likes")
-      .then(result => {
-        this.likes = result as Like[]
-      })
+
     await this.restService.get("http://localhost:8080/posts")
       .then(res => {
         this.posts = res as Post[]
-        
+
       })
 
-      this.posts.forEach((value: any) => {
-        let isLiked = this.getLikeById(this.authenticationService.getCurrentUser().id,value.id) != null
-        this.newsfeedposts.push({ post: Object.assign({}, value), liked: isLiked })
-        
-      })
-      console.log(this.posts)
-      this.newsfeedposts.forEach(value => {
-        value.post.photo = "data:image/jpeg;base64," + value.post.photo
-      })
+    this.posts.forEach((value: Post) => {
+      if(value.user.id!=this.user.id){
+      let isLiked = this.checkIfPostIsLikedByCurrentUser(value.likes, this.user.id)
+      this.newsfeedposts.push({ post: Object.assign({}, value), liked: isLiked, numberOfLikes: value.likes.length })
+      }
+    })
+    console.log(this.posts)
+    this.newsfeedposts.forEach(value => {
+      value.post.photo = "data:image/jpeg;base64," + value.post.photo
+    })
 
   }
   constructor(private restService: RestService, private authenticationService: AuthenticationService) {
+    this.user = this.authenticationService.getCurrentUser()
   }
 
 }

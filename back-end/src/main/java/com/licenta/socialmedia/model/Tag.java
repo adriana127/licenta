@@ -20,7 +20,4 @@ public class Tag {
     @JoinColumn
     private User user;
 
-    @ManyToOne
-    @JoinColumn
-    private Post post;
 }

@@ -24,7 +24,6 @@ export class NewsFeedComponent implements OnInit {
   async reloadData() {
     await this.postService.loadData()
     this.posts = this.postService.getNewsFeedPosts(10)
-    this.imageToShow = (this.postService.getPost(3))
   }
   onCreate() {
     this.dialog.open(CreatePostComponent, {
@@ -33,8 +32,28 @@ export class NewsFeedComponent implements OnInit {
     })
   }
   async onLike(event: NewsFeedPost) {
+    this.like(event.post.id)
     this.postService.likePost(event.post.id).subscribe(async data=>{await this.reloadData()})
     
   }
+  like(id:number){
+    this.posts.forEach(value => {
+      if (id === value.post.id)
+        value.liked=true
+    })
+  }
+  async onUnlike(event: NewsFeedPost) {
+   // console.log(event)
+    this.unlike(event.post.id)
+    this.postService.unlikePost(event.post.id).subscribe(async (data: any)=>{
+      console.log("unlike")
+      await this.reloadData()})
+    
+  }
+  unlike(id:number){
+    this.posts.forEach(value => {
+      if (id === value.post.id)
+        value.liked=false
+    })}
 }
 

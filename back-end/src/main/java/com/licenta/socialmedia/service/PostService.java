@@ -1,5 +1,6 @@
 package com.licenta.socialmedia.service;
 
+import com.licenta.socialmedia.model.Like;
 import com.licenta.socialmedia.model.Post;
 import com.licenta.socialmedia.repository.IPostRepository;
 import com.licenta.socialmedia.service.implementation.IPostService;
@@ -32,4 +33,5 @@ public class PostService implements IPostService {
     public List<Post> getAll() {
         return (List<Post>) postRepository.findAll();
     }
+
 }
