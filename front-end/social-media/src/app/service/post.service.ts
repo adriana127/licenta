@@ -21,10 +21,10 @@ export class PostService {
   user: User
 
   public createPost(user: Post, image: File) {
+    console.log(user)
     const formData: FormData = new FormData();
     formData.append('photo', image);
     formData.append('post', JSON.stringify(user));
-    console.log(image)
     return this.restService.post("createPost", formData);
   }
 
@@ -65,16 +65,15 @@ export class PostService {
     await this.restService.get("http://localhost:8080/posts")
       .then(res => {
         this.posts = res as Post[]
-
       })
 
     this.posts.forEach((value: Post) => {
       if(value.user.id!=this.user.id){
       let isLiked = this.checkIfPostIsLikedByCurrentUser(value.likes, this.user.id)
-      this.newsfeedposts.push({ post: Object.assign({}, value), liked: isLiked, numberOfLikes: value.likes.length })
+      this.newsfeedposts.push({ post: Object.assign({}, value), liked: isLiked, numberOfLikes: value.likes.length ,tags:value.tags})
       }
     })
-    console.log(this.posts)
+    
     this.newsfeedposts.forEach(value => {
       value.post.photo = "data:image/jpeg;base64," + value.post.photo
     })

@@ -29,10 +29,6 @@ public class User {
     @JoinColumn
     private List<Post> posts;
 
-    @OneToOne
-    @JoinColumn
-    private Profile details;
-
     @OneToMany
     @JoinColumn
     private List<User> followers;

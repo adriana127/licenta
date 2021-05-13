@@ -7,6 +7,8 @@ import { map, startWith } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { UserService } from 'src/app/service/user.service';
+import { User } from 'src/app/model/user';
 
 @Component({
   selector: 'app-create-post',
@@ -16,11 +18,19 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 export class CreatePostComponent {
 
   constructor(private postService: PostService,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private userService: UserService) {
     this.post = { id: 0, user: this.authenticationService.getCurrentUser(), description: "", createdOn: new Date(), likes: [], comments: [], tags: [], photo: "" };
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this.allFruits.slice()));
+
+  }
+  async reloadData() {
+    await this.userService.loadData()
+    this.allUsers = this.userService.getAllUsers()
+    // this.filteredUsers = this.formControl.valueChanges
+    //   .pipe(
+    //     startWith('' || null),
+    //     map(username => username ? this._filter(username) : this.allUsers.slice()));
+        
   }
   selectedFile!: File;
   post: Post;
@@ -29,8 +39,14 @@ export class CreatePostComponent {
   retrieveResonse: any;
 
   imageName: any;  //Gets called when the user selects an image
-  ngOnInit(): void {
+  async ngOnInit(){
+    await this.reloadData()
     this.imgURL = "https://i.stack.imgur.com/y9DpT.jpg";
+    this.filteredUsers = this.formControl.valueChanges
+      .pipe(
+        startWith('' || null),
+        map(username => username ? this._filter(username) : this.allUsers.slice()));
+        
   }
 
   public imagePath: any;
@@ -62,7 +78,7 @@ export class CreatePostComponent {
   }
 
   onUpload() {
-    const uploadImageData = new FormData();
+    this.post.tags=this.selectedUsers
     this.postService.createPost(this.post, this.selectedFile)
       .subscribe((response) => {
         alert(response)
@@ -73,47 +89,53 @@ export class CreatePostComponent {
   selectable = true;
   removable = true;
   addOnBlur = false;
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  formControl = new FormControl();
+  filteredUsers!: Observable<User[]>;
+  allUsers: User[] = [];
+  selectedUsers: any[] = [];
+
+  chipBoxUsers: String[] = [];
 
   @ViewChild('fruitInput') fruitInput!: ElementRef;
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
-    // Add our fruit
     if ((value || '').trim()) {
-      this.fruits.push(value.trim());
+      this.chipBoxUsers.push(value);
     }
-
-    // Reset the input value
     if (input) {
       input.value = '';
     }
-
-    this.fruitCtrl.setValue(null);
+    this.formControl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
-
+  remove(fruit: String): void {
+    const index = this.chipBoxUsers.indexOf(fruit);
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.chipBoxUsers.splice(index, 1);
+      this.selectedUsers.forEach((item, index) => {
+        if (item === this.userService.getByUsername(fruit))
+          this.selectedUsers.splice(index, 1);
+      });
+
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
+    this.chipBoxUsers.push(event.option.value);
+    this.selectedUsers.push(this.userService.getByUsername(event.option.value))
+    this.allUsers.forEach((item, index) => {
+      if (item === this.userService.getByUsername(event.option.value))
+        this.selectedUsers.splice(index, 1);
+    });
     this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    this.formControl.setValue(null);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allFruits.filter(fruit => fruit.toLowerCase().indexOf(filterValue) === 0);
+  private _filter(fullname: string): User[] {
+    const filterValue = fullname.toLowerCase();
+    return this.allUsers.filter(option => option.username.toLowerCase().indexOf(filterValue) === 0);
   }
 }

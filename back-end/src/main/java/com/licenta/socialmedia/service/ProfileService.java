@@ -1,6 +1,7 @@
 package com.licenta.socialmedia.service;
 
 import com.licenta.socialmedia.model.Profile;
+import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.repository.IProfileRepository;
 import com.licenta.socialmedia.service.implementation.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,5 @@ public class ProfileService implements IProfileService {
     public List<Profile> getAll() {
         return (List<Profile>) profileRepository.findAll();
     }
+    public Profile findByUser(User user){ return  profileRepository.findByUser(user);}
 }

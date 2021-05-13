@@ -34,7 +34,7 @@ public class Post {
 
     @OneToMany
     @JoinColumn
-    private List<Tag> tags;
+    private List<User> tags;
 
     @Lob
     byte[] photo;

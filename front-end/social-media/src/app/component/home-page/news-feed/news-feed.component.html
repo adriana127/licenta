@@ -12,6 +12,12 @@
         style="max-width: 400px;min-width: 100px;max-height: 200px; min-height: 200px;" alt="Card image cap">
       <mat-card-content>
         {{card.post.description}}
+        <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+          <mat-chip class="example-box" cdkDrag *ngFor="let tag of card.post.tags">
+            {{tag.username}}
+          </mat-chip>
+        </mat-chip-list>
+
       </mat-card-content>
       <hr>
       <mat-card-actions>

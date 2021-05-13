@@ -21,8 +21,8 @@ export class ProfileInformationComponent implements OnInit {
   ngOnInit(): void {
   }
   async reloadData() {
-    await this.profileService.loadData()
-    this.profile = this.profileService.getProfile(this.authenticationService.getCurrentUser())
+    await this.profileService.loadData(this.authenticationService.getCurrentUser())
+    this.profile = this.profileService.getProfile()
     this.user=this.authenticationService.getCurrentUser()
   }
   editProfile(){

@@ -1,6 +1,7 @@
 package com.licenta.socialmedia.controller;
 
 import com.licenta.socialmedia.dto.response.MessageResponse;
+import com.licenta.socialmedia.model.Post;
 import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.service.UserService;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +19,11 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private final UserService userService;
+
+    @GetMapping(value = "/users")
+    List<User> getAllPosts() {
+        return userService.getAll();
+    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/createUser")

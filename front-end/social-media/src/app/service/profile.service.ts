@@ -13,19 +13,24 @@ export class ProfileService {
     profile!: Profile
     user!: User;
 
-    getProfile(user: User) {
-        this.user = user;
+    getProfile() {
         return this.profile
     }
-    updateProfile(body:any) {
-        return this.restService.post("updateProfile", body).pipe(
+    updateProfile(profile:Profile,user:User,photo:any) {
+        console.log(user)
+        const formData: FormData = new FormData();
+        formData.append('photo', photo);
+        formData.append('profile', JSON.stringify(profile));
+
+        return this.restService.post("updateProfile", formData).pipe(
             tap(data => {
                     return data;
             })
         )
     }
 
-    async loadData() {
+    async loadData(user: User) {
+        this.user = user;
         await this.restService.get("http://localhost:8080/profile/" + this.user.id)
             .then(result => {
                 this.profile = result as Profile
