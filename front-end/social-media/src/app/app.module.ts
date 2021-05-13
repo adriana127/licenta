@@ -1,18 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreatePostComponent } from './component/home-page/create-post/create-post.component';
 import { NewsFeedComponent } from './component/home-page/news-feed/news-feed.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { PostService } from './service/post.service';
-import { RestService } from './service/rest.service';
 import { HeaderComponent } from './component/header/header.component';
 import { HomeComponent } from './component/home-page/home/home.component';
-
-
 import {MatGridListModule} from '@angular/material/grid-list'; 
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import {MatChipsModule} from '@angular/material/chips'; 

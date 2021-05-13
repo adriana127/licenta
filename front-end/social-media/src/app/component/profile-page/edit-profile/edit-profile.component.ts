@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProfileService } from 'src/app/service/profile.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -7,8 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditProfileComponent implements OnInit {
 
-  constructor() { 
+  constructor(private profileSerice:ProfileService) { 
+    this.profileForm = new FormGroup({
+      // username: new FormControl('', [
+      //   Validators.required
+
+      // ]),
+      displayName: new FormControl('',
+        [Validators.required,
+        ]),
+        description: new FormControl('',
+        [Validators.required,
+        ]),
+        photo: new FormControl('',
+        [Validators.required,
+        ])
+    });
   }  
+  profileForm: any;
   selectedFile!: File;
   retrievedImage: any;
   base64Data: any;
@@ -41,14 +59,17 @@ export class EditProfileComponent implements OnInit {
       this.imgURL = reader.result; 
     }}
   
-
    clickUpload (): void{
     document.getElementById("fileupload")?.click();
 }
 
-  //Gets called when the user clicks on submit to upload the image
-  onUpload() {
-  
+saveProfile() {
+  this.profileSerice.updateProfile(this.profileForm.getRawValue()).subscribe(
+    data=>{
+
+    } ,err => {
+      alert(err.message)
+    });
   }  
 
 }

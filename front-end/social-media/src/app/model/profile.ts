@@ -1,6 +1,6 @@
 import { User } from "./user";
 
-export interface UserDetails {
+export interface Profile {
     id:number,
     displayName:string,
     description:string,

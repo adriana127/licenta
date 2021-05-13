@@ -33,8 +33,6 @@ public class User {
     @JoinColumn
     private Profile details;
 
-
-
     @OneToMany
     @JoinColumn
     private List<User> followers;

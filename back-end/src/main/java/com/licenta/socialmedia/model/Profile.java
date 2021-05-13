@@ -19,7 +19,4 @@ public class Profile {
     private String description;
     @Lob
     byte[] photo;
-    @OneToOne
-    @JoinColumn
-    private User user;
 }
