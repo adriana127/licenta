@@ -9,12 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class StoriesComponent implements OnInit {
 
   constructor(private httpClient: HttpClient) { 
-    this.httpClient.get('http://localhost:8080/post/4/', { responseType: 'blob' })
-    .subscribe(
-      res => {
-        this.createImage(res)
-      }
-    );
+    this.imageToShow="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
   }
 
   imageToShow: any = null;

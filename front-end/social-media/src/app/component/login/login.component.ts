@@ -25,11 +25,11 @@ export class LoginComponent implements OnInit {
         ])
     });
     this.registerForm = new FormGroup({
-      email: new FormControl('', [
+      username: new FormControl('', [
         Validators.required,
         Validators.email
       ]),
-      username: new FormControl('', [
+      nickname: new FormControl('', [
         Validators.required,
       ]),
       password: new FormControl('',
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
         console.log(data)
         if (data.status === 201) {
           this.authenticationService.login({
-            username: this.registerForm.getRawValue().email,
+            username: this.registerForm.getRawValue().username,
             password: this.registerForm.getRawValue().password
           }).subscribe(data => {
           }, err => {

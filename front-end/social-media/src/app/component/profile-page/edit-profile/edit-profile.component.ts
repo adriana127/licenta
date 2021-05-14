@@ -12,28 +12,26 @@ import { ProfileService } from 'src/app/service/profile.service';
 })
 export class EditProfileComponent implements OnInit {
   user: User;
-  profile: Profile
+  profile!: Profile
   constructor(private profileService: ProfileService,
     private authenticationService: AuthenticationService) {
     this.user = authenticationService.getCurrentUser()
-    this.profile = { id: 0, displayName: "", user: this.user, description: "", photo: null }
   }
   selectedFile!: File;
   retrievedImage: any;
   base64Data: any;
   retrieveResonse: any;
-
+  loaded:boolean=false;
   imageName: any;  //Gets called when the user selects an image
   async ngOnInit() {
 
-    await this.profileService.loadData(this.user)
-    this.profile=this.profileService.getProfile();
-  //  this.profile = { id: 0, displayName: "", user: this.user, photo: null, description: "" }
+   await this.profileService.loadData(this.user)
+   this.profile=this.profileService.getProfile();
     if (this.profile.photo === null)
-      this.imgURL = "https://i.stack.imgur.com/y9DpT.jpg";
+    this.imgURL="../../assets/resources/user.png";
     else
       this.imgURL = "data:image/jpeg;base64," + this.profile.photo;
-      console.log(this.imgURL)
+      this.loaded=true;
   }
 
   public imagePath: any;
@@ -64,10 +62,10 @@ export class EditProfileComponent implements OnInit {
   }
 
   saveProfile() {
-    console.log(this.selectedFile)
-    this.profileService.updateProfile(this.profile, this.user, this.selectedFile).subscribe(
+    this.profileService.updateProfile(this.profile, this.selectedFile).subscribe(
       data => {
-        console.log(data)
+        this.authenticationService.setCurrentUser(data.user)
+
       }, err => {
         alert(err.message)
       });

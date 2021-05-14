@@ -15,7 +15,7 @@ export class NewsFeedComponent implements OnInit {
 
   constructor(private dialog: MatDialog, private postService: PostService) {
   }
-
+  loaded:boolean=false;
   imageToShow: any = null;
   posts!: NewsFeedPost[]
   async ngOnInit(): Promise<void> {
@@ -24,6 +24,7 @@ export class NewsFeedComponent implements OnInit {
   async reloadData() {
     await this.postService.loadData()
     this.posts = this.postService.getNewsFeedPosts(10)
+    this.loaded=true
   }
   onCreate() {
     this.dialog.open(CreatePostComponent, {

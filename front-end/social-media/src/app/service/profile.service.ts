@@ -16,17 +16,25 @@ export class ProfileService {
     getProfile() {
         return this.profile
     }
-    updateProfile(profile:Profile,user:User,photo:any) {
-        console.log(user)
-        const formData: FormData = new FormData();
-        formData.append('photo', photo);
-        formData.append('profile', JSON.stringify(profile));
+    updateProfile(profile: Profile, photo: any) {
+        if (photo != undefined) {
+            const formData: FormData = new FormData();
+            formData.append('photo', photo);
+            formData.append('profile', JSON.stringify(profile));
 
-        return this.restService.post("updateProfile", formData).pipe(
-            tap(data => {
+            return this.restService.post("updateProfile", formData).pipe(
+                tap(data => {
                     return data;
-            })
-        )
+                })
+            )
+        }
+        else {
+            return this.restService.post("updateProfile", profile).pipe(
+                tap(data => {
+                    return data;
+                })
+            )
+        }
     }
 
     async loadData(user: User) {
@@ -36,9 +44,8 @@ export class ProfileService {
                 this.profile = result as Profile
             })
     }
-    constructor(private restService: RestService, 
-                private authenticationService: AuthenticationService,
-               ) {
+    constructor(private restService: RestService
+    ) {
     }
 
 }

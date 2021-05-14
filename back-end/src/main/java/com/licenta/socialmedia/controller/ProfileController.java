@@ -25,7 +25,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -48,20 +47,28 @@ public class ProfileController {
     public Profile updateProfileWithPhoto(@ModelAttribute UpdateProfileRequest model) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         Profile profile =objectMapper.readValue(model.getProfile(),Profile.class) ;
-        if(!model.getPhoto().equals(Optional.empty())){
-        profile.setPhoto(PhotoUtils.compressBytes(model.getPhoto().get().getBytes()));}
+        profile.setPhoto(PhotoUtils.compressBytes(model.getPhoto().get().getBytes()));
         profileService.add(profile);
+        userService.updateWithoutPassword(profile.getUser());
         return profile;
     }
-
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(path="/updateProfile")
+    public Profile updateProfileWithoutPhoto(@RequestBody Profile profile) throws Exception {
+        var profileWithSamePhoto=profileService.findById(profile.getId());
+        profileWithSamePhoto.get().setDescription(profile.getDescription());
+        profileWithSamePhoto.get().setDisplayName(profile.getDescription());
+        profileWithSamePhoto.get().setUser(profile.getUser());
+        userService.updateWithoutPassword(profile.getUser());
+        return profileService.add(profileWithSamePhoto.get());
+    }
 
     @RequestMapping(value = "/profile/{id}",method = RequestMethod.GET)
     @ResponseBody
     public Profile getProfileById(@PathVariable("id")long id){
-
         Profile profile=profileService.findByUser(userService.findById(id).get());
-        if(!profile.getPhoto().equals(Optional.empty())){
-            profile.setPhoto(PhotoUtils.decompressBytes(profile.getPhoto()));}
+        if(profile.getPhoto()!=null)
+             profile.setPhoto(PhotoUtils.decompressBytes(profile.getPhoto()));
         return profile;
     }
 

@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface IUserService {
     User add(User user);
+    User updateWithoutPassword(User user);
     void delete(User user);
     Optional<User> findById(Long id);
-    Optional<User> findByEmail(String email);
-    boolean checkPassword(Optional<User> user, String password);
+    Optional<User> findByUsername(String email);
     List<User> getAll();
 }

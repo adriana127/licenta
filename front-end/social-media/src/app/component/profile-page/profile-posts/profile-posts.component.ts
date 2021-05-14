@@ -12,7 +12,7 @@ export class ProfilePostsComponent implements OnInit {
 
   constructor(private postService: PostService) {
   }
-
+  loaded:boolean=false;
   imageToShow: any = null;
   posts!: NewsFeedPost[]
   async ngOnInit(): Promise<void> {
@@ -20,7 +20,8 @@ export class ProfilePostsComponent implements OnInit {
   }
   async reloadData() {
     await this.postService.loadData()
-    this.posts = this.postService.getNewsFeedPosts(10)
+    this.posts = this.postService.getPersonalPosts()
+    this.loaded=true;
   }
 
 }

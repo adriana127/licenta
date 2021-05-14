@@ -9,7 +9,7 @@ import { EditProfileComponent } from '../edit-profile/edit-profile.component';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

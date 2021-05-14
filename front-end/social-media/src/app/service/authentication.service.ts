@@ -24,14 +24,17 @@ export class AuthenticationService {
   getCurrentUser(): User {
     return this.currentUserSubject.getValue();
   }
+  setCurrentUser(user:User){
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')!));
+  }
 
   login(body: any): Observable<any> {
     return this.restRequestService.post("auth", body).pipe(
       tap(data => {
         if (data.accessToken) {
           this.tokenService.setToken(data.accessToken);
-          localStorage.setItem('currentUser', JSON.stringify(data.user));
-          this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')!));
+         this.setCurrentUser(data.user);
           this.router.navigateByUrl("/home");
           return data;
         }

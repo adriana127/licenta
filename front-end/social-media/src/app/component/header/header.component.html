@@ -1,15 +1,16 @@
+<div *ngIf="loaded">
 <body>
     <nav class="navbar navbar-expand-sm">
         <div class="container-fluid">
             <div class="col-sm-2">
                 <img id="logo" routerLink="/home" src="assets/resources/logo.png">
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-1">
                 <a routerLink="/home"><img id="home"
                         src=" data:image/webp;base64,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">
                 </a>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5">
                 <input id="search" class="form-control" name="first" placeholder="Search" aria-label="Search">
             </div>
             <div class="col-sm-2" style="margin-left: 40px;">
@@ -19,14 +20,20 @@
             </div>
             <div class="col-sm-1">
                 <a routerLink="/profile">
-                    <p id="username">{{username}}</p>
+                    <p id="username">{{user.nickname}}</p>
                 </a>
             </div>
             <div class="col-sm-1">
                 <a routerLink="/profile"> <img id="profilePhoto"
-                        src="https://cjmart.jp/en/upload/save_image/0126_190824_mp4otl_y_3.jpg">
+                        [src]="profilePhoto">
+                </a>
+            </div>
+            <div class="col-sm-1">
+                <a  routerLink="/login" (click)="logout()"> <img id="logout" 
+                    src="assets/resources/logut2.png">
                 </a>
             </div>
         </div>
     </nav>
 </body>
+</div>

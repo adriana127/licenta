@@ -20,8 +20,12 @@ public class UserService implements IUserService {
 
     @Override
     public User add(User user) {
-
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateWithoutPassword(User user) {
         return userRepository.save(user);
     }
 
@@ -37,13 +41,8 @@ public class UserService implements IUserService {
 
 
     @Override
-    public Optional<User> findByEmail(String email) {
-       return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public boolean checkPassword(Optional<User> user, String password) {
-        return user.get().getPassword().equals(password);
+    public Optional<User> findByUsername(String email) {
+       return userRepository.findByUsername(email);
     }
 
     @Override

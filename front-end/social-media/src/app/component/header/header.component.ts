@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Profile } from 'src/app/model/profile';
+import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication.service';
+import { ProfileService } from 'src/app/service/profile.service';
 
 @Component({
   selector: 'app-header',
@@ -7,12 +10,25 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  username: String
+  loaded:boolean=false;
+  user: User
+  profile!: Profile
+  profilePhoto!:String
+  constructor(private authenticationService: AuthenticationService,
+    private profileService: ProfileService) {
+    this.user = authenticationService.getCurrentUser()
 
-  constructor(private authenticationService: AuthenticationService) {
-     this.username = authenticationService.getCurrentUser().username
-     }
-  ngOnInit(): void {
   }
-
+  async ngOnInit() {
+    await this.profileService.loadData(this.user)
+    this.profile=this.profileService.getProfile()
+    if(this.profile.photo!=null)
+    this.profilePhoto="data:image/jpeg;base64," + this.profile.photo;
+    else 
+    this.profilePhoto="assets/resources/user.png";
+    this.loaded=true;
+  }
+  logout(){
+    this.authenticationService.logout()
+  }
 }

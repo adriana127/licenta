@@ -1,11 +1,11 @@
-<div id="mydiv">
+<div id="mydiv" *ngIf="loaded">
   <button mat-flat-button id="addButton" (click)="onCreate()">Create Post</button>
 
   <div *ngFor="let card of posts">
     <mat-card id="newsfeedCard">
       <mat-card-header>
         <mat-card-title>
-          <p>{{card.post.user.email}}</p>
+          <p>{{card.post.user.nickname}}</p>
         </mat-card-title>
       </mat-card-header>
       <img src="{{card.post.photo}}" (dblclick)="onLike(card)"
@@ -14,7 +14,7 @@
         {{card.post.description}}
         <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
           <mat-chip class="example-box" cdkDrag *ngFor="let tag of card.post.tags">
-            {{tag.username}}
+            {{tag.nickname}}
           </mat-chip>
         </mat-chip-list>
 

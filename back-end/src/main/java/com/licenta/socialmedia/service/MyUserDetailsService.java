@@ -25,10 +25,10 @@ public class MyUserDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) {
         User user;
-        if(userRepository.findByEmail(username).equals(Optional.empty()))
+        if(userRepository.findByUsername(username).equals(Optional.empty()))
         { user=null;}
         else {
-             user = userRepository.findByEmail(username).get();
+             user = userRepository.findByUsername(username).get();
         }
         if (user == null) {
             throw ApiExceptionResponse.builder().errors(Collections.singletonList("Bad credentials"))
