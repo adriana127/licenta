@@ -8,7 +8,7 @@ import { Post } from '../model/post';
 import { RestService } from './rest.service';
 import { Like } from '../model/like';
 import { NewsFeedPost } from '../model/newsfeedpost';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
 
 @Injectable({
@@ -32,7 +32,7 @@ export class PostService {
     return this.posts;
   }
 
-  getNewsFeedPosts(id: number) {
+  getNewsFeedPosts() {
     return this.newsfeedposts;
   }
 

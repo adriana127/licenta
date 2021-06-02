@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Profile } from 'src/app/model/profile';
 import { User } from 'src/app/model/user';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { ProfileService } from 'src/app/service/profile.service';
 
 @Component({

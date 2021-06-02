@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RestService } from './rest.service';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
 
 
@@ -15,14 +15,14 @@ export class UserService {
         return this.users
     }
 
-   getByUsername(username:String){
-       let userFound
-       this.users.forEach(user => {
-           if(user.username==username)
-                userFound= user;
-       });
-       return userFound;
-   }
+    getByUsername(username: String) {
+        let userFound
+        this.users.forEach(user => {
+            if (user.username == username)
+                userFound = user;
+        });
+        return userFound;
+    }
 
     async loadData() {
         await this.restService.get("http://localhost:8080/users/")
@@ -30,9 +30,9 @@ export class UserService {
                 this.users = result as User[]
             })
     }
-    constructor(private restService: RestService, 
-                private authenticationService: AuthenticationService,
-               ) {
+    constructor(private restService: RestService,
+        private authenticationService: AuthenticationService,
+    ) {
     }
 
 }

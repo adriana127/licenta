@@ -21,7 +21,7 @@ import { StoriesComponent } from './component/home-page/stories/stories.componen
 import { SuggestionsComponent } from './component/home-page/suggestions/suggestions.component'; 
 import {ReactiveFormsModule} from '@angular/forms';
 import { LoginComponent } from './component/login/login.component';
-import { httpInterceptorProviders } from './service/httpinterceptor.service';
+import { httpInterceptorProviders } from './service/authentication/httpinterceptor.service';
 import { ProfileComponent } from './component/profile-page/profile/profile.component';
 import { EditProfileComponent } from './component/profile-page/edit-profile/edit-profile.component';
 import { ProfileInformationComponent } from './component/profile-page/profile-information/profile-information.component';

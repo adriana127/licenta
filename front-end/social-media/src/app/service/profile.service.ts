@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RestService } from './rest.service';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
 import { Profile } from '../model/profile';
 import { tap } from 'rxjs/operators';
@@ -13,6 +13,7 @@ export class ProfileService {
     profile!: Profile
     user!: User;
     profiles!:Profile[]
+
     async getProfile(user:User) {
         this.user = user;
         await this.restService.get("http://localhost:8080/profile/" + this.user.id)
@@ -42,6 +43,7 @@ export class ProfileService {
             )
         }
     }
+
     async getSuggestions() {
         let suggestions:Profile[]=[]
         await this.restService.get("http://localhost:8080/suggestions/" +this.authenticationService.getCurrentUser().id)
@@ -56,6 +58,7 @@ export class ProfileService {
         })
         return suggestions
     }
+
     async getFollowers(user:User) {
         let followers:Profile[]=[]
         await this.restService.get("http://localhost:8080/followers/" +user.id)
@@ -70,6 +73,7 @@ export class ProfileService {
         })
         return followers
     }
+
     async getFollwing(user:User) {
         let following:Profile[]=[]
         await this.restService.get("http://localhost:8080/following/" +user.id)
@@ -84,6 +88,7 @@ export class ProfileService {
         })
         return following
     }
+
     follow(user:User){
         return this.restService.post("follow", {id:0,follower:this.authenticationService.getCurrentUser(),followed: user}).pipe(
             tap(data => {
@@ -91,6 +96,7 @@ export class ProfileService {
             })
         )
     }
+
     unfollow(user:User){
         return this.restService.post("unfollow", {id:0,follower:this.authenticationService.getCurrentUser(),followed: user}).pipe(
             tap(data => {
@@ -98,6 +104,7 @@ export class ProfileService {
             })
         )
     }
+
     async loadData() {
         this.profiles=[]
         
@@ -112,9 +119,7 @@ export class ProfileService {
                 value.photo="assets/resources/user.png"
             })
     }
+    
     constructor(private restService: RestService,
-        private authenticationService:AuthenticationService
-    ) {
-    }
-
+        private authenticationService:AuthenticationService) {}
 }

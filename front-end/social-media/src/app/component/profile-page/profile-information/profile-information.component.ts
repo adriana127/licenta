@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Profile } from 'src/app/model/profile';
 import { User } from 'src/app/model/user';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
 import { UserService } from 'src/app/service/user.service';
 import { ProfileService } from '../../../service/profile.service';

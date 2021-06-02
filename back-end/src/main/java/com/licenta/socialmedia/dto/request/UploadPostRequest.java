@@ -1,6 +1,5 @@
 package com.licenta.socialmedia.dto.request;
 
-import com.licenta.socialmedia.model.Post;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

@@ -69,7 +69,7 @@ public class SecurityService implements ISecurityService {
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
 
-            return new AuthenticationResponse( jwt,
+            return new AuthenticationResponse(jwt,
                     userDetails.getId(),
                     userRepository.findById(userDetails.getId()).get(),
                     roles);

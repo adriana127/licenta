@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { Post } from 'src/app/model/post';
-import { AuthenticationService } from 'src/app/service/authentication.service';
+import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -25,7 +25,7 @@ export class NewsFeedComponent implements OnInit {
   }
   async reloadData() {
     await this.postService.loadData(this.authenticationService.getCurrentUser())
-    this.posts = this.postService.getNewsFeedPosts(10)
+    this.posts = this.postService.getNewsFeedPosts()
     this.loaded=true
   }
   onCreate() {

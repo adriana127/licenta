@@ -11,7 +11,7 @@ import java.util.List;
 public class ActiveUserStore {
     public List<String> users;
 
-    public ActiveUserStore () {
+    public ActiveUserStore() {
         users = new ArrayList<>();
     }
 
