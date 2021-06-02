@@ -7,8 +7,10 @@ import com.licenta.socialmedia.repository.IFollowRepository;
 import com.licenta.socialmedia.repository.IProfileRepository;
 import com.licenta.socialmedia.repository.IUserRepository;
 import com.licenta.socialmedia.service.implementation.IFollowService;
+import com.licenta.socialmedia.util.NotificationEndpoints;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,8 @@ import java.util.List;
 @Service
 public class FollowService implements IFollowService {
     @Autowired
+    SimpMessagingTemplate template;
+    @Autowired
     IFollowRepository followRepository;
     @Autowired
     IUserRepository userRepository;
@@ -26,7 +30,10 @@ public class FollowService implements IFollowService {
 
     @Override
     public Follow add(Follow follow) {
-        return followRepository.save(follow);
+        follow = followRepository.save(follow);
+        template.convertAndSend(NotificationEndpoints.FOLLOW_ADDITION + follow.getFollowed().getId(),
+                "Followed by" + follow.getFollower().getNickname());
+        return follow;
     }
 
     @Override

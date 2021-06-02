@@ -27,6 +27,8 @@ import { EditProfileComponent } from './component/profile-page/edit-profile/edit
 import { ProfileInformationComponent } from './component/profile-page/profile-information/profile-information.component';
 import { ProfilePostsComponent } from './component/profile-page/profile-posts/profile-posts.component';
 import { PostPopupComponent } from './component/post-popup/post-popup.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +60,8 @@ import { PostPopupComponent } from './component/post-popup/post-popup.component'
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatGridListModule,
+    MatSnackBarModule,
+    
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
