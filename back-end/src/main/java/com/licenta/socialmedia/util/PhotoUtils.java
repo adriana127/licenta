@@ -11,7 +11,8 @@ public class PhotoUtils {
     public static byte[] compressBytes(byte[] data) {
         Deflater deflater = new Deflater();
         deflater.setInput(data);
-        deflater.finish();		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        deflater.finish();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
         byte[] buffer = new byte[1024];
         while (!deflater.finished()) {
             int count = deflater.deflate(buffer);

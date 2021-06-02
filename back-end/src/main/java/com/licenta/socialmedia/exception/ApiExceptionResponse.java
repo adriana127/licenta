@@ -8,15 +8,15 @@ import org.springframework.http.HttpStatus;
 import java.util.List;
 
 @Getter
-@JsonIgnoreProperties(value = {"stackTrace","suppressed","cause","localizedMessage"})
-public class ApiExceptionResponse extends Exception{
+@JsonIgnoreProperties(value = {"stackTrace", "suppressed", "cause", "localizedMessage"})
+public class ApiExceptionResponse extends Exception {
     private final HttpStatus status;
     private final List<String> errors;
 
     @Builder
-    public ApiExceptionResponse(String message,HttpStatus status, List<String> errors){
+    public ApiExceptionResponse(String message, HttpStatus status, List<String> errors) {
         super(message);
-        this.status=status;
-        this.errors=errors;
+        this.status = status;
+        this.errors = errors;
     }
 }

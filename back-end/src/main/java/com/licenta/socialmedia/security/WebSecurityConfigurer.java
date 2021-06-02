@@ -1,4 +1,5 @@
 package com.licenta.socialmedia.security;
+
 import com.licenta.socialmedia.security.session.ActiveUserStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,10 +33,12 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public ActiveUserStore activeUserStore() {return new ActiveUserStore();}
+    public ActiveUserStore activeUserStore() {
+        return new ActiveUserStore();
+    }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
@@ -50,13 +53,12 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/css/**", "/js/**", "/register", "/socket/**",  "/auth").permitAll()
+                .authorizeRequests().antMatchers("/css/**", "/js/**", "/register", "/socket/**", "/auth").permitAll()
                 .antMatchers("/admin/**", "/profile/**").permitAll()
                 .antMatchers("/user/**", "/test/**").permitAll()
                 .anyRequest().authenticated();

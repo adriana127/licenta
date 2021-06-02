@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IFollowRepository extends CrudRepository<Follow,Long> {
+public interface IFollowRepository extends CrudRepository<Follow, Long> {
     List<Follow> findByFollowed(User followed);
+
     List<Follow> findByFollower(User follower);
-    Follow findByFollowerAndFollowed(User follower,User followed);
+
+    Follow findByFollowerAndFollowed(User follower, User followed);
 
 }

@@ -1,7 +1,6 @@
 package com.licenta.socialmedia.controller;
 
 import com.licenta.socialmedia.dto.response.MessageResponse;
-import com.licenta.socialmedia.model.Post;
 import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.service.ProfileService;
@@ -47,14 +46,14 @@ public class UserController {
     public MessageResponse register(@RequestBody User user) throws Exception {
         System.out.printf(user.toString());
 
-        if(!userService.findByUsername(user.getUsername()).equals(Optional.empty()))
-           return new MessageResponse(409,"User already exists!",null);
-        else{
-                User newUser=userService.add(user);
-                Profile profile = new Profile();
-                profile.setUser(newUser);
-                profileService.add(profile);
-            return new MessageResponse(201,"Successfully registered!",newUser);
+        if (!userService.findByUsername(user.getUsername()).equals(Optional.empty()))
+            return new MessageResponse(409, "User already exists!", null);
+        else {
+            User newUser = userService.add(user);
+            Profile profile = new Profile();
+            profile.setUser(newUser);
+            profileService.add(profile);
+            return new MessageResponse(201, "Successfully registered!", newUser);
         }
     }
 }

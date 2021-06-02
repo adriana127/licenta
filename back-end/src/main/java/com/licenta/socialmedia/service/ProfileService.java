@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class ProfileService implements IProfileService {
     @Autowired
     IProfileRepository profileRepository;
+
     @Override
     public Profile add(Profile user) {
         return profileRepository.save(user);
@@ -32,5 +34,8 @@ public class ProfileService implements IProfileService {
     public List<Profile> getAll() {
         return (List<Profile>) profileRepository.findAll();
     }
-    public Profile findByUser(User user){ return  profileRepository.findByUser(user);}
+
+    public Profile findByUser(User user) {
+        return profileRepository.findByUser(user);
+    }
 }
