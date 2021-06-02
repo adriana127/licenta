@@ -11,5 +11,7 @@ public interface IPostService {
     void delete(Post user);
     Optional<Post> findById(Long id);
     List<Post> getAll();
+    List<Post> getNewsFeedPosts(Long id);
 
+    List<Post> getPersonalPosts(Long id);
 }

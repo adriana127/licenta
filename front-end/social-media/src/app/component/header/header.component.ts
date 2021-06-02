@@ -20,8 +20,10 @@ export class HeaderComponent implements OnInit {
 
   }
   async ngOnInit() {
-    await this.profileService.loadData(this.user)
-    this.profile=this.profileService.getProfile()
+    await this.profileService.loadData()
+    await this.profileService.getProfile(this.authenticationService.getCurrentUser()).then(data=>{
+      this.profile=data;
+    }).catch(err=>{console.log(err)})
     if(this.profile.photo!=null)
     this.profilePhoto="data:image/jpeg;base64," + this.profile.photo;
     else 

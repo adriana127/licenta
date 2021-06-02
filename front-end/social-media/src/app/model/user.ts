@@ -7,6 +7,6 @@ export interface User {
   username:string,
   roles:Role[],
   posts:any,
-  followers:any,
-  following:any
+  followers:User[],
+  following:User[]
   }

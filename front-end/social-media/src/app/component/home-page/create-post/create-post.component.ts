@@ -32,13 +32,10 @@ export class CreatePostComponent {
     //     map(username => username ? this._filter(username) : this.allUsers.slice()));
         
   }
-  selectedFile!: File;
   post: Post;
-  retrievedImage: any;
-  base64Data: any;
   retrieveResonse: any;
+  selectedFile!: File;
 
-  imageName: any;  //Gets called when the user selects an image
   async ngOnInit(){
     await this.reloadData()
     this.imgURL = "https://i.stack.imgur.com/y9DpT.jpg";

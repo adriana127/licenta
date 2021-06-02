@@ -3,7 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { Post } from 'src/app/model/post';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 import { PostService } from 'src/app/service/post.service';
+import { UserService } from 'src/app/service/user.service';
 
 import { CreatePostComponent } from '../create-post/create-post.component'
 @Component({
@@ -13,7 +15,7 @@ import { CreatePostComponent } from '../create-post/create-post.component'
 })
 export class NewsFeedComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private postService: PostService) {
+  constructor(private dialog: MatDialog, private postService: PostService,private authenticationService:AuthenticationService) {
   }
   loaded:boolean=false;
   imageToShow: any = null;
@@ -22,7 +24,7 @@ export class NewsFeedComponent implements OnInit {
     await this.reloadData()
   }
   async reloadData() {
-    await this.postService.loadData()
+    await this.postService.loadData(this.authenticationService.getCurrentUser())
     this.posts = this.postService.getNewsFeedPosts(10)
     this.loaded=true
   }

@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { Post } from 'src/app/model/post';
+import { User } from 'src/app/model/user';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 import { PostService } from 'src/app/service/post.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-profile-posts',
@@ -10,16 +14,27 @@ import { PostService } from 'src/app/service/post.service';
 })
 export class ProfilePostsComponent implements OnInit {
 
-  constructor(private postService: PostService) {
+  constructor(private postService: PostService,
+    public route: ActivatedRoute,
+    private authenticationService:AuthenticationService,
+    private userService: UserService) {
   }
   loaded:boolean=false;
   imageToShow: any = null;
   posts!: NewsFeedPost[]
+  user!:User
   async ngOnInit(): Promise<void> {
     await this.reloadData()
   }
   async reloadData() {
-    await this.postService.loadData()
+    await this.userService.loadData()
+    if (this.route.snapshot.queryParamMap.get('username') == null) {
+      this.user = this.authenticationService.getCurrentUser()
+    }
+    else
+      this.user=this.userService.getByUsername(this.route.snapshot.queryParamMap.get('username')!) as unknown as User
+
+    await this.postService.loadData(this.user)
     this.posts = this.postService.getPersonalPosts()
     this.loaded=true;
   }

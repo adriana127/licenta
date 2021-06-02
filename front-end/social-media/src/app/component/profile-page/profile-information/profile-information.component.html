@@ -13,7 +13,9 @@
                     </p>
                 </div>
                 <div class="col-sm-6">
-                    <button mat-flat-button id="addButton" (click)="editProfile()">Edit Profile</button>
+                    <button *ngIf="isPersonalProfile" mat-flat-button id="addButton" (click)="editProfile()">Edit Profile</button>
+                    <button *ngIf="!isPersonalProfile" mat-flat-button id="addButton" (click)="follow()">Follow</button>
+               
                 </div>
             </div>
 

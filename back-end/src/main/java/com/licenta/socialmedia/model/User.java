@@ -1,5 +1,6 @@
 package com.licenta.socialmedia.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import javax.persistence.*;
 import java.util.List;
@@ -31,10 +32,10 @@ public class User {
 
     @OneToMany
     @JoinColumn
-    private List<User> followers;
+    private List<Follow> followers;
 
     @OneToMany
     @JoinColumn
-    private List<User> following;
+    private List<Follow> following;
 }
 

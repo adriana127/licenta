@@ -13,6 +13,8 @@ export class LoginComponent implements OnInit {
   registerForm: any;
 
   constructor(private router: Router, private authenticationService: AuthenticationService) {
+    if(authenticationService.getCurrentUser()==null)
+    this.router.navigateByUrl("\home");
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,

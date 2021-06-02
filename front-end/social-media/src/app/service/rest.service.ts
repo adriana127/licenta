@@ -12,7 +12,6 @@ import { catchError, map } from 'rxjs/operators';
 export class RestService {
 
 public post(  url:string,body:any): Observable<any> {
-  console.log(body)
     return this.http.post("http://localhost:8080/" + url, body).pipe(
       catchError((x=> this.handleError(x)))
     );

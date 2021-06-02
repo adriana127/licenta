@@ -25,8 +25,10 @@ export class EditProfileComponent implements OnInit {
   imageName: any;  //Gets called when the user selects an image
   async ngOnInit() {
 
-   await this.profileService.loadData(this.user)
-   this.profile=this.profileService.getProfile();
+   await this.profileService.loadData()
+   await this.profileService.getProfile(this.authenticationService.getCurrentUser()).then(data=>{
+    this.profile=data;
+  }).catch(err=>{console.log(err)})
     if (this.profile.photo === null)
     this.imgURL="../../assets/resources/user.png";
     else

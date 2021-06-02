@@ -3,6 +3,7 @@ package com.licenta.socialmedia.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.socialmedia.dto.request.UploadPostRequest;
 import com.licenta.socialmedia.model.Post;
+import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.service.PostService;
 import com.licenta.socialmedia.util.PhotoUtils;
 import lombok.AllArgsConstructor;
@@ -49,4 +50,19 @@ public class PostController {
         return postService.getAll();
     }
 
+    @RequestMapping(value = "/newsfeed/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Post> getNewsfeedPosts(@PathVariable("id") long id) {
+        postService.getNewsFeedPosts(id)
+                .forEach(post -> {post.setPhoto(PhotoUtils.decompressBytes(post.getPhoto()));});
+        return postService.getNewsFeedPosts(id);
+    }
+
+    @RequestMapping(value = "/personalPosts/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Post> getPersonalPosts(@PathVariable("id") long id) {
+        postService.getPersonalPosts(id)
+                .forEach(post -> {post.setPhoto(PhotoUtils.decompressBytes(post.getPhoto()));});
+        return postService.getPersonalPosts(id);
+    }
 }

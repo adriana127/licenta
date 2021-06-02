@@ -14,6 +14,7 @@ export class UserService {
     getAllUsers() {
         return this.users
     }
+
    getByUsername(username:String){
        let userFound
        this.users.forEach(user => {

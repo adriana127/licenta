@@ -26,6 +26,7 @@ import { ProfileComponent } from './component/profile-page/profile/profile.compo
 import { EditProfileComponent } from './component/profile-page/edit-profile/edit-profile.component';
 import { ProfileInformationComponent } from './component/profile-page/profile-information/profile-information.component';
 import { ProfilePostsComponent } from './component/profile-page/profile-posts/profile-posts.component';
+import { PostPopupComponent } from './component/post-popup/post-popup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +41,7 @@ import { ProfilePostsComponent } from './component/profile-page/profile-posts/pr
     EditProfileComponent,
     ProfileInformationComponent,
     ProfilePostsComponent,
+    PostPopupComponent,
   ],
   imports: [
     BrowserModule,
