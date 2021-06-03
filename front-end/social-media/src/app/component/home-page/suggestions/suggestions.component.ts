@@ -26,6 +26,6 @@ export class SuggestionsComponent implements OnInit {
     this.loaded=true
   }
   follow(user:User){
-   this.profileService.follow(user).subscribe(data=>console.log(data));
+   this.profileService.follow(user).subscribe(data=>{});
   }
 }

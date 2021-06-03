@@ -3,13 +3,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, of as observableOf, throwError } from 'rxjs'; // since RxJs 6
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, first, map } from 'rxjs/operators';
 import { Post } from '../model/post';
 import { RestService } from './rest.service';
 import { Like } from '../model/like';
 import { NewsFeedPost } from '../model/newsfeedpost';
 import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
+import { WebSocketService } from './websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,20 @@ export class PostService {
     })
     return result
   }
+  findAll(): Observable<Post[]> {
+    return this.socketClient
+      .subscribeToNotifications('/topic/socket/newsfeed/'+this.user.id)
+      .pipe(first(), map(posts => posts.map(PostService.getPostListing)));
+  }
+  convertPostToNewsFeedPost(post:Post):NewsFeedPost{
+    let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.user.id)
+    post.photo="data:image/jpeg;base64," + post.photo
+    return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, tags: post.tags }
+  }
+  static getPostListing(post: any): Post {
+    const postedAt = new Date(post['createdOn']);
+    return {...post, postedAt};
+  }
   async loadData(user: User) {
     this.user = user
     this.newsfeedposts = []
@@ -73,14 +88,8 @@ export class PostService {
         this.posts = res as Post[]
       })
     await this.restService.get("http://localhost:8080/newsfeed/" + user.id)
-      .then(res => {
-        let posts = res as Post[]
-        posts.forEach((post: Post) => {
-          let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.user.id)
-          post.photo="data:image/jpeg;base64," + post.photo
-          this.newsfeedposts.push({ post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, tags: post.tags })
-        })
-      })
+      .then(result=> {console.log(result)})
+     
     await this.restService.get("http://localhost:8080/personalPosts/" + user.id)
       .then(res => {
         let posts = res as Post[]
@@ -91,7 +100,9 @@ export class PostService {
         })
       })
   }
-  constructor(private restService: RestService, private authenticationService: AuthenticationService) {
+  constructor(private restService: RestService,
+     private authenticationService: AuthenticationService,
+     private socketClient: WebSocketService) {
   }
 
 }

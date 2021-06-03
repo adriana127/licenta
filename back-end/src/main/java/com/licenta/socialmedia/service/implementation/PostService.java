@@ -24,9 +24,13 @@ public class PostService implements IPostService {
     @Override
     public Post add(Post newPost,List<Profile>followers) {
         newPost= postRepository.save(newPost);
+        var newsfeed = (List<Post>) postRepository.findAll();
+        Post finalNewPost = newPost;
+      // newsfeed= newsfeed.stream().filter(post -> post.getUser().getId() != finalNewPost.getUser().getId()).collect(Collectors.toList());
+
         for (var follower:followers) {
             template.convertAndSend(NotificationEndpoints.NEWSFEED +follower.getUser().getId(),
-                                    newPost);
+                    newsfeed);
         }
         return newPost;
     }
@@ -49,6 +53,8 @@ public class PostService implements IPostService {
     @Override
     public List<Post> getNewsFeedPosts(Long id) {
         var newsfeed = (List<Post>) postRepository.findAll();
+        template.convertAndSend(NotificationEndpoints.NEWSFEED +id,
+                newsfeed.stream().filter(post -> post.getUser().getId() != id).collect(Collectors.toList()));
         return newsfeed.stream().filter(post -> post.getUser().getId() != id).collect(Collectors.toList());
     }
 
