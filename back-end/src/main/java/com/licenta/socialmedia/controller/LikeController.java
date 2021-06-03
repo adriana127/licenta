@@ -3,6 +3,7 @@ package com.licenta.socialmedia.controller;
 import com.licenta.socialmedia.dto.request.LikePostRequest;
 import com.licenta.socialmedia.model.Like;
 import com.licenta.socialmedia.model.Post;
+import com.licenta.socialmedia.service.implementation.FollowService;
 import com.licenta.socialmedia.service.implementation.LikeService;
 import com.licenta.socialmedia.service.implementation.PostService;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,14 @@ public class LikeController {
     private final LikeService likeService;
     @Autowired
     private final PostService postService;
-
+    @Autowired
+    private final FollowService followService;
     @PostMapping(value = "/like")
     Like like(@RequestBody LikePostRequest model) {
-        return likeService.add(model.getLike());
+        Like like= likeService.add(model.getLike());
+        postService.findById(model.getPostId()).get().getLikes().add(like);
+        postService.add(postService.findById(model.getPostId()).get(),followService.getFollowers(like.getUser()));
+        return like;
     }
 
     @PostMapping(value = "/unlike")

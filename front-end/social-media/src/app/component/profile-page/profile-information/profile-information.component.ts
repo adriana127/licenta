@@ -72,8 +72,8 @@ export class ProfileInformationComponent implements OnInit {
     })
   }
   follow() {
-    this.authenticationService.getCurrentUser().following.push(this.user)
-    this.profileService.follow(this.authenticationService.getCurrentUser()).subscribe(
+
+    this.profileService.follow(this.user).subscribe(
       data => {
       }, err => {
         alert(err.message)

@@ -19,7 +19,6 @@ public class Profile {
     private String description;
     @Lob
     byte[] photo;
-    @OneToOne
-    @JoinColumn
+    @OneToOne(fetch = FetchType.EAGER)
     private User user;
 }

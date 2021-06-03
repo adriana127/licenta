@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -24,17 +25,14 @@ public class Post {
     private Date createdOn;
     private String description;
 
-    @OneToMany
-    @JoinColumn
-    private List<Comment> comments;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Comment> comments;
 
-    @OneToMany
-    @JoinColumn
-    private List<Like> likes;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Like> likes;
 
-    @OneToMany
-    @JoinColumn
-    private List<User> tags;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<User> tags;
 
     @Lob
     byte[] photo;

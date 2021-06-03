@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../../model/user';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/internal/operators/tap';
-import { RestService } from '../rest.service';
+import { RestService } from '../utils/rest.service';
 import { TokenService } from './token.service';
 
 @Injectable({ providedIn: 'root' })

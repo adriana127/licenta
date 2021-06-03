@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, of, of as observableOf, throwError } from 'rxjs'; // since RxJs 6
-import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
-import { catchError, first, map } from 'rxjs/operators';
+import { Observable } from 'rxjs'; // since RxJs 6
+import { first, map } from 'rxjs/operators';
 import { Post } from '../model/post';
-import { RestService } from './rest.service';
+import { RestService } from './utils/rest.service';
 import { Like } from '../model/like';
 import { NewsFeedPost } from '../model/newsfeedpost';
 import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
-import { WebSocketService } from './websocket.service';
+import { WebSocketService } from './utils/websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -66,8 +63,11 @@ export class PostService {
   }
   findAll(): Observable<Post[]> {
     return this.socketClient
-      .subscribeToNotifications('/topic/socket/newsfeed/'+this.authenticationService.getCurrentUser().id)
+      .subscribeToNotifications('/topic/posts/newsfeed/'+this.authenticationService.getCurrentUser().id)
       .pipe(first(), map(posts => posts.map(PostService.getPostListing)));
+  }
+  onPost(): any{
+    return this.socketClient.subscribeToNotifications('/topic/posts/created/'+this.authenticationService.getCurrentUser().id).pipe(map(post => PostService.getPostListing(post)));
   }
   convertPostToNewsFeedPost(post:Post):NewsFeedPost{
     let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
@@ -83,12 +83,6 @@ export class PostService {
     this.newsfeedposts = []
     this.personalPosts = []
 
-    await this.restService.get("http://localhost:8080/posts")
-      .then(res => {
-        this.posts = res as Post[]
-      })
-    await this.restService.get("http://localhost:8080/newsfeed/" + user.id)
-      .then(result=> {console.log(result)})
      
     await this.restService.get("http://localhost:8080/personalPosts/" + user.id)
       .then(res => {

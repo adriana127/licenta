@@ -1,9 +1,11 @@
 package com.licenta.socialmedia.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -22,20 +24,9 @@ public class User {
     private String password;
     private String username;
 
-    @OneToMany
-    @JoinColumn
-    private List<Role> roles;
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
-    @OneToMany
-    @JoinColumn
-    private List<Post> posts;
-
-    @OneToMany
-    @JoinColumn
-    private List<Follow> followers;
-
-    @OneToMany
-    @JoinColumn
-    private List<Follow> following;
 }
 

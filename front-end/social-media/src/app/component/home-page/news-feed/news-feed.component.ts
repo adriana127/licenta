@@ -1,13 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { map } from 'rxjs/operators';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { Post } from 'src/app/model/post';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
-import { UserService } from 'src/app/service/user.service';
-import { WebSocketService } from 'src/app/service/websocket.service';
+import { WebSocketService } from 'src/app/service/utils/websocket.service';
 
 import { CreatePostComponent } from '../create-post/create-post.component'
 @Component({
@@ -26,9 +24,14 @@ export class NewsFeedComponent implements OnInit {
     .subscribe(posts => {
       posts.forEach(value=>{
       this.posts.push(this.postService.convertPostToNewsFeedPost(value))
-      console.log(this.posts)
 
     })});
+    this.postService
+    .onPost()
+    .subscribe((post: Post) => {
+      this.posts.push(this.postService.convertPostToNewsFeedPost(post));
+      this.posts.sort(NewsFeedComponent.descendingByNewsAt);
+    });
   }
   loaded:boolean=false;
   imageToShow: any = null;
@@ -40,6 +43,9 @@ export class NewsFeedComponent implements OnInit {
   }
   static descendingByPostedAt(post1: Post, post2: Post): number {
     return new Date(post2.createdOn).getTime() - new Date(post1.createdOn).getTime();
+  }
+  static descendingByNewsAt(post1: NewsFeedPost, post2: NewsFeedPost): number {
+    return new Date(post2.post.createdOn).getTime() - new Date(post1.post.createdOn).getTime();
   }
   async reloadData() {
     await this.postService.loadData(this.authenticationService.getCurrentUser())
@@ -58,9 +64,13 @@ export class NewsFeedComponent implements OnInit {
     
   }
   like(id:number){
+    
     this.posts.forEach(value => {
-      if (id === value.post.id)
+      if (id === value.post.id&&value.liked===false)
+      {
         value.liked=true
+        value.numberOfLikes+=1
+      }
     })
   }
   async onUnlike(event: NewsFeedPost) {
@@ -74,7 +84,10 @@ export class NewsFeedComponent implements OnInit {
   unlike(id:number){
     this.posts.forEach(value => {
       if (id === value.post.id)
+      {
         value.liked=false
+        value.numberOfLikes-=1
+      }
     })}
 }
 

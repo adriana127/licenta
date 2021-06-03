@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RestService } from './rest.service';
+import { RestService } from './utils/rest.service';
 import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
 import { Profile } from '../model/profile';
@@ -119,7 +119,7 @@ export class ProfileService {
                 value.photo="assets/resources/user.png"
             })
     }
-    
+
     constructor(private restService: RestService,
         private authenticationService:AuthenticationService) {}
 }

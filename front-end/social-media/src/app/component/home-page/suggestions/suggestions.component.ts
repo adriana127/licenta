@@ -27,5 +27,10 @@ export class SuggestionsComponent implements OnInit {
   }
   follow(user:User){
    this.profileService.follow(user).subscribe(data=>{});
+   this.delay(5000)
+   this.suggestions.filter(va=>va.user!=user)
   }
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
 }
