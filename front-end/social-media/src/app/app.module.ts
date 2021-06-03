@@ -26,9 +26,11 @@ import { ProfileComponent } from './component/profile-page/profile/profile.compo
 import { EditProfileComponent } from './component/profile-page/edit-profile/edit-profile.component';
 import { ProfileInformationComponent } from './component/profile-page/profile-information/profile-information.component';
 import { ProfilePostsComponent } from './component/profile-page/profile-posts/profile-posts.component';
-import { PostPopupComponent } from './component/post-popup/post-popup.component';
+import { PostPopupComponent } from './component/post-page/post-popup/post-popup.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { CommentsSectionComponent } from './component/post-page/comments-section/comments-section.component'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +46,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ProfileInformationComponent,
     ProfilePostsComponent,
     PostPopupComponent,
+    CommentsSectionComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +64,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     ReactiveFormsModule,
     MatGridListModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     
   ],
   providers: [httpInterceptorProviders],

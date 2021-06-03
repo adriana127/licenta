@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { Post } from 'src/app/model/post';
@@ -6,6 +7,7 @@ import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
 import { UserService } from 'src/app/service/user.service';
+import { PostPopupComponent } from '../../post-page/post-popup/post-popup.component';
 
 @Component({
   selector: 'app-profile-posts',
@@ -15,6 +17,7 @@ import { UserService } from 'src/app/service/user.service';
 export class ProfilePostsComponent implements OnInit {
 
   constructor(private postService: PostService,
+    private dialog: MatDialog,
     public route: ActivatedRoute,
     private authenticationService:AuthenticationService,
     private userService: UserService) {
@@ -37,6 +40,15 @@ export class ProfilePostsComponent implements OnInit {
     await this.postService.loadData(this.user)
     this.posts = this.postService.getPersonalPosts()
     this.loaded=true;
+  }
+  popupPost(post:NewsFeedPost) {
+    this.dialog.open(PostPopupComponent, {
+      width: '900px',
+      height: '780px',
+      data: {
+        dataKey: post
+      }
+    })
   }
 
 }

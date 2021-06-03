@@ -1,0 +1,114 @@
+<div *ngIf="loaded" class="container">
+    <mat-card style="box-shadow: none !important; border-radius: 30px;height: 100%;">
+
+        <mat-card-content>
+            <div class="row">
+                <div class="col-sm-8">
+                    <img [src]="post.post.photo"
+                        style="max-width:500px;max-height: 350px;" id="image">
+                </div>
+                <div class="col-sm-4">
+                    <div class="row" style="margin-top: 30px;">
+                        <div class="col-sm-2">
+                            <a [routerLink]="['/profile']" [queryParams]="{ username:creatorProfile.user.username}">
+                                <img [src]="creatorProfile.photo" style="width: 50px;height: 50px; border-radius: 50%;"
+                                    alt="Card image cap">
+                            </a>
+                        </div>
+                        <div class="col-sm-6" style="font-size: small; ">
+
+                            <div class="row">
+                                <div class="col-sm-6" style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
+
+                                    <p [routerLink]="['/profile']" [queryParams]="{ username:creatorProfile.user.username}"
+                                        style="font-size: small;margin-bottom: 0px;padding-left: 10px; margin-top: 15px;">
+                                        {{creatorProfile.user.nickname}}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <p>{{post.post.description}}</p>
+                    </div>
+                    <div class="row">
+                        <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+                            <mat-chip class="example-box" cdkDrag *ngFor="let tag of tags">
+                                {{tag.nickname}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+
+                </div>
+                <div class="row" style="margin-top: 10px;margin-left: 15%;margin-bottom: -10px;">
+                    <div class="col-sm-1">
+                        <a (click)="onLike(post)">
+                        <img *ngIf="!post.liked" style="max-height: 30px;max-width: 40px;"  src="assets\resources\heart-empty.png"></a>
+                        <a (click)="onUnlike(post)"> <img *ngIf="post.liked" style="max-height: 30px;max-width: 40px;"
+                          src="assets\resources\2h.png"></a>
+
+                    </div>
+                    <div class="col-sm-2">
+                        <p style="font-size: small; margin-top: 5px; margin-left:10px;">{{post.numberOfLikes}}</p>
+                    </div>
+                    <div class="col-sm-1">
+                        <a href="#"> <img style="height: 25px;width: 30px; margin-left: 70px;"
+                                src="assets\resources\comment.png"></a>
+                    </div>
+                    <div class="col-sm-3">
+                        <p style="font-size: small;margin-top: 5px;margin-left: 80px;">45</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <!-- Add comment section -->
+
+            <div class="row" style="margin-left: 5%;margin-top: 0%;">
+                <div class="col-xl-1">
+                    <div class="col-sm-2">
+                        <a [routerLink]="['/profile']" [queryParams]="{ username:profile.user.username}">
+                            <img [src]="profile.photo" style="width: 50px;height: 50px; border-radius: 50%;"
+                                alt="Card image cap">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-8">
+                    <label style="font-size: smaller;">{{profile.user.nickname}}</label>
+
+                    <mat-form-field style="width: 100%;">
+                        <input matInput placeholder="Comment..." style="overflow-y: scroll;overflow-x: hidden;" [(ngModel)]="inputValue">
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-1" style="margin-top: 5px; ">
+                    <a (click)="createComment()">
+                    <img *ngIf='inputValue' src="../../../assets/resources/addComment.png"  style="max-height: 20px;margin-left: -30px;">
+                    </a>
+                </div>
+            </div>
+
+            <!-- All comments section -->
+            <div style="height: 190px;overflow-y: scroll;overflow-x: hidden;">
+            <div *ngFor="let comment of comments">
+            <div class="row" style="padding-top: 10px;margin-left: 5%;">
+                <div class="col-xl-1">
+                    <div class="col-sm-2">
+                        <a [routerLink]="['/profile']" [queryParams]="{ username:comment.profile.user.username}">
+                            <img [src]="comment.profile.photo" style="width: 50px;height: 50px; border-radius: 50%;"
+                                alt="Card image cap">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-xl-8">
+                    <label style="font-size: smaller;">{{comment.profile.user.username}}</label>
+                    <mat-card style="width: 100%;">{{comment.message.message}}
+                    </mat-card>
+                </div>
+            </div>
+           
+            </div></div>
+        </mat-card-content>
+
+    </mat-card>
+</div>

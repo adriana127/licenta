@@ -6,6 +6,7 @@ import { Post } from 'src/app/model/post';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
 import { WebSocketService } from 'src/app/service/utils/websocket.service';
+import { PostPopupComponent } from '../../post-page/post-popup/post-popup.component';
 
 import { CreatePostComponent } from '../create-post/create-post.component'
 @Component({
@@ -19,6 +20,7 @@ export class NewsFeedComponent implements OnInit {
      private postService: PostService,
      private authenticationService:AuthenticationService,
      private websocketService:WebSocketService) {
+      //  this.popupPost()
       this.posts=[]
     this.postService.findAll().pipe(map(posts => posts.sort(NewsFeedComponent.descendingByPostedAt)))
     .subscribe(posts => {
@@ -56,6 +58,15 @@ export class NewsFeedComponent implements OnInit {
     this.dialog.open(CreatePostComponent, {
       width: '600px',
       height: '700px'
+    })
+  }
+  popupPost(post:NewsFeedPost) {
+    this.dialog.open(PostPopupComponent, {
+      width: '900px',
+      height: '780px',
+      data: {
+        dataKey: post
+      }
     })
   }
   async onLike(event: NewsFeedPost) {

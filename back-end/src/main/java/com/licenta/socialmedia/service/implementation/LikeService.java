@@ -1,8 +1,10 @@
 package com.licenta.socialmedia.service.implementation;
 
 import com.licenta.socialmedia.model.Like;
+import com.licenta.socialmedia.model.Post;
 import com.licenta.socialmedia.repository.ILikeRepository;
 import com.licenta.socialmedia.service.ILikeService;
+import com.licenta.socialmedia.util.NotificationEndpoints;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,8 @@ public class LikeService implements ILikeService {
     private final ILikeRepository likeRepository;
 
     @Override
-    public Like add(Like like) {
+    public Like add(Like like, Post post) {
+
         return likeRepository.save(like);
     }
 

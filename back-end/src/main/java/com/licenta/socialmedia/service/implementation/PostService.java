@@ -27,9 +27,10 @@ public class PostService implements IPostService {
 
     @Override
     public Post add(Post post, List<Profile> followers) {
+        boolean existing=post.getId()==0;
         post=postRepository.save(post);
         post.setPhoto(PhotoUtils.decompressBytes(post.getPhoto()));
-
+        if(existing)
         for(var profile:followers){
             template.convertAndSend(NotificationEndpoints.POST_CREATED+profile.getUser().getId(), post);
         }

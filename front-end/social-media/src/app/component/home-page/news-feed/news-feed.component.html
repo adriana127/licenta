@@ -8,7 +8,7 @@
           <p>{{card.post.user.nickname}}</p>
         </mat-card-title>
       </mat-card-header>
-      <img src="{{card.post.photo}}" (dblclick)="onLike(card)"
+      <img src="{{card.post.photo}}" (dblclick)="onLike(card)" (click)="popupPost(card)"
         style="max-width: 400px;min-width: 100px;max-height: 200px; min-height: 200px;" alt="Card image cap">
       <mat-card-content>
         {{card.post.description}}
@@ -45,3 +45,5 @@
     </mat-card>
   </div>
 </div>
+<mat-spinner *ngIf="!loaded" style="margin:0 auto;" 
+mode="indeterminate"></mat-spinner>

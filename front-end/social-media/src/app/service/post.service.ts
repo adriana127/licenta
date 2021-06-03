@@ -8,6 +8,7 @@ import { NewsFeedPost } from '../model/newsfeedpost';
 import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
 import { WebSocketService } from './utils/websocket.service';
+import { PostComment } from '../model/comment';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,12 @@ export class PostService {
   unlikePost(postId: number) {
     return this.restService.post("unlike", { postId: postId, like: { user: this.authenticationService.getCurrentUser() } });
   }
+
+  commentPost(postId: number,message:String) {
+    return this.restService.post("addComment", { postId: postId, comment: { user: this.authenticationService.getCurrentUser(),message:message,createdOn:new Date() } });
+  }
+
+
   getPostById(postId: number) {
     let post;
     this.posts.forEach(value => {
@@ -69,6 +76,16 @@ export class PostService {
   onPost(): any{
     return this.socketClient.subscribeToNotifications('/topic/posts/created/'+this.authenticationService.getCurrentUser().id).pipe(map(post => PostService.getPostListing(post)));
   }
+
+  getComments(post:Post): Observable<PostComment[]> {
+    return this.socketClient
+      .subscribeToNotifications('/topic/comments/get/'+post.id)
+      .pipe(first(), map(posts => posts.map(PostService.getPostListing)));
+  }
+  onPostComment(post:Post): any{
+    return this.socketClient.subscribeToNotifications('/topic/comments/created/'+post.id).pipe(map(post => PostService.getPostListing(post)));
+  }
+
   convertPostToNewsFeedPost(post:Post):NewsFeedPost{
     let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
     post.photo="data:image/jpeg;base64," + post.photo

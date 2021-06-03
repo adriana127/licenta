@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Profile } from 'src/app/model/profile';
+import { Suggestion } from 'src/app/model/suggestion';
 import { User } from 'src/app/model/user';
 import { FollowService } from 'src/app/service/follow.service';
 import { ProfileService } from 'src/app/service/profile.service';
@@ -12,7 +13,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class SuggestionsComponent implements OnInit {
   loaded:boolean=false;
-  suggestions:Profile[]=[]
+  suggestions:Suggestion[]=[]
   constructor(private profileService:ProfileService) { }
 
   async ngOnInit() {
@@ -21,14 +22,20 @@ export class SuggestionsComponent implements OnInit {
   async reloadData(){
     await this.profileService.loadData()
     await this.profileService.getSuggestions().then(data => {
-      this.suggestions = data;
+      data.forEach(profile => {
+        this.suggestions.push({profile:profile,disabled:false})
+      });
     }).catch(err => { console.log(err) })
     this.loaded=true
   }
-  follow(user:User){
+  async follow(user:User){
    this.profileService.follow(user).subscribe(data=>{});
-   this.delay(5000)
-   this.suggestions.filter(va=>va.user!=user)
+   this.suggestions.forEach(value => {
+    if(value.profile.user.id===user.id)
+      value.disabled=true;
+  });
+   await this.delay(3000)
+   this.suggestions=this.suggestions.filter(va=>va.profile.user!=user)
   }
   delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );

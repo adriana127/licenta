@@ -26,7 +26,7 @@ public class LikeController {
     private final FollowService followService;
     @PostMapping(value = "/like")
     Like like(@RequestBody LikePostRequest model) {
-        Like like= likeService.add(model.getLike());
+        Like like= likeService.add(model.getLike(),postService.findById(model.getPostId()).get());
         postService.findById(model.getPostId()).get().getLikes().add(like);
         postService.add(postService.findById(model.getPostId()).get(),followService.getFollowers(like.getUser()));
         return like;
@@ -40,9 +40,5 @@ public class LikeController {
         likeService.delete(model.getLike());
     }
 
-    @GetMapping(value = "/likes")
-    List<Like> getAllLikes() {
-        return likeService.getAll();
-    }
 
 }

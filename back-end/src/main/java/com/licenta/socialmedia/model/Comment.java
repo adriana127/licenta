@@ -3,6 +3,7 @@ package com.licenta.socialmedia.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @NoArgsConstructor
@@ -20,5 +21,6 @@ public class Comment {
     @ManyToOne
     @JoinColumn
     private User user;
+    private Date createdOn;
 
 }

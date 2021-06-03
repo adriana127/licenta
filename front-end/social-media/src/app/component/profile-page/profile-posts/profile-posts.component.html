@@ -1,6 +1,8 @@
+    <div style="height: 590px; overflow-y: scroll;">
     <mat-grid-list cols="4" rowHeight="260px" colWidth="260px"  style="width: 1040px;margin-left: 16px; margin-top: 50px;">
         <mat-grid-tile *ngFor="let card of posts" style="margin-top: -20px;">
+            <a (click)="popupPost(card)">
              <img src="{{card.post.photo}}" style="width: 250px;height: 250px;overflow: hidden;"
-                    alt="Card image cap">
+                    alt="Card image cap"></a>
                 </mat-grid-tile>
-    </mat-grid-list>
+    </mat-grid-list></div>
