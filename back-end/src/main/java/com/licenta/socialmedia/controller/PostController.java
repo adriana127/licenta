@@ -57,10 +57,7 @@ public class PostController {
     @RequestMapping(value = "/newsfeed/{id}", method = RequestMethod.GET)
     @ResponseBody
     public List<Post> getNewsfeedPosts(@PathVariable("id") long id) {
-        postService.getNewsFeedPosts(id)
-                .forEach(post -> {
-                    post.setPhoto(PhotoUtils.decompressBytes(post.getPhoto()));
-                });
+
         return postService.getNewsFeedPosts(id);
     }
 

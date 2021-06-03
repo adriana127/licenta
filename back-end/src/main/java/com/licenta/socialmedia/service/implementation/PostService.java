@@ -5,6 +5,7 @@ import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.repository.IPostRepository;
 import com.licenta.socialmedia.service.IPostService;
 import com.licenta.socialmedia.util.NotificationEndpoints;
+import com.licenta.socialmedia.util.PhotoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class PostService implements IPostService {
     public Post add(Post newPost,List<Profile>followers) {
         newPost= postRepository.save(newPost);
         var newsfeed = (List<Post>) postRepository.findAll();
+        newsfeed.forEach(value->{value.setPhoto(PhotoUtils.decompressBytes(value.getPhoto()));});
         Post finalNewPost = newPost;
       // newsfeed= newsfeed.stream().filter(post -> post.getUser().getId() != finalNewPost.getUser().getId()).collect(Collectors.toList());
 
@@ -53,7 +55,8 @@ public class PostService implements IPostService {
     @Override
     public List<Post> getNewsFeedPosts(Long id) {
         var newsfeed = (List<Post>) postRepository.findAll();
-        template.convertAndSend(NotificationEndpoints.NEWSFEED +id,
+        newsfeed.forEach(post->{post.setPhoto(PhotoUtils.decompressBytes(post.getPhoto()));});
+template.convertAndSend(NotificationEndpoints.NEWSFEED +id,
                 newsfeed.stream().filter(post -> post.getUser().getId() != id).collect(Collectors.toList()));
         return newsfeed.stream().filter(post -> post.getUser().getId() != id).collect(Collectors.toList());
     }

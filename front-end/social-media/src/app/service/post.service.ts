@@ -66,11 +66,11 @@ export class PostService {
   }
   findAll(): Observable<Post[]> {
     return this.socketClient
-      .subscribeToNotifications('/topic/socket/newsfeed/'+this.user.id)
+      .subscribeToNotifications('/topic/socket/newsfeed/'+this.authenticationService.getCurrentUser().id)
       .pipe(first(), map(posts => posts.map(PostService.getPostListing)));
   }
   convertPostToNewsFeedPost(post:Post):NewsFeedPost{
-    let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.user.id)
+    let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
     post.photo="data:image/jpeg;base64," + post.photo
     return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, tags: post.tags }
   }

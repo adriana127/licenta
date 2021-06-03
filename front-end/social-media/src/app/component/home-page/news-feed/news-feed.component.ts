@@ -22,25 +22,28 @@ export class NewsFeedComponent implements OnInit {
      private authenticationService:AuthenticationService,
      private websocketService:WebSocketService) {
       this.posts=[]
+    this.postService.findAll().pipe(map(posts => posts.sort(NewsFeedComponent.descendingByPostedAt)))
+    .subscribe(posts => {
+      posts.forEach(value=>{
+      this.posts.push(this.postService.convertPostToNewsFeedPost(value))
+      console.log(this.posts)
 
+    })});
   }
   loaded:boolean=false;
   imageToShow: any = null;
   posts!: NewsFeedPost[]
   async ngOnInit(): Promise<void> {
+
     await this.reloadData()
-    this.postService.findAll().pipe(map(posts => posts.sort(NewsFeedComponent.descendingByPostedAt)))
-    .subscribe(posts => {
-      posts.forEach(value=>{
-      this.posts.push(this.postService.convertPostToNewsFeedPost(value))
-    })});
+
   }
   static descendingByPostedAt(post1: Post, post2: Post): number {
     return new Date(post2.createdOn).getTime() - new Date(post1.createdOn).getTime();
   }
   async reloadData() {
     await this.postService.loadData(this.authenticationService.getCurrentUser())
-   this.posts=this.postService.getNewsFeedPosts()
+  // this.posts=this.postService.getNewsFeedPosts()
     this.loaded=true
   }
   onCreate() {
