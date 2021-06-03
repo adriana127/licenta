@@ -3,8 +3,8 @@ package com.licenta.socialmedia.controller;
 import com.licenta.socialmedia.dto.request.LikePostRequest;
 import com.licenta.socialmedia.model.Like;
 import com.licenta.socialmedia.model.Post;
-import com.licenta.socialmedia.service.LikeService;
-import com.licenta.socialmedia.service.PostService;
+import com.licenta.socialmedia.service.implementation.LikeService;
+import com.licenta.socialmedia.service.implementation.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +24,7 @@ public class LikeController {
 
     @PostMapping(value = "/like")
     Like like(@RequestBody LikePostRequest model) {
-        Like like = likeService.add(model.getLike());
-        Post post = postService.findById(model.getPostId()).get();
-        post.getLikes().add(like);
-        postService.add(post);
-        return like;
+        return likeService.add(model.getLike());
     }
 
     @PostMapping(value = "/unlike")

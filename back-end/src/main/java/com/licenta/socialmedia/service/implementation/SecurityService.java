@@ -1,4 +1,4 @@
-package com.licenta.socialmedia.service;
+package com.licenta.socialmedia.service.implementation;
 
 import com.licenta.socialmedia.dto.request.AuthenticationRequest;
 import com.licenta.socialmedia.dto.response.AuthenticationResponse;
@@ -6,7 +6,7 @@ import com.licenta.socialmedia.exception.ApiExceptionResponse;
 import com.licenta.socialmedia.repository.IUserRepository;
 import com.licenta.socialmedia.security.JwtUtil;
 import com.licenta.socialmedia.security.UserDetailsImpl;
-import com.licenta.socialmedia.service.implementation.ISecurityService;
+import com.licenta.socialmedia.service.ISecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;

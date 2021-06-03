@@ -1,9 +1,12 @@
-package com.licenta.socialmedia.service;
+package com.licenta.socialmedia.service.implementation;
 
 import com.licenta.socialmedia.model.Post;
+import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.repository.IPostRepository;
-import com.licenta.socialmedia.service.implementation.IPostService;
+import com.licenta.socialmedia.service.IPostService;
+import com.licenta.socialmedia.util.NotificationEndpoints;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +16,19 @@ import java.util.stream.Collectors;
 @Service
 public class PostService implements IPostService {
     @Autowired
+    SimpMessagingTemplate template;
+
+    @Autowired
     IPostRepository postRepository;
 
     @Override
-    public Post add(Post post) {
-        return postRepository.save(post);
+    public Post add(Post newPost,List<Profile>followers) {
+        newPost= postRepository.save(newPost);
+        for (var follower:followers) {
+            template.convertAndSend(NotificationEndpoints.NEWSFEED +follower.getUser().getId(),
+                                    newPost);
+        }
+        return newPost;
     }
 
     @Override

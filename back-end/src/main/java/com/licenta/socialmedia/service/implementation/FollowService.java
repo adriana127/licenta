@@ -1,4 +1,4 @@
-package com.licenta.socialmedia.service;
+package com.licenta.socialmedia.service.implementation;
 
 import com.licenta.socialmedia.model.Follow;
 import com.licenta.socialmedia.model.Profile;
@@ -6,7 +6,7 @@ import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.repository.IFollowRepository;
 import com.licenta.socialmedia.repository.IProfileRepository;
 import com.licenta.socialmedia.repository.IUserRepository;
-import com.licenta.socialmedia.service.implementation.IFollowService;
+import com.licenta.socialmedia.service.IFollowService;
 import com.licenta.socialmedia.util.NotificationEndpoints;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

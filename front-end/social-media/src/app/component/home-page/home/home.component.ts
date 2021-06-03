@@ -8,7 +8,8 @@ import { WebSocketService } from 'src/app/service/websocket.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private snackBar: MatSnackBar,private websocketService:WebSocketService
+  constructor(private snackBar: MatSnackBar
+    ,private websocketService:WebSocketService
     ) { this.websocketService.subscribeToNotifications(this.snackBar) }
 
   ngOnInit(): void {

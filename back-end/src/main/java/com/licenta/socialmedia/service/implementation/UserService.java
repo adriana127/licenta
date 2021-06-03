@@ -1,8 +1,8 @@
-package com.licenta.socialmedia.service;
+package com.licenta.socialmedia.service.implementation;
 
 import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.repository.IUserRepository;
-import com.licenta.socialmedia.service.implementation.IUserService;
+import com.licenta.socialmedia.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

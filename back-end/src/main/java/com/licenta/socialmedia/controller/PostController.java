@@ -3,7 +3,8 @@ package com.licenta.socialmedia.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.socialmedia.dto.request.UploadPostRequest;
 import com.licenta.socialmedia.model.Post;
-import com.licenta.socialmedia.service.PostService;
+import com.licenta.socialmedia.service.implementation.FollowService;
+import com.licenta.socialmedia.service.implementation.PostService;
 import com.licenta.socialmedia.util.PhotoUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class PostController {
 
     @Autowired
     private final PostService postService;
+    @Autowired
+    private final FollowService followService;
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(path = "/createPost",
@@ -31,7 +34,7 @@ public class PostController {
         ObjectMapper objectMapper = new ObjectMapper();
         Post post = objectMapper.readValue(model.getPost(), Post.class);
         post.setPhoto(PhotoUtils.compressBytes(model.getPhoto().getBytes()));
-        return postService.add(post);
+        return postService.add(post,followService.getFollowers(post.getUser()));
     }
 
     @GetMapping(value = "/post/{postId}")

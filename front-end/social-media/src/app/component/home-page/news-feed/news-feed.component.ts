@@ -6,6 +6,7 @@ import { Post } from 'src/app/model/post';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
 import { UserService } from 'src/app/service/user.service';
+import { WebSocketService } from 'src/app/service/websocket.service';
 
 import { CreatePostComponent } from '../create-post/create-post.component'
 @Component({
@@ -15,7 +16,12 @@ import { CreatePostComponent } from '../create-post/create-post.component'
 })
 export class NewsFeedComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private postService: PostService,private authenticationService:AuthenticationService) {
+  constructor(private dialog: MatDialog,
+     private postService: PostService,
+     private authenticationService:AuthenticationService,
+     private websocketService:WebSocketService) {
+       this.posts=[]
+      this.websocketService.subscribeToPosts(this.posts)
   }
   loaded:boolean=false;
   imageToShow: any = null;
@@ -25,8 +31,9 @@ export class NewsFeedComponent implements OnInit {
   }
   async reloadData() {
     await this.postService.loadData(this.authenticationService.getCurrentUser())
-    this.posts = this.postService.getNewsFeedPosts()
+   this.posts=this.postService.getNewsFeedPosts()
     this.loaded=true
+    console.log(this.posts)
   }
   onCreate() {
     this.dialog.open(CreatePostComponent, {

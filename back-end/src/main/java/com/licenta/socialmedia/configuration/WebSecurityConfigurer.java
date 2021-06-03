@@ -1,5 +1,7 @@
-package com.licenta.socialmedia.security;
+package com.licenta.socialmedia.configuration;
 
+import com.licenta.socialmedia.security.JwtEntryPoint;
+import com.licenta.socialmedia.security.JwtTokenFilter;
 import com.licenta.socialmedia.security.session.ActiveUserStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,4 +1,4 @@
-package com.licenta.socialmedia.service;
+package com.licenta.socialmedia.service.implementation;
 
 import com.licenta.socialmedia.exception.ApiExceptionResponse;
 import com.licenta.socialmedia.model.User;

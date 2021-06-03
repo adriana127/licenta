@@ -1,8 +1,8 @@
-package com.licenta.socialmedia.service;
+package com.licenta.socialmedia.service.implementation;
 
 import com.licenta.socialmedia.model.Like;
 import com.licenta.socialmedia.repository.ILikeRepository;
-import com.licenta.socialmedia.service.implementation.ILikeService;
+import com.licenta.socialmedia.service.ILikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

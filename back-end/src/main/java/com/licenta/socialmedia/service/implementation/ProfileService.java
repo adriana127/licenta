@@ -1,9 +1,9 @@
-package com.licenta.socialmedia.service;
+package com.licenta.socialmedia.service.implementation;
 
 import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.repository.IProfileRepository;
-import com.licenta.socialmedia.service.implementation.IProfileService;
+import com.licenta.socialmedia.service.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
