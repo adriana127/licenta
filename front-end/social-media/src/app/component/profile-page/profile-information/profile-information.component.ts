@@ -38,24 +38,19 @@ export class ProfileInformationComponent implements OnInit {
     await this.reloadData()
   }
   async reloadData() {
-    await this.profileService.loadData()
     await this.userService.loadData()
-
+    await this.profileService.loadData()
     if (this.route.snapshot.queryParamMap.get('username') == this.authenticationService.getCurrentUser().username) {
       this.user = this.authenticationService.getCurrentUser()
+      this.profile = this.profileService.getPersonalProfile();
       this.isPersonalProfile = true;
     }
     else
-      this.user = this.userService.getByUsername(this.route.snapshot.queryParamMap.get('username')!) as unknown as User
+      {this.user = this.userService.getByUsername(this.route.snapshot.queryParamMap.get('username')!) as unknown as User
+      await this.profileService.getProfile(this.user).then(profile=>{this.profile=profile})
+  }
+      this.profile.photo = this.profileService.fixPhoto(this.profile)
 
-    await this.profileService.getProfile(this.user).then(data => {
-      this.profile = data;
-    }).catch(err => { console.log(err) })
-
-    if (this.profile.photo === null)
-      this.profilePhoto = "../../assets/resources/user.png";
-    else
-      this.profilePhoto = "data:image/jpeg;base64," + this.profile.photo;
 
     await this.profileService.getFollowers(this.user).then(data => {
       this.followersNumber = data.length;

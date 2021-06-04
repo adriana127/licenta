@@ -9,7 +9,6 @@ import { TokenService } from './token.service';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
-  private currentUser: Observable<User>
   private currentUserSubject!: BehaviorSubject<any>;
   check: boolean = false;
 
@@ -18,7 +17,6 @@ export class AuthenticationService {
     private restRequestService: RestService,
     private tokenService: TokenService) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')!));
-    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   getCurrentUser(): User {
@@ -35,7 +33,6 @@ export class AuthenticationService {
         if (data.accessToken) {
           this.tokenService.setToken(data.accessToken);
          this.setCurrentUser(data.user);
-          this.router.navigateByUrl("/home");
           return data;
         }
       })

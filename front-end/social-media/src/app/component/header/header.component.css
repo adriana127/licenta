@@ -10,13 +10,9 @@ body{
   border-radius: 50%;
 }
 #search{
-  background-color:transparent;
-  border: none;
-  border-bottom: 1.5px solid black;
   width: 100%;
-  text-align:right;
-  border-radius: 0px;
-  font-family: 'Itim', cursive
+  font-family: 'Itim', cursive;
+  margin-left: 20%;
 }
 #username{
   font-family: 'Itim', cursive;

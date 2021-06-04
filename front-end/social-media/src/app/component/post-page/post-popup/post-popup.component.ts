@@ -58,6 +58,7 @@ export class PostPopupComponent implements OnInit {
       this.aux.photo="assets/resources/user.png";
       this.comments.push({message:comment,profile:this.aux})
       this.comments.sort(PostPopupComponent.descendingByPostedAt);
+      this.post.numberOfComments+=1;
     });
   }
   static descendingByPostedAt(comment1: PostComment, comment2: PostComment): number {

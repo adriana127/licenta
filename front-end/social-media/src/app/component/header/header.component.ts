@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { INotification } from 'src/app/model/notification';
 import { Profile } from 'src/app/model/profile';
 import { User } from 'src/app/model/user';
@@ -22,73 +24,94 @@ export class HeaderComponent implements OnInit {
   profile!: Profile
   profilePhoto!: String
   notifications: INotification[] = []
-  newNotifications:INotification[]=[]
-  numberOfNotifications: number = 3;
+  newNotifications: INotification[] = []
+  numberOfNotifications: number = 0;
   hidden: boolean = true;
+
+  searchControl = new FormControl();
+  filteredOptions!: Observable<Profile[]>;
+  allProfiles:Profile[]=[]
+  options:Profile[]=[]
+  
+
+
   constructor(private authenticationService: AuthenticationService,
-    private dialog: MatDialog,
-    private profileService: ProfileService,
-    private notificationService: NotificationService,
-    private postService:PostService,
-    private router:Router
-  ) {
-    this.notificationService.findAll().pipe(map(comments => comments.sort(HeaderComponent.descendingByPostedAt)))
+              private dialog: MatDialog,
+              private profileService: ProfileService,
+              private notificationService: NotificationService,
+              private postService: PostService,
+              private router: Router) {
+    this.notificationService.findAll()
+      .pipe()
       .subscribe(posts => {
-        posts.forEach(async notification => {
-
-          this.notifications.push(notification)
-        })
-      });
-      this.notificationService.findNew().pipe(map(comments => comments.sort(HeaderComponent.descendingByPostedAt)))
-      .subscribe(posts => {
-        posts.forEach(async notification => {
-
-          this.newNotifications.push(notification)
-        })
-        this.numberOfNotifications = this.newNotifications.length
-        this.hidden = this.numberOfNotifications == 0
-      });
-      this.notificationService
-    .onNotification()
-    .subscribe(async (notification: INotification) => {
-      this.notifications.push(notification)
-      this.newNotifications.push(notification)
-      this.numberOfNotifications = this.newNotifications.length
-      this.hidden = this.numberOfNotifications == 0
+                  posts.forEach(async notification => {
+                  this.notifications.push(notification)})
     });
-    this.user = authenticationService.getCurrentUser()
 
+    this.notificationService.findNew()
+      .pipe()
+      .subscribe(posts => {
+                  posts.forEach(async notification => {
+                      this.newNotifications.push(notification)})
+                  this.numberOfNotifications = this.newNotifications.length
+                  this.hidden = this.numberOfNotifications == 0
+    });
+
+    this.notificationService
+      .onNotification()
+      .subscribe(async (notification: INotification) => {
+                  this.notifications.push(notification)
+                  this.newNotifications.push(notification)
+                  this.numberOfNotifications = this.newNotifications.length
+                  this.hidden = this.numberOfNotifications == 0
+    });
+
+    this.user = authenticationService.getCurrentUser()
   }
-  static descendingByPostedAt(post1: INotification, post2: INotification): number {
-    return new Date(post2.createdOn).getTime() - new Date(post1.createdOn).getTime();
-  }
+
   async ngOnInit() {
     await this.profileService.loadData()
-    await this.profileService.getProfile(this.authenticationService.getCurrentUser()).then(data => {
-      this.profile = data;
-    }).catch(err => { console.log(err) })
-    if (this.profile.photo != null)
-      this.profilePhoto = "data:image/jpeg;base64," + this.profile.photo;
-    else
-      this.profilePhoto = "assets/resources/user.png";
+    this.profilePhoto = this.profileService.fixPhoto(this.profileService.getPersonalProfile())
     this.loaded = true;
   }
-  onClick(notification:INotification){
-    if(notification.post)
-    this.dialog.open(PostPopupComponent, {
-      width: '900px',
-      height: '780px',
-      data: {
-        dataKey: this.postService.convertPostToNewsFeedPost(notification.post)
-      }
-    })
+  onClick(notification: INotification) {
+    if (notification.post)
+      this.dialog.open(PostPopupComponent, {
+        width: '900px',
+        height: '780px',
+        data: {
+          dataKey: this.postService.convertPostToNewsFeedPost(notification.post)
+        }
+      })
     else
-    this.router.navigate(['/profile'], { queryParams: { username: notification.sender.username } });
+      this.router.navigate(['/profile'], { queryParams: { username: notification.sender.username } });
   }
-  onNotificationOpen(){
-    this.notificationService.openNotifications(this.newNotifications).subscribe(val=>{})
-    this.hidden=true
-    this.newNotifications=[]
+  onNotificationOpen() {
+    this.notificationService.openNotifications(this.newNotifications).subscribe(val => { })
+    this.hidden = true
+    this.newNotifications = []
+  }
+  async onFocus(){
+    this.options=[]
+    await this.profileService.getProfiles().then(data=>{this.allProfiles=data as Profile[]
+      this.allProfiles.forEach(profile=>{
+        profile.photo=this.profileService.fixPhoto(profile)
+      })
+      this.filteredOptions = this.searchControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );})
+  }
+  onSearchChange(){
+    if(this.searchControl.value.length>0)
+      this.options=this.allProfiles;
+    else
+      this.options=[]
+  }
+  private _filter(value: string): Profile[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.user.nickname.toLowerCase().includes(filterValue));
   }
   logout() {
     this.authenticationService.logout()

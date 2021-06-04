@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
+import { ProfileService } from 'src/app/service/profile.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,9 @@ export class LoginComponent implements OnInit {
   loginForm: any;
   registerForm: any;
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private router: Router,
+             private authenticationService: AuthenticationService,
+             private profileService:ProfileService) {
     if(authenticationService.getCurrentUser()==null)
     this.router.navigateByUrl("\home");
     this.authenticationService.logout()
@@ -45,9 +48,12 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  login() {
+  async login() {
     this.authenticationService.login(this.loginForm.getRawValue())
-      .subscribe(data => {
+      .subscribe(async data => {
+          await this.profileService.loadData()
+          this.router.navigateByUrl("/home");
+
       }, err => {
         alert(err.message)
       });
