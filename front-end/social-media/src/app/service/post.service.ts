@@ -91,7 +91,7 @@ export class PostService {
     post.photo="data:image/jpeg;base64," + post.photo
     return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, tags: post.tags }
   }
-  static getPostListing(post: any): Post {
+  static getPostListing(post: any): any {
     const postedAt = new Date(post['createdOn']);
     return {...post, postedAt};
   }

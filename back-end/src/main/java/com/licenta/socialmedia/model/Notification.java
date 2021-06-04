@@ -1,17 +1,31 @@
 package com.licenta.socialmedia.model;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import lombok.*;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+@ToString
 public class Notification {
-    @OneToOne
-    @JoinColumn
-    User sender;
-    @OneToOne
-    @JoinColumn
-    User receiver;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    boolean isNew;
     String message;
-    @OneToOne
-    @JoinColumn
+    private Date createdOn;
+    @ManyToOne
+    User sender;
+    @ManyToOne
+    User receiver;
+    @ManyToOne
     Post post;
+
+
 }

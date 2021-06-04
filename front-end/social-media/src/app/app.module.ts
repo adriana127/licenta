@@ -6,6 +6,7 @@ import { CreatePostComponent } from './component/home-page/create-post/create-po
 import { NewsFeedComponent } from './component/home-page/news-feed/news-feed.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { HeaderComponent } from './component/header/header.component';
 import { HomeComponent } from './component/home-page/home/home.component';
 import {MatGridListModule} from '@angular/material/grid-list'; 
@@ -28,8 +29,9 @@ import { ProfileInformationComponent } from './component/profile-page/profile-in
 import { ProfilePostsComponent } from './component/profile-page/profile-posts/profile-posts.component';
 import { PostPopupComponent } from './component/post-page/post-popup/post-popup.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import {MatBadgeModule} from '@angular/material/badge'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatMenuModule} from '@angular/material/menu'; 
 import { CommentsSectionComponent } from './component/post-page/comments-section/comments-section.component'; 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { CommentsSectionComponent } from './component/post-page/comments-section
     MatGridListModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    
+    MatBadgeModule,
+    MatMenuModule,
+    MatIconModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],

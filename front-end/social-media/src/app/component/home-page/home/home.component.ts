@@ -8,7 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class HomeComponent implements OnInit {
 
   constructor(private snackBar: MatSnackBar
-    ) {  }
+    ) { 
+      
+     }
 
   ngOnInit(): void {
    

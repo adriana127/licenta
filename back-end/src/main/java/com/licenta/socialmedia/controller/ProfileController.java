@@ -3,17 +3,22 @@ package com.licenta.socialmedia.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.socialmedia.dto.request.UpdateProfileRequest;
 import com.licenta.socialmedia.model.Follow;
+import com.licenta.socialmedia.model.Notification;
 import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.service.implementation.FollowService;
+import com.licenta.socialmedia.service.implementation.NotificationService;
 import com.licenta.socialmedia.service.implementation.ProfileService;
 import com.licenta.socialmedia.service.implementation.UserService;
+import com.licenta.socialmedia.util.NotificationEndpoints;
 import com.licenta.socialmedia.util.PhotoUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -29,6 +34,10 @@ public class ProfileController {
     private final UserService userService;
     @Autowired
     private final FollowService followService;
+    @Autowired
+    private final NotificationService notificationService;
+    @Autowired
+    private SimpMessagingTemplate template;
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(path = "/updateProfile",
@@ -74,6 +83,10 @@ public class ProfileController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(path = "/follow")
     public Follow follow(@RequestBody Follow follow) throws Exception {
+        Notification notification=new Notification(0L,true,follow.getFollower().getNickname()+" liked your post.",new Date(),follow.getFollower(),follow.getFollowed(),null);
+        notification=notificationService.add(notification);
+        template.convertAndSend(NotificationEndpoints.NOTIFICATION_CREATED+follow.getFollowed().getId(), notification);
+
         return followService.add(follow);
     }
 
