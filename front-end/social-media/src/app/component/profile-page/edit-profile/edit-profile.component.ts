@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Profile } from 'src/app/model/profile';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
@@ -14,7 +15,9 @@ export class EditProfileComponent implements OnInit {
   user: User;
   profile!: Profile
   constructor(private profileService: ProfileService,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private dialogRef: MatDialogRef<EditProfileComponent>,
+    ) {
     this.user = authenticationService.getCurrentUser()
   }
   selectedFile!: File;
@@ -39,7 +42,9 @@ export class EditProfileComponent implements OnInit {
   public imagePath: any;
   imgURL: any;
   public message!: string;
-
+  closeDialog(){
+    this.dialogRef.close();
+  }
   preview(files: any) {
     if (files.length === 0)
       return;
@@ -67,7 +72,9 @@ export class EditProfileComponent implements OnInit {
     this.profileService.updateProfile(this.profile, this.selectedFile).subscribe(
       data => {
         this.authenticationService.setCurrentUser(data.user)
+      this.closeDialog()
 
+        window.location.reload();
       }, err => {
         alert(err.message)
       });

@@ -88,6 +88,7 @@ export class HeaderComponent implements OnInit {
   onNotificationOpen(){
     this.notificationService.openNotifications(this.newNotifications).subscribe(val=>{})
     this.hidden=true
+    this.newNotifications=[]
   }
   logout() {
     this.authenticationService.logout()
