@@ -83,7 +83,7 @@ public class ProfileController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(path = "/follow")
     public Follow follow(@RequestBody Follow follow) throws Exception {
-        Notification notification=new Notification(0L,true,follow.getFollower().getNickname()+" liked your post.",new Date(),follow.getFollower(),follow.getFollowed(),null);
+        Notification notification=new Notification(0L,true,follow.getFollower().getNickname()+" started following you.",new Date(),follow.getFollower(),follow.getFollowed(),null);
         notification=notificationService.add(notification);
         template.convertAndSend(NotificationEndpoints.NOTIFICATION_CREATED+follow.getFollowed().getId(), notification);
 

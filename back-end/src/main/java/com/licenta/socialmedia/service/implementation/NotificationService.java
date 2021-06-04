@@ -17,7 +17,10 @@ public class NotificationService implements INotificationService {
     public Notification add(Notification notification) {
         return notificationRepository.save(notification);
     }
-
+    @Override
+    public void updateNotifications(List<Notification> notifications) {
+         notifications.forEach(notification -> {notificationRepository.save(notification);});
+    }
     @Override
     public void delete(Notification notification) {
 
@@ -27,6 +30,12 @@ public class NotificationService implements INotificationService {
     public List<Notification> findPersonalNotifications(Long id) {
         return ((List<Notification>) notificationRepository
                 .findAll()).stream().filter(notification ->notification.getReceiver().getId()==id ).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Notification> findNewNotifications(Long id) {
+        List<Notification> allnotifications=(List<Notification>)notificationRepository.findAll();
+        return allnotifications.stream().filter(notification -> notification.getReceiver().getId()==id&&notification.isState()==true).collect(Collectors.toList());
     }
 
     @Override

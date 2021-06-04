@@ -20,14 +20,19 @@ export class NotificationService {
   findAll(): Observable<INotification[]> {
     return this.socketClient
       .subscribeToNotifications('/topic/notifications/get/'+this.authenticationService.getCurrentUser().id)
-      .pipe(first(), map(posts => posts.map(NotificationService.getPostListing)));
+      .pipe();
+  }
+  findNew(): Observable<INotification[]> {
+    return this.socketClient
+      .subscribeToNotifications('/topic/notifications/new/'+this.authenticationService.getCurrentUser().id)
+      .pipe();
   }
   onNotification(): any{
-    return this.socketClient.subscribeToNotifications('/topic/notification/created/'+this.authenticationService.getCurrentUser().id).pipe(map(post => NotificationService.getPostListing(post)));
+    return this.socketClient.subscribeToNotifications('/topic/notification/created/'+this.authenticationService.getCurrentUser().id).pipe();
   }
-  static getPostListing(post: any): any {
-    const postedAt = new Date(post['createdOn']);
-    return {...post, postedAt};
+
+  openNotifications(notifications:INotification[]) {
+    return this.restService.post("openNotifications", notifications);
   }
   constructor(private restService: RestService,
      private authenticationService: AuthenticationService,

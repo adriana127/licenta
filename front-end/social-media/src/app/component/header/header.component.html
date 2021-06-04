@@ -15,14 +15,14 @@
                     <input id="search" class="form-control" name="first" placeholder="Search" aria-label="Search">
                 </div>
                 <div class="col-sm-2" style="margin-left: 40px;">
-                    <button [matMenuTriggerFor]="menu" [matBadge]="numberOfNotifications" matBadgeColor="warn"
+                    <button [matMenuTriggerFor]="menu" [matBadge]="numberOfNotifications" matBadgeColor="warn" 
                         [matBadgeHidden]="hidden"
                         style="padding-top: 0px;padding-right: 0px;background-color:transparent;border: transparent;">
-                        <img id="notification" src="assets/resources/notification.png">
+                        <img id="notification" src="assets/resources/notification.png" (click)="onNotificationOpen()">
                     </button>
                     <mat-menu #menu="matMenu" >
                         <div *ngFor="let notification of notifications" style="width: 200px;">
-                            <button mat-menu-item>
+                            <button mat-menu-item (click)="onClick(notification)">
                                 <div class="row" style="padding-top: 10px;margin-left: 5%;">
                                     <label style="font-size: smaller;">{{notification.message}}</label>
                                 </div>
@@ -31,12 +31,12 @@
                     </mat-menu>
                 </div>
                 <div class="col-sm-1">
-                    <a routerLink="/profile">
+                    <a routerLink="/profile" [queryParams]="{ username:user.username}">
                         <p id="username">{{user.nickname}}</p>
                     </a>
                 </div>
                 <div class="col-sm-1">
-                    <a routerLink="/profile"> <img id="profilePhoto" [src]="profilePhoto">
+                    <a routerLink="/profile" [queryParams]="{username:user.username}"> <img id="profilePhoto" [src]="profilePhoto">
                     </a>
                 </div>
                 <div class="col-sm-1">

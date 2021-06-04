@@ -3,7 +3,7 @@ import { User } from "./user";
 
 export interface INotification {
     id:number,
-    isNew:boolean,
+    state:boolean,
 message:String,
 createdOn:Date
 

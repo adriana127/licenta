@@ -11,9 +11,12 @@ import java.util.Optional;
 public interface INotificationService {
     Notification add(Notification notification);
 
+    void  updateNotifications(List<Notification> notifications);
+
     void delete(Notification notification);
 
     List<Notification> findPersonalNotifications(Long id);
+    List<Notification> findNewNotifications(Long id);
 
     Optional<Notification> findById(Long id);
 

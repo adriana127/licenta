@@ -27,14 +27,6 @@ export class PostService {
     return this.restService.post("createPost", formData);
   }
 
-  getAllPosts() {
-    return this.posts;
-  }
-
-  getNewsFeedPosts() {
-    return this.newsfeedposts;
-  }
-
   getPersonalPosts() {
     return this.personalPosts;
   }
@@ -51,13 +43,9 @@ export class PostService {
   }
 
 
-  getPostById(postId: number) {
-    let post;
-    this.posts.forEach(value => {
-      if (postId === value.id)
-        post = value
-    })
-    return post
+  async getPostById(postId: number) {
+    return this.restService.get("http://localhost:8080/post/" + postId)
+
   }
 
   checkIfPostIsLikedByCurrentUser(likes: Like[], userId: number) {
@@ -89,7 +77,7 @@ export class PostService {
   convertPostToNewsFeedPost(post:Post):NewsFeedPost{
     let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
     post.photo="data:image/jpeg;base64," + post.photo
-    return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, tags: post.tags }
+    return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
   }
   static getPostListing(post: any): any {
     const postedAt = new Date(post['createdOn']);
@@ -107,7 +95,7 @@ export class PostService {
         posts.forEach((post: Post) => {
           let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.user.id)
           post.photo="data:image/jpeg;base64," + post.photo
-          this.personalPosts.push({ post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, tags: post.tags })
+          this.personalPosts.push({ post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags })
         })
       })
   }

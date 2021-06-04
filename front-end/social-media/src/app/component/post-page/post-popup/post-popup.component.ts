@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Profile } from 'src/app/model/profile';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { User } from 'src/app/model/user';
@@ -9,6 +9,7 @@ import { ProfileService } from 'src/app/service/profile.service';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { map } from 'rxjs/operators';
 import { PostComment } from 'src/app/model/comment';
+import { Post } from 'src/app/model/post';
 @Component({
   selector: 'app-post-popup',
   templateUrl: './post-popup.component.html',
@@ -64,6 +65,12 @@ export class PostPopupComponent implements OnInit {
   }
   
   async ngOnInit() {
+    await this.postService.getPostById(this.post.post.id).then(result => {
+      let post=result as Post
+      let isLiked = this.postService.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
+      post.photo="data:image/jpeg;base64," + post.photo
+      this.post={ post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
+    })
     await this.profileService.loadData()
     await this.profileService.getProfile(this.authenticationService.getCurrentUser()).then(data => {
       this.profile = data;
@@ -80,8 +87,10 @@ export class PostPopupComponent implements OnInit {
       this.creatorProfile.photo = "data:image/jpeg;base64," + this.creatorProfile.photo;
     else
       this.creatorProfile.photo = "assets/resources/user.png";
+
     this.loaded = true
   }
+ 
   async onLike(event: NewsFeedPost) {
     this.like(event.post.id)
     this.postService.likePost(event.post.id).subscribe(async data => { })

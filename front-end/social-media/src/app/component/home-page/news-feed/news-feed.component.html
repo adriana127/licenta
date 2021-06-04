@@ -34,10 +34,10 @@
               <p style="font-size: small; margin-top: 5px; margin-left:-10px;">{{card.numberOfLikes}}</p>
             </div>
             <div class="col-sm-1">
-              <a href="#"> <img style="height: 25px;width: 30px;" src="assets\resources\comment.png"></a>
+              <a (click)="popupPost(card)"> <img style="height: 25px;width: 30px;" src="assets\resources\comment.png"></a>
             </div>
             <div class="col-sm-3">
-              <p style="font-size: small;margin-top: 5px;">45</p>
+              <p style="font-size: small;margin-top: 5px;">{{card.numberOfComments}}</p>
             </div>
           </div>
         </div>

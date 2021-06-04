@@ -17,7 +17,7 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    boolean isNew;
+    boolean state;
     String message;
     private Date createdOn;
     @ManyToOne

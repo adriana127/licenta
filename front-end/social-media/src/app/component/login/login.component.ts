@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private authenticationService: AuthenticationService) {
     if(authenticationService.getCurrentUser()==null)
     this.router.navigateByUrl("\home");
+    this.authenticationService.logout()
+
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,

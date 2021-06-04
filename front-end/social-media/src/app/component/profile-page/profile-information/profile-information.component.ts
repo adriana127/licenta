@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Profile } from 'src/app/model/profile';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
@@ -29,7 +29,10 @@ export class ProfileInformationComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private profileService: ProfileService,
     private postService: PostService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private router: Router) { 
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    }
 
   async ngOnInit() {
     await this.reloadData()
@@ -38,7 +41,7 @@ export class ProfileInformationComponent implements OnInit {
     await this.profileService.loadData()
     await this.userService.loadData()
 
-    if (this.route.snapshot.queryParamMap.get('username') == null) {
+    if (this.route.snapshot.queryParamMap.get('username') == this.authenticationService.getCurrentUser().username) {
       this.user = this.authenticationService.getCurrentUser()
       this.isPersonalProfile = true;
     }

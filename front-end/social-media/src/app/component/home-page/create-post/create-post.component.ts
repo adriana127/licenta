@@ -9,6 +9,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/model/user';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-post',
@@ -19,6 +20,8 @@ export class CreatePostComponent {
 
   constructor(private postService: PostService,
     private authenticationService: AuthenticationService,
+    private dialogRef: MatDialogRef<CreatePostComponent>,
+
     private userService: UserService) {
     this.post = { id: 0, user: this.authenticationService.getCurrentUser(), description: "", createdOn: new Date(), likes: [], comments: [], tags: [], photo: "" };
 
@@ -26,11 +29,6 @@ export class CreatePostComponent {
   async reloadData() {
     await this.userService.loadData()
     this.allUsers = this.userService.getAllUsers()
-    // this.filteredUsers = this.formControl.valueChanges
-    //   .pipe(
-    //     startWith('' || null),
-    //     map(username => username ? this._filter(username) : this.allUsers.slice()));
-        
   }
   post: Post;
   retrieveResonse: any;
@@ -73,12 +71,15 @@ export class CreatePostComponent {
   clickUpload(): void {
     document.getElementById("fileupload")?.click();
   }
-
+  closeDialog(){
+    this.dialogRef.close();
+  }
   onUpload() {
     this.post.tags=this.selectedUsers
     this.postService.createPost(this.post, this.selectedFile)
       .subscribe((response) => {
         alert(response)
+        this.closeDialog()
       }
       );
   }

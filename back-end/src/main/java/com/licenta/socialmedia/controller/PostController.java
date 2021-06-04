@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -69,7 +70,9 @@ public class PostController {
 
     @SubscribeMapping(value = "/posts/newsfeed/{id}")
     public List<Post> getNewsfeedPosts(@DestinationVariable("id") long id) {
+        if(!followService.getFollowing(userService.findById(id).get()).isEmpty())
         return postService.getNewsFeedPosts(id,followService.getFollowing(userService.findById(id).get()));
+   return new ArrayList<>();
     }
 
     @RequestMapping(value = "/personalPosts/{id}", method = RequestMethod.GET)

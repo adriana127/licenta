@@ -54,9 +54,10 @@ public class PostService implements IPostService {
 
     @Override
     public List<Post> getNewsFeedPosts(Long id, List<Profile> following) {
+        List<Post> allPosts=(List<Post>)postRepository.findAll();
         List<Post> newsfeed = new ArrayList<>();
         for (var profile:following) {
-            var list=((List<Post>)postRepository.findAll()).stream().filter(post -> profile.getUser().getId() == post.getUser().getId()).collect(Collectors.toList());
+            var list=allPosts.stream().filter(post -> profile.getUser().getId() == post.getUser().getId()).collect(Collectors.toList());
             newsfeed= Stream.concat(newsfeed.stream(), list.stream())
                     .collect(Collectors.toList());
         }
