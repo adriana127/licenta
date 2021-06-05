@@ -42,15 +42,16 @@
 
                 </div>
                 <div class="row" style="margin-top: 10px;margin-left: 15%;margin-bottom: -10px;">
-                    <div class="col-sm-1">
-                        <a (click)="onLike(post)">
-                        <img *ngIf="!post.liked" style="max-height: 30px;max-width: 40px;"  src="assets\resources\heart-empty.png"></a>
-                        <a (click)="onUnlike(post)"> <img *ngIf="post.liked" style="max-height: 30px;max-width: 40px;"
+                    <div class="col-sm-2">
+                        <a>
+                        <img (click)="onLike(post)"   style="margin-left: 15%;margin-right: 15%" *ngIf="!post.liked" style="max-height: 30px;max-width: 40px;"  src="assets\resources\heart-empty.png">
+                        </a>
+                        <a> <img (click)="onUnlike(post)"  style="margin-left: 15%;margin-right: 15%" *ngIf="post.liked" style="max-height: 30px;max-width: 40px;"
                           src="assets\resources\2h.png"></a>
 
                     </div>
-                    <div class="col-sm-2">
-                        <p style="font-size: small; margin-top: 5px; margin-left:10px;">{{post.numberOfLikes}}</p>
+                    <div class="col-sm-2" style="padding:0%; margin: 10px;">
+                        <p style="font-size: small;">{{post.numberOfLikes}}</p>
                     </div>
                     <div class="col-sm-1">
                         <a href="#"> <img style="height: 25px;width: 30px; margin-left: 70px;"

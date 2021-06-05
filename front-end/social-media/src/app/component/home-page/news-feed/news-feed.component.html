@@ -1,19 +1,19 @@
 <div id="mydiv" *ngIf="loaded">
-  <button mat-flat-button id="addButton" (click)="onCreate()">Create Post</button>
+  <button mat-flat-button id="addButton" (click)="createPost()">Create Post</button>
 
-  <div *ngFor="let card of posts">
+  <div *ngFor="let newsfeedPost of posts">
     <mat-card id="newsfeedCard">
       <mat-card-header>
         <mat-card-title>
-          <p>{{card.post.user.nickname}}</p>
+          <p>{{newsfeedPost.post.user.nickname}}</p>
         </mat-card-title>
       </mat-card-header>
-      <img src="{{card.post.photo}}" (dblclick)="onLike(card)" (click)="popupPost(card)"
-        style="max-width: 400px;min-width: 100px;max-height: 200px; min-height: 200px;" alt="Card image cap">
+      <img src="{{newsfeedPost.post.photo}}" (click)="popupPost(newsfeedPost)"
+        style="max-width: 400px;min-width: 100px;max-height: 200px; min-height: 200px;" alt="Can't load the image.">
       <mat-card-content>
-        {{card.post.description}}
+        {{newsfeedPost.post.description}}
         <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
-          <mat-chip class="example-box" cdkDrag *ngFor="let tag of card.post.tags">
+          <mat-chip class="example-box" cdkDrag *ngFor="let tag of newsfeedPost.post.tags">
             {{tag.nickname}}
           </mat-chip>
         </mat-chip-list>
@@ -24,20 +24,20 @@
         <div class="container">
           <div class="row">
             <div class="col-sm-1">
-              <a (click)="onLike(card)"> <img *ngIf="!card.liked" style="max-height: 30px;max-width: 40px;"
+              <a (click)="onLike(newsfeedPost)"> <img *ngIf="!newsfeedPost.liked" style="max-height: 30px;max-width: 40px;"
                   src="assets\resources\heart-empty.png"></a>
-              <a (click)="onUnlike(card)"> <img *ngIf="card.liked" style="max-height: 30px;max-width: 40px;"
+              <a (click)="onUnlike(newsfeedPost)"> <img *ngIf="newsfeedPost.liked" style="max-height: 30px;max-width: 40px;"
                   src="assets\resources\2h.png"></a>
 
             </div>
             <div class="col-sm-2">
-              <p style="font-size: small; margin-top: 5px; margin-left:-10px;">{{card.numberOfLikes}}</p>
+              <p style="font-size: small; margin-top: 5px; margin-left:-10px;">{{newsfeedPost.numberOfLikes}}</p>
             </div>
             <div class="col-sm-1">
-              <a (click)="popupPost(card)"> <img style="height: 25px;width: 30px;" src="assets\resources\comment.png"></a>
+              <a (click)="popupPost(newsfeedPost)"> <img style="height: 25px;width: 30px;" src="assets\resources\comment.png"></a>
             </div>
             <div class="col-sm-3">
-              <p style="font-size: small;margin-top: 5px;">{{card.numberOfComments}}</p>
+              <p style="font-size: small;margin-top: 5px;">{{newsfeedPost.numberOfComments}}</p>
             </div>
           </div>
         </div>

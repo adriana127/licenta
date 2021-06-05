@@ -5,16 +5,5 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
-
-  constructor(private snackBar: MatSnackBar
-    ) { 
-      
-     }
-
-  ngOnInit(): void {
-   
-  }
-  
-  
+export class HomeComponent {
 }

@@ -151,3 +151,7 @@ a{color:inherit;text-decoration:none}
 .foot-lnk{
 	text-align:center;
 }
+.invalidFormAlert{
+font-size: 10px;
+color: red;
+}

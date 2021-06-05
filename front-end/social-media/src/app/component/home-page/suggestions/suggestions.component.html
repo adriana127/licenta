@@ -1,12 +1,12 @@
 <div *ngIf="loaded">
-    <div *ngFor="let card of suggestions">
+    <div *ngFor="let suggestion of suggestions">
         <mat-card style="border: none !important;box-shadow: none !important;">
             <mat-card-content>
                 <div class="row">
                     <div class="col-sm-6">
-                        <a [routerLink]="['/profile']" [queryParams]="{ username:card.profile.user.username}">
-                            <img [src]="card.profile.photo" style="width: 50px;height: 50px; border-radius: 50%;"
-                                alt="Card image cap">
+                        <a [routerLink]="['/profile']" [queryParams]="{ username:suggestion.profile.user.username}">
+                            <img [src]="suggestion.profile.photo" style="width: 50px;height: 50px; border-radius: 50%;"
+                                alt="Can't load the image.">
                         </a>
                     </div>
                     <div class="col-sm-6" style="font-size: small; ">
@@ -14,13 +14,13 @@
                         <div class="row">
                             <div class="col-sm-6" style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
 
-                                <p [routerLink]="['/profile']" [queryParams]="{ username:card.profile.user.username}"
+                                <p [routerLink]="['/profile']" [queryParams]="{ username:suggestion.profile.user.username}"
                                     style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
-                                    {{card.profile.user.nickname}}</p>
+                                    {{suggestion.profile.user.nickname}}</p>
 
                                 <div class="col-sm-6" style="font-size: small;padding-left: 0px;">
-                                    <button id="addButton" [disabled]="card.disabled"
-                                        (click)="follow(card.profile.user)">follow</button>
+                                    <button id="addButton" [disabled]="suggestion.disabled"
+                                        (click)="follow(suggestion.profile.user)">follow</button>
                                 </div>
                             </div>
                         </div>

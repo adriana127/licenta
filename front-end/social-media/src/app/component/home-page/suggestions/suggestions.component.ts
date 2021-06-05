@@ -12,31 +12,35 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./suggestions.component.css']
 })
 export class SuggestionsComponent implements OnInit {
-  loaded:boolean=false;
-  suggestions:Suggestion[]=[]
-  constructor(private profileService:ProfileService) { }
+  loaded: boolean = false;
+  suggestions: Suggestion[] = []
+  constructor(private profileService: ProfileService) {
+  }
 
   async ngOnInit() {
     await this.reloadData()
   }
-  async reloadData(){
+
+  async reloadData() {
     await this.profileService.getSuggestions().then(data => {
       data.forEach(profile => {
-        this.suggestions.push({profile:profile,disabled:false})
+        this.suggestions.push({ profile: profile, disabled: false })
       });
     }).catch(err => { console.log(err) })
-    this.loaded=true
+    this.loaded = true
   }
-  async follow(user:User){
-   this.profileService.follow(user).subscribe(data=>{});
-   this.suggestions.forEach(value => {
-    if(value.profile.user.id===user.id)
-      value.disabled=true;
-  });
-   await this.delay(3000)
-   this.suggestions=this.suggestions.filter(va=>va.profile.user!=user)
+
+  async follow(user: User) {
+    this.profileService.follow(user).subscribe(data => { });
+    this.suggestions.forEach(value => {
+      if (value.profile.user.id === user.id)
+        value.disabled = true;
+    });
+    await this.delay(3000)
+    this.suggestions = this.suggestions.filter(va => va.profile.user != user)
   }
+  
   delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-}
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }

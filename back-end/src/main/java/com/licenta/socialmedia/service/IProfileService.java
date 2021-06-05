@@ -13,4 +13,6 @@ public interface IProfileService {
     Optional<Profile> findById(Long id);
 
     List<Profile> getAll();
+    List<Profile> search(String input);
+
 }

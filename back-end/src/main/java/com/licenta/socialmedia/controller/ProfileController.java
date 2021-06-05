@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -133,5 +134,17 @@ public class ProfileController {
                 profile.setPhoto(PhotoUtils.decompressBytes(profile.getPhoto()));
         }
         return following;
+    }
+
+    @RequestMapping(value = "/search/{input}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Profile> searchProfiles(@PathVariable("input") String input) {
+
+        List<Profile> suggestions = profileService.search(input);
+        for (Profile suggestion : suggestions) {
+            if (suggestion.getPhoto() != null)
+                suggestion.setPhoto(PhotoUtils.decompressBytes(suggestion.getPhoto()));
+        }
+        return suggestions;
     }
 }

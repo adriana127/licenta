@@ -21,18 +21,13 @@ import { PostPopupComponent } from '../post-page/post-popup/post-popup.component
 export class HeaderComponent implements OnInit {
   loaded: boolean = false;
   profile!: Profile
-  profilePhoto!: String
   notifications: INotification[] = []
   newNotifications: INotification[] = []
   numberOfNotifications: number = 0;
   hidden: boolean = true;
 
   searchControl = new FormControl();
-  filteredOptions!: Observable<Profile[]>;
-  allProfiles:Profile[]=[]
   options:Profile[]=[]
-  
-
 
   constructor(private authenticationService: AuthenticationService,
               private dialog: MatDialog,
@@ -51,7 +46,7 @@ export class HeaderComponent implements OnInit {
       .pipe()
       .subscribe(posts => {
                   posts.forEach(async notification => {
-                      this.newNotifications.push(notification)})
+                  this.newNotifications.push(notification)})
                   this.numberOfNotifications = this.newNotifications.length
                   this.hidden = this.numberOfNotifications == 0
     });
@@ -64,52 +59,44 @@ export class HeaderComponent implements OnInit {
                   this.numberOfNotifications = this.newNotifications.length
                   this.hidden = this.numberOfNotifications == 0
     });
-
   }
 
   async ngOnInit() {
     this.profile=this.profileService.getPersonalProfile()
     this.loaded = true;
   }
+
   onClick(notification: INotification) {
     if (notification.post)
       this.dialog.open(PostPopupComponent, {
         width: '900px',
         height: '780px',
-        data: {
-          dataKey: this.postService.convertPostToNewsFeedPost(notification.post)
-        }
+        data: {dataKey: this.postService.convertPostToNewsFeedPost(notification.post)}
       })
     else
       this.router.navigate(['/profile'], { queryParams: { username: notification.sender.username } });
   }
+  
   onNotificationOpen() {
-    this.notificationService.openNotifications(this.newNotifications).subscribe(val => { })
-    this.hidden = true
-    this.newNotifications = []
+    this.notificationService.openNotifications(this.newNotifications)
+        .subscribe( () => {
+           this.hidden = true
+           this.newNotifications = []
+        })
   }
-  async onFocus(){
-    this.options=[]
-    await this.profileService.getProfiles().then(data=>{this.allProfiles=data as Profile[]
-      this.allProfiles.forEach(profile=>{
-        profile.photo=this.profileService.fixPhoto(profile)
-      })
-      this.filteredOptions = this.searchControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );})
-  }
-  onSearchChange(){
+
+  async onSearchChange(){
     if(this.searchControl.value.length>0)
-      this.options=this.allProfiles;
-    else
-      this.options=[]
+      await this.profileService.search(this.searchControl.value)
+      .then(results=>{
+        this.options=results as unknown as Profile[]
+        this.options.forEach(profile=>{
+          profile.photo=this.profileService.fixPhoto(profile)
+        })
+      })
+    else this.options=[]
   }
-  private _filter(value: string): Profile[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.user.nickname.toLowerCase().includes(filterValue));
-  }
+
   logout() {
     localStorage.removeItem('currentProfile');
     this.authenticationService.logout()

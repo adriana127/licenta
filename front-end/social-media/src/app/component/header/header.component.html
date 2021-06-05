@@ -1,5 +1,4 @@
 <div *ngIf="loaded">
-
     <body>
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">
@@ -18,7 +17,6 @@
                     <mat-form-field id="search">
                         <input  
                         (input)="onSearchChange()"
-                        (focus)="onFocus()"
                         type="text"
                         placeholder="Search"
                         aria-label="Number"
@@ -27,20 +25,18 @@
                         [matAutocomplete]="auto"
                         aria-label="Search">
                         <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            <mat-option *ngFor="let option of options" [value]="option">
                                 <button mat-menu-item [routerLink]="['/profile']" [queryParams]="{ username:option.user.username}">
                                     <div class="row" style="width: 100%; margin-left: 0%;">
                                         <div class="col-sm-4">
                                             <img [src]="option.photo" style="width: 30px;height: 30px; border-radius: 50%;"
                                                 alt="Card image cap">
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <label style="font-size: smaller;">{{option.user.nickname}}
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-8">
-
-                                        <label style="font-size: smaller;">{{option.user.nickname}}
-                                        </label>
-                                    </div>
-                                </div>
-
                                 </button>
                             </mat-option>
                         </mat-autocomplete>

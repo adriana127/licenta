@@ -66,49 +66,46 @@ export class PostPopupComponent implements OnInit {
   }
   
   async ngOnInit() {
-    await this.postService.getPostById(this.post.post.id).then(result => {
+    this.profile = this.profileService.getPersonalProfile();
+
+    await this.profileService.getProfile(this.post.post.user)
+        .then(data => {
+          this.creatorProfile = data;
+          this.creatorProfile.photo =this.profileService.fixPhoto(this.creatorProfile)
+        }).catch(err => { 
+          console.log(err) })
+          
+    await this.postService.getPostById(this.post.post.id)
+    .then(result => {
       let post=result as Post
-      let isLiked = this.postService.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
+      let isLiked = this.postService.checkIfPostIsLikedByCurrentUser(post.likes, this.profile.user.id)
       post.photo="data:image/jpeg;base64," + post.photo
       this.post={ post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
     })
-      this.profile = this.profileService.getPersonalProfile();
-    if (this.profile.photo != null)
-      this.profile.photo = "data:image/jpeg;base64," + this.profile.photo;
-    else
-      this.profile.photo = "assets/resources/user.png";
-
-    await this.profileService.getProfile(this.post.post.user).then(data => {
-      this.creatorProfile = data;
-    }).catch(err => { console.log(err) })
-    if (this.creatorProfile.photo != null)
-      this.creatorProfile.photo = "data:image/jpeg;base64," + this.creatorProfile.photo;
-    else
-      this.creatorProfile.photo = "assets/resources/user.png";
 
     this.loaded = true
   }
  
-  async onLike(event: NewsFeedPost) {
-    this.like(event.post.id)
-    this.postService.likePost(event.post.id).subscribe(async data => { })
+  onLike(event: NewsFeedPost) {
+    this.postService.likePost(event.post.id)
+    .subscribe(() => {
+      event.liked = true
+      event.numberOfLikes += 1
+     })
+  }
+ 
+  onUnlike(event: NewsFeedPost) {
+    this.postService.unlikePost(event.post.id)
+    .subscribe(() => {
+      event.liked = false
+      event.numberOfLikes -= 1
+     })
+  }
 
-  }
-  like(id: number) {
-
-    this.post.liked = true
-    this.post.numberOfLikes += 1
-
-  }
-  async onUnlike(event: NewsFeedPost) {
-    this.unlike(event.post.id)
-    this.postService.unlikePost(event.post.id).subscribe(async (data: any) => { })
-  }
-  unlike(id: number) {
-    this.post.liked = false
-    this.post.numberOfLikes -= 1
-  }
-  async createComment() {
-    this.postService.commentPost(this.post.post.id, this.inputValue).subscribe(async (data: any) => { this.inputValue = "" })
+  createComment() {
+    this.postService.commentPost(this.post.post.id, this.inputValue)
+    .subscribe(() => { 
+      this.inputValue = "" 
+    })
   }
 }

@@ -22,6 +22,12 @@ export class ProfileService {
             profile.photo = "assets/resources/user.png"
         return profile.photo
     }
+    async search(input:String){
+        let suggestions;
+        await this.restService.get("http://localhost:8080/search/" +input)
+        .then(results=>{suggestions=results})
+        return suggestions
+    }
     async getProfile(user: User) {
         this.user = user;
         await this.restService.get("http://localhost:8080/profile/" + this.user.id)
