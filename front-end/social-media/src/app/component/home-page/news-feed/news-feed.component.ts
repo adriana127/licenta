@@ -19,8 +19,8 @@ export class NewsFeedComponent implements OnInit {
   constructor(private dialog: MatDialog,
      private postService: PostService,
      private authenticationService:AuthenticationService,
-     private websocketService:WebSocketService) {
-      //  this.popupPost()
+    ) {
+
       this.posts=[]
     this.postService.findAll().pipe(map(posts => posts.sort(NewsFeedComponent.descendingByPostedAt)))
     .subscribe(posts => {

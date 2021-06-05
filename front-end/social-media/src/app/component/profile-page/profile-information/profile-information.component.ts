@@ -8,6 +8,7 @@ import { PostService } from 'src/app/service/post.service';
 import { UserService } from 'src/app/service/user.service';
 import { ProfileService } from '../../../service/profile.service';
 import { EditProfileComponent } from '../edit-profile/edit-profile.component';
+import { FollowDetailsComponent } from '../follow-details/follow-details.component';
 
 @Component({
   selector: 'app-profile-information',
@@ -20,6 +21,8 @@ export class ProfileInformationComponent implements OnInit {
   profilePhoto!: string;
   loaded: boolean = false;
   postsNumber!: number;
+  followers!:Profile[]
+  following!:Profile[]
   followersNumber!: number;
   followingNumber!: number;
   isPersonalProfile: boolean = false
@@ -57,10 +60,12 @@ export class ProfileInformationComponent implements OnInit {
 
 
     await this.profileService.getFollowers(this.user).then(data => {
+      this.followers=data
       this.followersNumber = data.length;
     }).catch(err => { console.log(err) })
 
     await this.profileService.getFollwing(this.user).then(data => {
+      this.following=data
       this.followingNumber = data.length;
     }).catch(err => { console.log(err) })
     
@@ -73,19 +78,31 @@ export class ProfileInformationComponent implements OnInit {
       height: '700px'
     })
   }
+  followDetails(value:boolean) {
+    let details
+    if(value)
+    details={profiles:this.followers,followers:true}
+    else
+    details={profiles:this.following,followers:false}
+    this.dialog.open(FollowDetailsComponent, {
+      width: '600px',
+      height: '700px',
+      data: {
+        dataKey: details
+      }
+    })
+  }
   follow() {
 
     this.profileService.follow(this.user).subscribe(
       data => {
         this.followed=true;
-
       }, err => {
         alert(err.message)
       });
   }
   unfollow() {
-
-    this.profileService.unfollow(this.user).subscribe(
+    this.profileService.unfollow(this.authenticationService.getCurrentUser(),this.user).subscribe(
       data => {
         this.followed=false;
       }, err => {

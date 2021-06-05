@@ -32,7 +32,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatBadgeModule} from '@angular/material/badge'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatMenuModule} from '@angular/material/menu'; 
-import { CommentsSectionComponent } from './component/post-page/comments-section/comments-section.component'; 
+import { CommentsSectionComponent } from './component/post-page/comments-section/comments-section.component';
+import { FollowDetailsComponent } from './component/profile-page/follow-details/follow-details.component';
+import { CurrentChatComponent } from './component/chat-page/current-chat/current-chat.component';
+import { ActiveChatsComponent } from './component/chat-page/active-chats/active-chats.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +52,9 @@ import { CommentsSectionComponent } from './component/post-page/comments-section
     ProfilePostsComponent,
     PostPopupComponent,
     CommentsSectionComponent,
+    FollowDetailsComponent,
+    CurrentChatComponent,
+    ActiveChatsComponent,
   ],
   imports: [
     BrowserModule,

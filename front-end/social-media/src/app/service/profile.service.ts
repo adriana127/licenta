@@ -114,8 +114,8 @@ export class ProfileService {
         )
     }
 
-    unfollow(user: User) {
-        return this.restService.post("unfollow", { id: 0, follower: this.authenticationService.getCurrentUser(), followed: user }).pipe(
+    unfollow(follower: User,followed:User) {
+        return this.restService.post("unfollow", { id: 0, follower: follower, followed: followed }).pipe(
             tap(data => {
                 return data;
             })

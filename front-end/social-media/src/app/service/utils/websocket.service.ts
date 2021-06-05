@@ -15,6 +15,7 @@ export class WebSocketService {
     webSocket = new SockJS(this.URL)
     stompClient = Stomp.over(this.webSocket);
     private state: BehaviorSubject<SocketClientState>;
+
     private connect(): Observable<Client> {
         return new Observable<Client>(observer => {
             this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
@@ -22,6 +23,7 @@ export class WebSocketService {
             });
         });
     }
+    
     subscribeToNotifications(topic: any, handler = WebSocketService.jsonHandler): Observable<any> {
         return this.connect().pipe(first(), switchMap(client => {
             return new Observable<any>(observer => {
@@ -31,16 +33,11 @@ export class WebSocketService {
             });
         }));
     }
-    onPlainMessage(topic: string): Observable<string> {
-        return this.subscribeToNotifications(topic, WebSocketService.textHandler);
-    }
+
     static jsonHandler(message: Message): any {
         return JSON.parse(message.body);
     }
 
-    static textHandler(message: Message): string {
-        return message.body;
-    }
 
 
     disconnect() {

@@ -98,6 +98,7 @@ public class ProfileController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(path = "/unfollow")
     public void unfollow(@RequestBody Follow follow) throws Exception {
+        if(followService.getFollowByUsers(follow.getFollower(),follow.getFollowed())!=null)
         followService.delete(followService.getFollowByUsers(follow.getFollower(),follow.getFollowed()));
     }
 
