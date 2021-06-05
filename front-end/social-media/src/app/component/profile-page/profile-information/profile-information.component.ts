@@ -42,7 +42,6 @@ export class ProfileInformationComponent implements OnInit {
   }
   async reloadData() {
     await this.userService.loadData()
-    await this.profileService.loadData()
     if (this.route.snapshot.queryParamMap.get('username') == this.authenticationService.getCurrentUser().username) {
       this.user = this.authenticationService.getCurrentUser()
       this.profile = this.profileService.getPersonalProfile();
@@ -56,8 +55,6 @@ export class ProfileInformationComponent implements OnInit {
         this.followed=true
       })
   }
-      this.profile.photo = this.profileService.fixPhoto(this.profile)
-
 
     await this.profileService.getFollowers(this.user).then(data => {
       this.followers=data

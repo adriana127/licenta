@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/internal/operators/tap';
 import { RestService } from '../utils/rest.service';
 import { TokenService } from './token.service';
+import { ProfileComponent } from 'src/app/component/profile-page/profile/profile.component';
+import { ProfileService } from '../profile.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -13,7 +15,6 @@ export class AuthenticationService {
   check: boolean = false;
 
   constructor(
-    private router: Router,
     private restRequestService: RestService,
     private tokenService: TokenService) {
     this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')!));
@@ -33,6 +34,7 @@ export class AuthenticationService {
         if (data.accessToken) {
           this.tokenService.setToken(data.accessToken);
          this.setCurrentUser(data.user);
+
           return data;
         }
       })

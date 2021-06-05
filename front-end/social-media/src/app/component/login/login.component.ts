@@ -51,7 +51,9 @@ export class LoginComponent implements OnInit {
   async login() {
     this.authenticationService.login(this.loginForm.getRawValue())
       .subscribe(async data => {
-          await this.profileService.loadData()
+        this.profileService.getProfile(data.user).then(data=>{
+          this.profileService.setCurrentProfile(data)
+         });
           this.router.navigateByUrl("/home");
 
       }, err => {

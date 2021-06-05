@@ -4,6 +4,7 @@ import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
 import { Profile } from '../model/profile';
 import { tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -11,19 +12,15 @@ import { tap } from 'rxjs/operators';
 
 export class ProfileService {
     profile!: Profile
-    personalProfile!: Profile
     user!: User;
+    private currentProfileSubject!: BehaviorSubject<any>;
 
-    getPersonalProfile() {
-        
-        return this.personalProfile;
-    }
-    fixPhoto(profile:Profile){
+    fixPhoto(profile: Profile) {
         if (profile.photo != null)
-        profile.photo = "data:image/jpeg;base64," + profile.photo
-            else
+            profile.photo = "data:image/jpeg;base64," + profile.photo
+        else
             profile.photo = "assets/resources/user.png"
-            return profile.photo
+        return profile.photo
     }
     async getProfile(user: User) {
         this.user = user;
@@ -35,11 +32,11 @@ export class ProfileService {
     }
     async getProfiles() {
         return this.restService.get("http://localhost:8080/profiles/")
-    
-      }
-     checkFollow(user:User) {
-        return this.restService.post("checkFollow",  { id: 0, follower: this.authenticationService.getCurrentUser(), followed: user });
-      }
+
+    }
+    checkFollow(user: User) {
+        return this.restService.post("checkFollow", { id: 0, follower: this.authenticationService.getCurrentUser(), followed: user });
+    }
     updateProfile(profile: Profile, photo: any) {
         if (photo != undefined) {
             const formData: FormData = new FormData();
@@ -114,7 +111,7 @@ export class ProfileService {
         )
     }
 
-    unfollow(follower: User,followed:User) {
+    unfollow(follower: User, followed: User) {
         return this.restService.post("unfollow", { id: 0, follower: follower, followed: followed }).pipe(
             tap(data => {
                 return data;
@@ -122,14 +119,17 @@ export class ProfileService {
         )
     }
 
-    async loadData() {
 
-        await this.restService.get("http://localhost:8080/profile/" + this.authenticationService.getCurrentUser().id)
-            .then(result => {
-                this.personalProfile = result as Profile
-            })
+    getPersonalProfile(): Profile {
+        return this.currentProfileSubject.getValue();
+      }
+      setCurrentProfile(profile:Profile){
+        localStorage.setItem('currentProfile', JSON.stringify(profile));
+        this.currentProfileSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentProfile')!));
     }
-
+    
     constructor(private restService: RestService,
-        private authenticationService: AuthenticationService) { }
+                private authenticationService: AuthenticationService) {
+        this.currentProfileSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentProfile')!));
+    }
 }

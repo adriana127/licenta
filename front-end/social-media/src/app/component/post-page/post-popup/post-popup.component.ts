@@ -72,10 +72,7 @@ export class PostPopupComponent implements OnInit {
       post.photo="data:image/jpeg;base64," + post.photo
       this.post={ post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
     })
-    await this.profileService.loadData()
-    await this.profileService.getProfile(this.authenticationService.getCurrentUser()).then(data => {
-      this.profile = data;
-    }).catch(err => { console.log(err) })
+      this.profile = this.profileService.getPersonalProfile();
     if (this.profile.photo != null)
       this.profile.photo = "data:image/jpeg;base64," + this.profile.photo;
     else

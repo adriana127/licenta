@@ -20,7 +20,6 @@ import { PostPopupComponent } from '../post-page/post-popup/post-popup.component
 })
 export class HeaderComponent implements OnInit {
   loaded: boolean = false;
-  user: User
   profile!: Profile
   profilePhoto!: String
   notifications: INotification[] = []
@@ -66,12 +65,10 @@ export class HeaderComponent implements OnInit {
                   this.hidden = this.numberOfNotifications == 0
     });
 
-    this.user = authenticationService.getCurrentUser()
   }
 
   async ngOnInit() {
-    await this.profileService.loadData()
-    this.profilePhoto = this.profileService.fixPhoto(this.profileService.getPersonalProfile())
+    this.profile=this.profileService.getPersonalProfile()
     this.loaded = true;
   }
   onClick(notification: INotification) {
@@ -114,6 +111,7 @@ export class HeaderComponent implements OnInit {
     return this.options.filter(option => option.user.nickname.toLowerCase().includes(filterValue));
   }
   logout() {
+    localStorage.removeItem('currentProfile');
     this.authenticationService.logout()
   }
 

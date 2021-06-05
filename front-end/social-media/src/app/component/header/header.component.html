@@ -66,14 +66,14 @@
                 </div>
 
                 <div class="col-sm-1">
-                    <a routerLink="/profile" [queryParams]="{ username:user.username}">
-                        <p id="username">{{user.nickname}}</p>
+                    <a routerLink="/profile" [queryParams]="{ username:profile.user.username}">
+                        <p id="username">{{profile.user.nickname}}</p>
                     </a>
                 </div>
 
                 <div class="col-sm-1">
-                    <a routerLink="/profile" [queryParams]="{username:user.username}">
-                        <img id="profilePhoto" [src]="profilePhoto">
+                    <a routerLink="/profile" [queryParams]="{username:profile.user.username}">
+                        <img id="profilePhoto" [src]="profile.photo">
                     </a>
                 </div>
 

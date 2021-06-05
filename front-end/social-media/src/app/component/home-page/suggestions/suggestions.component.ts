@@ -20,7 +20,6 @@ export class SuggestionsComponent implements OnInit {
     await this.reloadData()
   }
   async reloadData(){
-    await this.profileService.loadData()
     await this.profileService.getSuggestions().then(data => {
       data.forEach(profile => {
         this.suggestions.push({profile:profile,disabled:false})
