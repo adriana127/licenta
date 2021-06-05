@@ -38,7 +38,7 @@ public class FollowService implements IFollowService {
 
     @Override
     public void delete(Follow follow) {
-        followRepository.delete(followRepository.findByFollowerAndFollowed(follow.getFollower(), follow.getFollower()));
+        followRepository.delete(follow);
     }
 
     @Override
@@ -73,5 +73,10 @@ public class FollowService implements IFollowService {
             profiles.add(profileRepository.findByUser(follow.getFollowed()));
         }
         return profiles;
+    }
+
+    @Override
+    public Follow getFollowByUsers(User follower, User followed) {
+        return followRepository.findByFollowerAndFollowed(follower,followed);
     }
 }

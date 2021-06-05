@@ -14,7 +14,8 @@
                 </div>
                 <div class="col-sm-6">
                     <button *ngIf="isPersonalProfile" mat-flat-button id="addButton" (click)="editProfile()">Edit Profile</button>
-                    <button *ngIf="!isPersonalProfile" mat-flat-button id="addButton" (click)="follow()">Follow</button>
+                    <button *ngIf="!isPersonalProfile&&!followed" mat-flat-button id="addButton" (click)="follow()">Follow</button>
+                    <button *ngIf="!isPersonalProfile&&followed" mat-flat-button id="addButton" (click)="unfollow()">Unfollow</button>
                
                 </div>
             </div>

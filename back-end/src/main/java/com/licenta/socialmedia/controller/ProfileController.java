@@ -89,11 +89,16 @@ public class ProfileController {
 
         return followService.add(follow);
     }
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(path = "/checkFollow")
+    public Follow checkFollow(@RequestBody Follow follow) throws Exception {
+        return followService.getFollowByUsers(follow.getFollower(),follow.getFollowed());
+    }
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping(path = "/unfollow")
     public void unfollow(@RequestBody Follow follow) throws Exception {
-        followService.delete(follow);
+        followService.delete(followService.getFollowByUsers(follow.getFollower(),follow.getFollowed()));
     }
 
     @RequestMapping(value = "/suggestions/{id}", method = RequestMethod.GET)

@@ -37,6 +37,9 @@ export class ProfileService {
         return this.restService.get("http://localhost:8080/profiles/")
     
       }
+     checkFollow(user:User) {
+        return this.restService.post("checkFollow",  { id: 0, follower: this.authenticationService.getCurrentUser(), followed: user });
+      }
     updateProfile(profile: Profile, photo: any) {
         if (photo != undefined) {
             const formData: FormData = new FormData();

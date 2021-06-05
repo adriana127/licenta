@@ -23,7 +23,7 @@ export class ProfileInformationComponent implements OnInit {
   followersNumber!: number;
   followingNumber!: number;
   isPersonalProfile: boolean = false
-
+  followed:boolean=false;
   constructor(private dialog: MatDialog,
     public route: ActivatedRoute,
     private authenticationService: AuthenticationService,
@@ -47,7 +47,11 @@ export class ProfileInformationComponent implements OnInit {
     }
     else
       {this.user = this.userService.getByUsername(this.route.snapshot.queryParamMap.get('username')!) as unknown as User
-      await this.profileService.getProfile(this.user).then(profile=>{this.profile=profile})
+      await this.profileService.getProfile(this.user).then(profile=>{this.profile=profile});
+      this.profileService.checkFollow(this.user).subscribe(data=>{
+        if(data)
+        this.followed=true
+      })
   }
       this.profile.photo = this.profileService.fixPhoto(this.profile)
 
@@ -73,6 +77,17 @@ export class ProfileInformationComponent implements OnInit {
 
     this.profileService.follow(this.user).subscribe(
       data => {
+        this.followed=true;
+
+      }, err => {
+        alert(err.message)
+      });
+  }
+  unfollow() {
+
+    this.profileService.unfollow(this.user).subscribe(
+      data => {
+        this.followed=false;
       }, err => {
         alert(err.message)
       });

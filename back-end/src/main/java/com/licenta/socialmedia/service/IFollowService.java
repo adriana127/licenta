@@ -19,4 +19,5 @@ public interface IFollowService {
 
     List<Profile> getFollowing(User user);
 
+    Follow getFollowByUsers(User follower,User followed);
 }
