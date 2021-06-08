@@ -13,12 +13,16 @@ import { PostComment } from '../model/comment';
 @Injectable({
   providedIn: 'root'
 })
-
 export class PostService {
   posts!: Post[]
   newsfeedposts: NewsFeedPost[] = []
   personalPosts: NewsFeedPost[] = []
   user!: User
+
+  constructor(private restService: RestService,
+    private authenticationService: AuthenticationService,
+    private socketClient: WebSocketService) {
+ }
 
   public createPost(user: Post, image: File) {
     const formData: FormData = new FormData();
@@ -42,10 +46,8 @@ export class PostService {
     return this.restService.post("addComment", { postId: postId, comment: { user: this.authenticationService.getCurrentUser(),message:message,createdOn:new Date() } });
   }
 
-
   async getPostById(postId: number) {
     return this.restService.get("http://localhost:8080/post/" + postId)
-
   }
 
   checkIfPostIsLikedByCurrentUser(likes: Like[], userId: number) {
@@ -56,11 +58,19 @@ export class PostService {
     })
     return result
   }
-  findAll(): Observable<Post[]> {
+
+  convertPostToNewsFeedPost(post:Post):NewsFeedPost{
+    let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
+    post.photo="data:image/jpeg;base64," + post.photo
+    return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
+  }
+
+  findAll(numberOfRequest:number): Observable<Post[]> {
     return this.socketClient
-      .subscribeToNotifications('/topic/posts/newsfeed/'+this.authenticationService.getCurrentUser().id)
+      .subscribeToNotifications('/topic/posts/newsfeed/'+this.authenticationService.getCurrentUser().id+"/"+numberOfRequest)
       .pipe(first(), map(posts => posts.map(PostService.getPostListing)));
   }
+  
   onPost(): any{
     return this.socketClient.subscribeToNotifications('/topic/posts/created/'+this.authenticationService.getCurrentUser().id).pipe(map(post => PostService.getPostListing(post)));
   }
@@ -74,34 +84,21 @@ export class PostService {
     return this.socketClient.subscribeToNotifications('/topic/comments/created/'+post.id).pipe(map(post => PostService.getPostListing(post)));
   }
 
-  convertPostToNewsFeedPost(post:Post):NewsFeedPost{
-    let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
-    post.photo="data:image/jpeg;base64," + post.photo
-    return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
-  }
   static getPostListing(post: any): any {
     const postedAt = new Date(post['createdOn']);
     return {...post, postedAt};
   }
+
   async loadData(user: User) {
     this.user = user
-    this.newsfeedposts = []
     this.personalPosts = []
-
      
     await this.restService.get("http://localhost:8080/personalPosts/" + user.id)
       .then(res => {
         let posts = res as Post[]
         posts.forEach((post: Post) => {
-          let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.user.id)
-          post.photo="data:image/jpeg;base64," + post.photo
-          this.personalPosts.push({ post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags })
+          this.personalPosts.push(this.convertPostToNewsFeedPost(post))
         })
       })
   }
-  constructor(private restService: RestService,
-     private authenticationService: AuthenticationService,
-     private socketClient: WebSocketService) {
-  }
-
 }

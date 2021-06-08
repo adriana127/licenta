@@ -4,10 +4,14 @@ import com.licenta.socialmedia.model.Post;
 import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.repository.IPostRepository;
+import com.licenta.socialmedia.repository.IUserRepository;
 import com.licenta.socialmedia.service.IPostService;
 import com.licenta.socialmedia.util.NotificationEndpoints;
 import com.licenta.socialmedia.util.PhotoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +21,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.licenta.socialmedia.util.NotificationEndpoints.POST_CREATED;
+
 @Service
 public class PostService implements IPostService {
     @Autowired
@@ -24,7 +30,8 @@ public class PostService implements IPostService {
 
     @Autowired
     IPostRepository postRepository;
-
+    @Autowired
+    IUserRepository userRepository;
     @Override
     public Post add(Post post, List<Profile> followers) {
         boolean existing=post.getId()==0;
@@ -32,7 +39,7 @@ public class PostService implements IPostService {
         post.setPhoto(PhotoUtils.decompressBytes(post.getPhoto()));
         if(existing)
         for(var profile:followers){
-            template.convertAndSend(NotificationEndpoints.POST_CREATED+profile.getUser().getId(), post);
+            template.convertAndSend(POST_CREATED+profile.getUser().getId(), post);
         }
         return post;
     }
@@ -53,24 +60,21 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public List<Post> getNewsFeedPosts(Long id, List<Profile> following) {
-        List<Post> allPosts=(List<Post>)postRepository.findAll();
-        List<Post> newsfeed = new ArrayList<>();
-        for (var profile:following) {
-            var list=allPosts.stream().filter(post -> profile.getUser().getId() == post.getUser().getId()).collect(Collectors.toList());
-            newsfeed= Stream.concat(newsfeed.stream(), list.stream())
-                    .collect(Collectors.toList());
-        }
-        newsfeed.forEach(post -> {
+    public List<Post> getNewsFeedPosts(Long id, List<Profile> following,int numberOfRequests) {
+        List<Long> ids = following.stream().map(Profile->Profile.getUser().getId()).collect(Collectors.toList());
+        List<Post> allPosts=postRepository.findAllByUserIds(ids,PageRequest.of(numberOfRequests,4)).getContent();
+
+        allPosts.forEach(post -> {
             post.setPhoto(PhotoUtils.decompressBytes(post.getPhoto()));
         });
 
-        return newsfeed;
+        return allPosts;
     }
 
     @Override
     public List<Post> getPersonalPosts(Long id) {
-        var newsfeed = (List<Post>) postRepository.findAll();
+        Pageable pageable =  PageRequest.of(0 , Integer.MAX_VALUE);
+        var newsfeed =  postRepository.findAllByUser_Id(id,pageable).getContent();
         return newsfeed.stream().filter(post -> post.getUser().getId() == id).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatMenu } from '@angular/material/menu';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -18,7 +19,9 @@ import { PostPopupComponent } from '../post-page/post-popup/post-popup.component
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements AfterViewInit {
+  @ViewChild(MatMenu, { static: false }) matMenu!: MatMenu;
+
   loaded: boolean = false;
   profile!: Profile
   notifications: INotification[] = []
@@ -28,14 +31,14 @@ export class HeaderComponent implements OnInit {
 
   searchControl = new FormControl();
   options:Profile[]=[]
-
+  loadMoreNotificationsRequestNumber:number=0
   constructor(private authenticationService: AuthenticationService,
               private dialog: MatDialog,
               private profileService: ProfileService,
               private notificationService: NotificationService,
               private postService: PostService,
               private router: Router) {
-    this.notificationService.findAll()
+    this.notificationService.findAll(this.loadMoreNotificationsRequestNumber)
       .pipe()
       .subscribe(posts => {
                   posts.forEach(async notification => {
@@ -44,9 +47,10 @@ export class HeaderComponent implements OnInit {
 
     this.notificationService.findNew()
       .pipe()
-      .subscribe(posts => {
-                  posts.forEach(async notification => {
+      .subscribe(notifications => {
+                  notifications.forEach(async notification => {
                   this.newNotifications.push(notification)})
+                  this.notifications=this.notifications.sort((notification1,notification2) => (notification2.createdOn < notification1.createdOn) ? 1 : ((notification1.createdOn < notification2.createdOn) ? -1 : 0))
                   this.numberOfNotifications = this.newNotifications.length
                   this.hidden = this.numberOfNotifications == 0
     });
@@ -55,15 +59,19 @@ export class HeaderComponent implements OnInit {
       .onNotification()
       .subscribe(async (notification: INotification) => {
                   this.notifications.push(notification)
+                  this.notifications=this.notifications.sort((notification1,notification2) => (notification2.createdOn > notification1.createdOn) ? 1 : ((notification1.createdOn > notification2.createdOn) ? -1 : 0))
                   this.newNotifications.push(notification)
                   this.numberOfNotifications = this.newNotifications.length
                   this.hidden = this.numberOfNotifications == 0
     });
-  }
-
-  async ngOnInit() {
     this.profile=this.profileService.getPersonalProfile()
     this.loaded = true;
+  }
+
+  ngAfterViewInit(): void {
+    this.matMenu.closed.subscribe(()=>{
+      this.onMenuClose()
+    })
   }
 
   onClick(notification: INotification) {
@@ -85,6 +93,21 @@ export class HeaderComponent implements OnInit {
         })
   }
 
+  onMenuClose(){
+    console.log("focus out")
+    this.onNotificationOpen()
+  }
+
+  loadMoreNotifications(){
+    this.loadMoreNotificationsRequestNumber+=1
+    this.notificationService.findAll(this.loadMoreNotificationsRequestNumber)
+      .pipe()
+      .subscribe(posts => {
+                  posts.forEach(async notification => {
+                  this.notifications.push(notification)})
+    });
+  }
+  
   async onSearchChange(){
     if(this.searchControl.value.length>0)
       await this.profileService.search(this.searchControl.value)

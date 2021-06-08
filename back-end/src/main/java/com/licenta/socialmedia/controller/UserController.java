@@ -5,6 +5,7 @@ import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.service.implementation.ProfileService;
 import com.licenta.socialmedia.service.implementation.UserService;
+import com.licenta.socialmedia.util.PhotoUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,10 @@ public class UserController {
     @PostMapping("/deleteUser")
     public void deleteUser(@RequestBody User user) throws Exception {
         userService.delete(user);
+    }
+    @RequestMapping(value = "/user/{input}", method = RequestMethod.GET)
+    @ResponseBody
+    public User searchByUsername(@PathVariable("input") String input) {
+        return userService.findByUsername(input).get();
     }
 }

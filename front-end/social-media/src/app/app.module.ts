@@ -36,6 +36,7 @@ import { CommentsSectionComponent } from './component/post-page/comments-section
 import { FollowDetailsComponent } from './component/profile-page/follow-details/follow-details.component';
 import { CurrentChatComponent } from './component/chat-page/current-chat/current-chat.component';
 import { ActiveChatsComponent } from './component/chat-page/active-chats/active-chats.component';
+import { ChatComponent } from './component/chat-page/chat/chat.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +56,7 @@ import { ActiveChatsComponent } from './component/chat-page/active-chats/active-
     FollowDetailsComponent,
     CurrentChatComponent,
     ActiveChatsComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule,

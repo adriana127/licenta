@@ -15,7 +15,7 @@ public interface INotificationService {
 
     void delete(Notification notification);
 
-    List<Notification> findPersonalNotifications(Long id);
+    List<Notification> findPersonalNotifications(Long id,int numberOfRequests);
     List<Notification> findNewNotifications(Long id);
 
     Optional<Notification> findById(Long id);

@@ -17,16 +17,13 @@ import { FollowDetailsComponent } from '../follow-details/follow-details.compone
 })
 export class ProfileInformationComponent implements OnInit {
   profile!: Profile;
-  user!: User;
-  profilePhoto!: string;
   loaded: boolean = false;
   postsNumber!: number;
   followers!:Profile[]
   following!:Profile[]
-  followersNumber!: number;
-  followingNumber!: number;
   isPersonalProfile: boolean = false
   followed:boolean=false;
+
   constructor(private dialog: MatDialog,
     public route: ActivatedRoute,
     private authenticationService: AuthenticationService,
@@ -38,69 +35,66 @@ export class ProfileInformationComponent implements OnInit {
     }
 
   async ngOnInit() {
-    await this.reloadData()
-  }
-  async reloadData() {
-    await this.userService.loadData()
     if (this.route.snapshot.queryParamMap.get('username') == this.authenticationService.getCurrentUser().username) {
-      this.user = this.authenticationService.getCurrentUser()
-      this.profile = this.profileService.getPersonalProfile();
-      this.isPersonalProfile = true;
+        this.profile = this.profileService.getPersonalProfile();
+        this.isPersonalProfile = true;
     }
     else
-      {this.user = this.userService.getByUsername(this.route.snapshot.queryParamMap.get('username')!) as unknown as User
-      await this.profileService.getProfile(this.user).then(profile=>{this.profile=profile});
-      this.profileService.checkFollow(this.user).subscribe(data=>{
-        if(data)
-        this.followed=true
-      })
-  }
+      await this.userService.getByUsername(this.route.snapshot.queryParamMap.get('username')!)
+      .then(async result=>{
+        await this.profileService.getProfile(result as unknown as User).then(profile=>{this.profile=profile});
+          this.profileService.checkFollow(result as unknown as User).subscribe(data=>{
+            if(data)
+              this.followed=true
+            })
+        }).catch()
 
-    await this.profileService.getFollowers(this.user).then(data => {
+    await this.profileService.getFollowers(this.profile.user)
+    .then(data => {
       this.followers=data
-      this.followersNumber = data.length;
     }).catch(err => { console.log(err) })
 
-    await this.profileService.getFollwing(this.user).then(data => {
+    await this.profileService.getFollwing(this.profile.user)
+    .then(data => {
       this.following=data
-      this.followingNumber = data.length;
     }).catch(err => { console.log(err) })
     
     this.postsNumber = this.postService.getPersonalPosts().length
     this.loaded = true;
   }
+
   editProfile() {
     this.dialog.open(EditProfileComponent, {
       width: '600px',
       height: '700px'
     })
   }
+
   followDetails(value:boolean) {
     let details
     if(value)
-    details={profiles:this.followers,followers:true}
+      details={profiles:this.followers,followers:true}
     else
-    details={profiles:this.following,followers:false}
-    this.dialog.open(FollowDetailsComponent, {
+      details={profiles:this.following,followers:false}
+    this.dialog.open(FollowDetailsComponent,{
       width: '600px',
       height: '700px',
-      data: {
-        dataKey: details
-      }
+      data: {dataKey: details}
     })
   }
-  follow() {
 
-    this.profileService.follow(this.user).subscribe(
-      data => {
+  follow() {
+    this.profileService.follow(this.profile.user)
+    .subscribe(() => {
         this.followed=true;
       }, err => {
         alert(err.message)
       });
   }
+
   unfollow() {
-    this.profileService.unfollow(this.authenticationService.getCurrentUser(),this.user).subscribe(
-      data => {
+    this.profileService.unfollow(this.authenticationService.getCurrentUser(),this.profile.user)
+    .subscribe(() => {
         this.followed=false;
       }, err => {
         alert(err.message)

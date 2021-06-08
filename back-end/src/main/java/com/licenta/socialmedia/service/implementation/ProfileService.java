@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProfileService implements IProfileService {
@@ -39,18 +38,17 @@ public class ProfileService implements IProfileService {
 
     @Override
     public List<Profile> search(String input) {
-        List<Profile> allProfiles= (List<Profile>) profileRepository.findAll();
-        List<Profile> suggestions=new ArrayList<>();
-        allProfiles.forEach(profile->{
-            if(profile.getUser().getNickname().contains(input))
+        List<Profile> allProfiles = (List<Profile>) profileRepository.findAll();
+        List<Profile> suggestions = new ArrayList<>();
+        allProfiles.forEach(profile -> {
+            if (profile.getUser().getNickname().contains(input))
                 suggestions.add(profile);
-            else
-                if(profile.getDisplayName()!=null)
-                    if(profile.getDisplayName().contains(input))
-                        suggestions.add(profile);
+            else if (profile.getDisplayName() != null)
+                if (profile.getDisplayName().contains(input))
+                    suggestions.add(profile);
         });
-        if(suggestions.isEmpty())
-        return new ArrayList<>();
+        if (suggestions.isEmpty())
+            return new ArrayList<>();
         else return suggestions;
     }
 

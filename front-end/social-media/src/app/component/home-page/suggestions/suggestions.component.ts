@@ -1,10 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Profile } from 'src/app/model/profile';
+import { Component, OnInit } from '@angular/core';
 import { Suggestion } from 'src/app/model/suggestion';
 import { User } from 'src/app/model/user';
-import { FollowService } from 'src/app/service/follow.service';
 import { ProfileService } from 'src/app/service/profile.service';
-import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-suggestions',

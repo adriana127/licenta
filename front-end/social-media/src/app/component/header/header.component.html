@@ -43,24 +43,48 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-sm-2" style="margin-left: 40px;">
+                <div class="col-sm-1" style="margin-left: 40px;">
                     <button [matMenuTriggerFor]="menu" [matBadge]="numberOfNotifications" matBadgeColor="warn"
                         [matBadgeHidden]="hidden"
+                        
                         style="padding-top: 0px;padding-right: 0px;background-color:transparent;border: transparent;">
                         <img id="notification" src="assets/resources/notification.png" (click)="onNotificationOpen()">
                     </button>
 
-                    <mat-menu #menu="matMenu">
+                    <mat-menu #menu="matMenu" (mouseleave)="onMenuClose()">
                         <div *ngFor="let notification of notifications" style="width: 200px;">
                             <button mat-menu-item (click)="onClick(notification)">
-                                <div class="row" style="padding-top: 10px;margin-left: 5%;">
                                     <label style="font-size: smaller;">{{notification.message}}</label>
-                                </div>
                             </button>
                         </div>
+                        <button mat-menu-item style="width: 100%; background-color: wheat;" (click)="loadMoreNotifications()" (click)="$event.stopPropagation();">
+                            <div class="row" style="padding-top: 10px;margin-left: 5%; ">
+                                <label style="font-size: smaller;">Load more notifications.</label>
+                            </div>
+                        </button>
                     </mat-menu>
                 </div>
+                <div class="col-sm-1">
+                    <button [matMenuTriggerFor]="menu" [matBadge]="numberOfNotifications" matBadgeColor="warn"
+                        [matBadgeHidden]="hidden"
+                        
+                        style="padding-top: 0px;padding-right: 0px;background-color:transparent;border: transparent;">
+                        <img id="notification" src="assets/resources/chat.png" (click)="onNotificationOpen()">
+                    </button>
 
+                    <mat-menu #menu="matMenu" (mouseleave)="onMenuClose()">
+                        <div *ngFor="let notification of notifications" style="width: 200px;">
+                            <button mat-menu-item (click)="onClick(notification)">
+                                    <label style="font-size: smaller;">{{notification.message}}</label>
+                            </button>
+                        </div>
+                        <button mat-menu-item style="width: 100%; background-color: wheat;" (click)="loadMoreNotifications()" (click)="$event.stopPropagation();">
+                            <div class="row" style="padding-top: 10px;margin-left: 5%; ">
+                                <label style="font-size: smaller;">Load more notifications.</label>
+                            </div>
+                        </button>
+                    </mat-menu>
+                </div>
                 <div class="col-sm-1">
                     <a routerLink="/profile" [queryParams]="{ username:profile.user.username}">
                         <p id="username">{{profile.user.nickname}}</p>

@@ -5,7 +5,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class TokenService {
   public currentToken: Observable<string>
   private currentTokenSubject!: BehaviorSubject<any>;
-  check: boolean = false;
 
   constructor() {
     this.currentTokenSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('accessToken')!));

@@ -4,8 +4,8 @@ import { TokenService } from './token.service';
 
 @Injectable()
 export class HtppInterceptor implements HttpInterceptor {
-
-    constructor(private token: TokenService) { }
+    constructor(private token: TokenService) { 
+    }
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
         let token = this.token.getToken()

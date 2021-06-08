@@ -16,7 +16,7 @@ public interface IPostService {
 
     List<Post> getAll();
 
-    List<Post> getNewsFeedPosts(Long id, List<Profile> following);
+    List<Post> getNewsFeedPosts(Long id, List<Profile> following,int numberOfRequests);
 
     List<Post> getPersonalPosts(Long id);
 }

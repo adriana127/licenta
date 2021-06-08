@@ -19,9 +19,10 @@ public class NotificationController {
     @Autowired
     private final NotificationService notificationService;
 
-    @SubscribeMapping(value = "/notifications/get/{id}")
-    public List<Notification> getNotifications(@DestinationVariable("id") long id) {
-        return notificationService.findPersonalNotifications(id);
+    @SubscribeMapping(value = "/notifications/get/{id}/{numberOfRequests}")
+    public List<Notification> getNotifications(@DestinationVariable("id") long id,
+                                               @DestinationVariable("numberOfRequests") int numberOfRequests) {
+        return notificationService.findPersonalNotifications(id,numberOfRequests);
     }
 
     @SubscribeMapping(value = "/notifications/new/{id}")

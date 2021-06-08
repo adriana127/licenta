@@ -26,8 +26,7 @@ export class PostPopupComponent implements OnInit {
   aux:any
     constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private postService: PostService,
-    private profileService: ProfileService,
-    private authenticationService: AuthenticationService) {
+    private profileService: ProfileService) {
     this.post = data.dataKey
     this.tags = this.post.tags
 
@@ -38,10 +37,6 @@ export class PostPopupComponent implements OnInit {
       await this.profileService.getProfile(comment.user).then(data=>{
         this.aux=data;
       }).catch(err=>{console.log(err)})
-      if(this.aux.photo!=null)
-      this.aux.photo="data:image/jpeg;base64," + this.aux.photo;
-      else 
-      this.aux.photo="assets/resources/user.png";
       this.comments.push({message:comment,profile:this.aux})
     })
   
@@ -52,10 +47,6 @@ export class PostPopupComponent implements OnInit {
       await this.profileService.getProfile(comment.user).then(data=>{
         this.aux=data;
       }).catch(err=>{console.log(err)})
-      if(this.aux.photo!=null)
-      this.aux.photo="data:image/jpeg;base64," + this.aux.photo;
-      else 
-      this.aux.photo="assets/resources/user.png";
       this.comments.push({message:comment,profile:this.aux})
       this.comments.sort(PostPopupComponent.descendingByPostedAt);
       this.post.numberOfComments+=1;
@@ -71,16 +62,12 @@ export class PostPopupComponent implements OnInit {
     await this.profileService.getProfile(this.post.post.user)
         .then(data => {
           this.creatorProfile = data;
-          this.creatorProfile.photo =this.profileService.fixPhoto(this.creatorProfile)
         }).catch(err => { 
           console.log(err) })
           
     await this.postService.getPostById(this.post.post.id)
     .then(result => {
-      let post=result as Post
-      let isLiked = this.postService.checkIfPostIsLikedByCurrentUser(post.likes, this.profile.user.id)
-      post.photo="data:image/jpeg;base64," + post.photo
-      this.post={ post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
+      this.post=this.postService.convertPostToNewsFeedPost(result as Post)
     })
 
     this.loaded = true

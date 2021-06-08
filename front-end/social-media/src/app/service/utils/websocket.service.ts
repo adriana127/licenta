@@ -3,13 +3,14 @@ import * as SockJS from 'sockjs-client';
 import { Client, Message, Stomp, StompSubscription } from '@stomp/stompjs'
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, first, switchMap } from 'rxjs/operators';
+
 export enum SocketClientState {
     ATTEMPTING, CONNECTED
 }
+
 @Injectable({
     providedIn: 'root'
 })
-
 export class WebSocketService {
     URL = "http://localhost:8080/socket";
     webSocket = new SockJS(this.URL)
@@ -37,8 +38,6 @@ export class WebSocketService {
     static jsonHandler(message: Message): any {
         return JSON.parse(message.body);
     }
-
-
 
     disconnect() {
         if (this.stompClient != null) {

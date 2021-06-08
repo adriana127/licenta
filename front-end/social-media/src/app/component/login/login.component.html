@@ -46,7 +46,7 @@
                         <input id="pass" type="password" class="input" data-type="password"  formControlName="password">
                     </div>
                     <div class="group">
-                        <div *ngIf="!passwordMatch"  class="invalidFormAlert"> Password required. </div>
+                        <div *ngIf="!passwordMatch"  class="invalidFormAlert"> Passwords don't match. </div>
                         <label for="pass" class="label">Repeat Password</label>
                         <input id="pass" type="password" class="input" (input)="checkPasswordsMatching($event)" data-type="password">
                     </div>

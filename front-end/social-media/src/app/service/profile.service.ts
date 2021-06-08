@@ -9,7 +9,6 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-
 export class ProfileService {
     profile!: Profile
     user!: User;
@@ -33,7 +32,8 @@ export class ProfileService {
         await this.restService.get("http://localhost:8080/profile/" + this.user.id)
             .then(result => {
                 this.profile = result as Profile
-            })
+            });
+        this.profile.photo=this.fixPhoto(this.profile)
         return this.profile
     }
     async getProfiles() {

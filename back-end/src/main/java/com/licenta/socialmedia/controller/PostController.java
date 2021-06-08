@@ -59,19 +59,12 @@ public class PostController {
         return response;
     }
 
-    /*@GetMapping(value = "/posts")
-    List<Post> getAllPosts() {
-        postService.getAll()
-                .forEach(post -> {
-                    post.setPhoto(PhotoUtils.decompressBytes(post.getPhoto()));
-                });
-        return postService.getAll();
-    }*/
+    @SubscribeMapping(value = "/posts/newsfeed/{id}/{numberOfRequest}")
+    public List<Post> getNewsfeedPosts(@DestinationVariable("id") long id,
+                                       @DestinationVariable("numberOfRequest") int numberOfRequest) {
 
-    @SubscribeMapping(value = "/posts/newsfeed/{id}")
-    public List<Post> getNewsfeedPosts(@DestinationVariable("id") long id) {
         if(!followService.getFollowing(userService.findById(id).get()).isEmpty())
-        return postService.getNewsFeedPosts(id,followService.getFollowing(userService.findById(id).get()));
+        return postService.getNewsFeedPosts(id,followService.getFollowing(userService.findById(id).get()),numberOfRequest);
    return new ArrayList<>();
     }
 

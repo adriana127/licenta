@@ -1,4 +1,8 @@
-<div id="mydiv" *ngIf="loaded">
+  <div *ngIf="newPostsCreated" style="position: fixed;background-color: tomato;  margin-bottom: 10%; height: 30px;">
+    <button (click)="loadLatestPosts()">See latest posts.</button>
+  </div><div id="mydiv" *ngIf="loaded"  style="margin-top: 30px;" >
+
+  <div >
   <button mat-flat-button id="addButton" (click)="createPost()">Create Post</button>
 
   <div *ngFor="let newsfeedPost of posts">
@@ -44,6 +48,8 @@
       </mat-card-actions>
     </mat-card>
   </div>
+  <button id="addButton" (click)="loadMorePosts()" *ngIf="postExits"> Load more</button>
+</div>
 </div>
 <mat-spinner *ngIf="!loaded" style="margin:0 auto;" 
 mode="indeterminate"></mat-spinner>

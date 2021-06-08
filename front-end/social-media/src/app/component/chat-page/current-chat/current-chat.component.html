@@ -1,1 +1,29 @@
-<p>current-chat works!</p>
+<mat-card style="text-align: center;margin-top: 35px; background-color: rgb(255,250,250); height: 830px; width: 90%; border-radius: 30px;margin-left:5%;">
+    <mat-card-header>
+        <app-header></app-header>
+    </mat-card-header>
+
+    <mat-card-content style="height:90%;">
+        <div class="row" style="height: 100%;" >
+            <div class="col-sm-4"
+                style="background-color: white; box-shadow:5px 5px 15px rgba(216, 134, 134, 0.205);border-radius: 30px; ">
+                <app-active-chats (open)="onChatSelected($event)"></app-active-chats>
+            </div>
+            <!-- <div *ngIf="!isChatSelected">No chat selected</div> -->
+            <div *ngIf="!isChatSelected" class="col-sm-8">
+                <div class="container" style="height: 100%;">
+                    <div class="row" style="height: 90%; margin-bottom: 20px;">
+<label>a</label>
+                    </div>
+                    <div class="row">
+                        <mat-form-field style="width: 85%; margin-left: 5%;">
+                            <mat-label>Insert message</mat-label>
+                            <input matInput >
+                          </mat-form-field>                   
+                         </div>
+                </div>
+            </div>
+
+        </div>
+    </mat-card-content>
+</mat-card>

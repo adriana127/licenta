@@ -7,11 +7,5 @@ import { EditProfileComponent } from '../edit-profile/edit-profile.component';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
- 
+export class ProfileComponent {
 }

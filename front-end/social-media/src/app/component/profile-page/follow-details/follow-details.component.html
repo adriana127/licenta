@@ -5,26 +5,21 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <a [routerLink]="['/profile']" [queryParams]="{ username:card.profile.user.username}">
-                            <img [src]="card.profile.photo" style="width: 50px;height: 50px; border-radius: 50%;"
-                                alt="Card image cap">
+                            <img [src]="card.profile.photo" style="width: 50px;height: 50px; border-radius: 50%;" alt="Card image cap">
                         </a>
                     </div>
+                    
                     <div class="col-sm-6" style="font-size: small; ">
-
                         <div class="row">
                             <div class="col-sm-6" style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
-
                                 <p [routerLink]="['/profile']" [queryParams]="{ username:card.profile.user.username}"
                                     style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
                                     {{card.profile.user.nickname}}</p>
 
                                 <div class="col-sm-6" style="font-size: small;padding-left: 0px;">
-                                    <button *ngIf="card.disabled&&!isFollowersList" id="addButton"
-                                        (click)="follow(card.profile.user)">follow</button>
-                                        <button id="addButton" *ngIf="!card.disabled&&!isFollowersList"
-                                        (click)="unfollow(card.profile.user)">unfollow</button>
-                                        <button id="addButton" *ngIf="isFollowersList"
-                                        (click)="removeFollower(card.profile.user)" [disabled]="card.disabled">remove</button>
+                                    <button *ngIf="card.disabled&&!isFollowersList" id="addButton" (click)="follow(card.profile.user)">follow</button>
+                                        <button id="addButton" *ngIf="!card.disabled&&!isFollowersList" (click)="unfollow(card.profile.user)">unfollow</button>
+                                        <button id="addButton" *ngIf="isFollowersList" (click)="removeFollower(card.profile.user)" [disabled]="card.disabled">remove</button>
                                 </div>
                             </div>
                         </div>

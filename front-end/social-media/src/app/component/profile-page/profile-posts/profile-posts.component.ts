@@ -15,32 +15,31 @@ import { PostPopupComponent } from '../../post-page/post-popup/post-popup.compon
   styleUrls: ['./profile-posts.component.css']
 })
 export class ProfilePostsComponent implements OnInit {
-
+  loaded:boolean=false;
+  imageToShow: any = null;
+  posts!: NewsFeedPost[]
+  user!:User
+  
   constructor(private postService: PostService,
     private dialog: MatDialog,
     public route: ActivatedRoute,
     private authenticationService:AuthenticationService,
     private userService: UserService) {
   }
-  loaded:boolean=false;
-  imageToShow: any = null;
-  posts!: NewsFeedPost[]
-  user!:User
-  async ngOnInit(): Promise<void> {
-    await this.reloadData()
-  }
-  async reloadData() {
-    await this.userService.loadData()
-    if (this.route.snapshot.queryParamMap.get('username') == null) {
-      this.user = this.authenticationService.getCurrentUser()
-    }
-    else
-      this.user=this.userService.getByUsername(this.route.snapshot.queryParamMap.get('username')!) as unknown as User
 
+  async ngOnInit(): Promise<void> {
+     if (this.route.snapshot.queryParamMap.get('username') == null)
+      this.user = this.authenticationService.getCurrentUser()
+    else
+      await this.userService.getByUsername(this.route.snapshot.queryParamMap.get('username')!)
+      .then(result=>{
+        this.user=result as unknown as User;
+      }).catch()
     await this.postService.loadData(this.user)
     this.posts = this.postService.getPersonalPosts()
     this.loaded=true;
   }
+
   popupPost(post:NewsFeedPost) {
     this.dialog.open(PostPopupComponent, {
       width: '900px',
@@ -50,5 +49,4 @@ export class ProfilePostsComponent implements OnInit {
       }
     })
   }
-
 }

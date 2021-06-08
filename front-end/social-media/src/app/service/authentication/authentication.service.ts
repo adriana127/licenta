@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../../model/user';
-import { Router } from '@angular/router';
 import { tap } from 'rxjs/internal/operators/tap';
 import { RestService } from '../utils/rest.service';
 import { TokenService } from './token.service';
-import { ProfileComponent } from 'src/app/component/profile-page/profile/profile.component';
-import { ProfileService } from '../profile.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-
   private currentUserSubject!: BehaviorSubject<any>;
-  check: boolean = false;
 
   constructor(
     private restRequestService: RestService,
@@ -33,8 +28,7 @@ export class AuthenticationService {
       tap(data => {
         if (data.accessToken) {
           this.tokenService.setToken(data.accessToken);
-         this.setCurrentUser(data.user);
-
+          this.setCurrentUser(data.user);
           return data;
         }
       })
@@ -43,16 +37,10 @@ export class AuthenticationService {
   
   register(body: any): Observable<any> {
     return this.restRequestService.post("register", body).pipe(
-      tap(data => {
-        
-      })
+      tap(() => {})
     )
   }
   
-  isLogged(): boolean {
-    return this.tokenService.getToken() != "";
-  }
-
   logout() {
     this.tokenService.setToken("");
     localStorage.removeItem('currentUser');

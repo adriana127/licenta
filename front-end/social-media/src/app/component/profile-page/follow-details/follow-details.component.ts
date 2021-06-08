@@ -13,50 +13,54 @@ import { ProfileService } from 'src/app/service/profile.service';
   styleUrls: ['./follow-details.component.css']
 })
 export class FollowDetailsComponent implements OnInit {
-  loaded:boolean=false;
-  suggestions:Suggestion[]=[]
-  isFollowersList:boolean=false
+  loaded: boolean = false;
+  suggestions: Suggestion[] = []
+  isFollowersList: boolean = false
 
-  constructor(private profileService:ProfileService,
-            @Inject(MAT_DIALOG_DATA) public data: any,
-            private authenticationService:AuthenticationService) { 
-             
-            }
+  constructor(private profileService: ProfileService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private authenticationService: AuthenticationService) {
+  }
 
   ngOnInit() {
     this.data.dataKey.profiles.forEach((profile: Profile) => {
-          this.suggestions.push({profile:profile,disabled:false})
-        });
-        this.isFollowersList=this.data.dataKey.followers
-        this.loaded=true
+      this.suggestions.push({ profile: profile, disabled: false })
+    });
+    this.isFollowersList = this.data.dataKey.followers
+    this.loaded = true
   }
- 
-  async follow(user:User){
-   this.profileService.follow(user).subscribe(data=>{});
-   this.suggestions.forEach(value => {
-    if(value.profile.user.id===user.id)
-      value.disabled=false;
-  });
 
+  follow(user: User) {
+    this.profileService.follow(user)
+      .subscribe(() => {
+        this.suggestions.forEach(value => {
+          if (value.profile.user.id === user.id)
+            value.disabled = false;
+        });
+      });
   }
-  async unfollow(user:User){
-    this.profileService.unfollow(this.authenticationService.getCurrentUser(),user).subscribe(
-      () => {this.suggestions.forEach(value => {
-     if(value.profile.user.id===user.id)
-       value.disabled=true;
-   });
+
+  unfollow(user: User) {
+    this.profileService.unfollow(this.authenticationService.getCurrentUser(), user).subscribe(
+      () => {
+        this.suggestions.forEach(value => {
+          if (value.profile.user.id === user.id)
+            value.disabled = true;
+        });
       }, err => {
         alert(err.message)
-      });}
-      async removeFollower(user:User){
-        this.profileService.unfollow(user,this.authenticationService.getCurrentUser()).subscribe(
-          () => {this.suggestions.forEach(value => {
-         if(value.profile.user.id===user.id)
-           value.disabled=true;
-       });
-          }, err => {
-            alert(err.message)
-          });
-        }
+      });
+  }
 
+  removeFollower(user: User) {
+    this.profileService.unfollow(user, this.authenticationService.getCurrentUser())
+      .subscribe(() => {
+        this.suggestions.forEach(value => {
+          if (value.profile.user.id === user.id)
+            value.disabled = true;
+        })
+      }, err => {
+        alert(err.message)
+      });
+  }
 }

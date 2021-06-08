@@ -18,6 +18,7 @@ public class WebSocketConfigurer extends AbstractWebSocketMessageBrokerConfigure
         registry.enableSimpleBroker("/topic");
         registry.setApplicationDestinationPrefixes("/topic");
     }
+
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
         registration.setSendTimeLimit(60 * 1000)

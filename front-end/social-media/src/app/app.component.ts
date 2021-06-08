@@ -11,9 +11,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.profileService.getPersonalProfile())
-    this.profileService.getPersonalProfile().photo = this.profileService.fixPhoto(this.profileService.getPersonalProfile())
-  }
+ }
 
   title = 'social-media';
 }
