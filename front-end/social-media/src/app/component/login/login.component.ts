@@ -80,7 +80,6 @@ export class LoginComponent {
           this.profileService.getProfile(data.user)
             .then(data => {
               this.profileService.setCurrentProfile(data)
-              this.profileService.getPersonalProfile().photo = this.profileService.fixPhoto(this.profileService.getPersonalProfile())
               this.router.navigateByUrl("/home");
             });
         }, error => {

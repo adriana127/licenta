@@ -29,7 +29,7 @@
                                 <button mat-menu-item [routerLink]="['/profile']" [queryParams]="{ username:option.user.username}">
                                     <div class="row" style="width: 100%; margin-left: 0%;">
                                         <div class="col-sm-4">
-                                            <img [src]="option.photo" style="width: 30px;height: 30px; border-radius: 50%;"
+                                            <img [src]="option.photo ? (option.photo| image) : 'assets/resources/user.png'" style="width: 30px;height: 30px; border-radius: 50%;"
                                                 alt="Card image cap">
                                         </div>
                                         <div class="col-sm-8">
@@ -93,7 +93,7 @@
 
                 <div class="col-sm-1">
                     <a routerLink="/profile" [queryParams]="{username:profile.user.username}">
-                        <img id="profilePhoto" [src]="profile.photo">
+                        <img id="profilePhoto" [src]="profile.photo ? (profile.photo| image) : 'assets/resources/user.png'">
                     </a>
                 </div>
 

@@ -114,7 +114,6 @@ export class HeaderComponent implements AfterViewInit {
       .then(results=>{
         this.options=results as unknown as Profile[]
         this.options.forEach(profile=>{
-          profile.photo=this.profileService.fixPhoto(profile)
         })
       })
     else this.options=[]

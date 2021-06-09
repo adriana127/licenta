@@ -2,7 +2,7 @@
     <mat-grid-list cols="4" rowHeight="260px" colWidth="260px" style="width: 1040px;margin-left: 16px; margin-top: 50px;">
         <mat-grid-tile *ngFor="let post of posts" style="margin-top: -20px;">
             <a (click)="popupPost(post)">
-                <img src="{{post.post.photo}}" style="width: 250px;height: 250px;overflow: hidden;" alt="Can't load the image!">
+                <img [src]="post.post.photo  ? (post.post.photo  | image) : 'assets/resources/user.png'" style="width: 250px;height: 250px;overflow: hidden;" alt="Can't load the image!">
             </a>
         </mat-grid-tile>
     </mat-grid-list>

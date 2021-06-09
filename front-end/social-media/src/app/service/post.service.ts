@@ -62,7 +62,6 @@ export class PostService {
 
   convertPostToNewsFeedPost(post:Post):NewsFeedPost{
     let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
-   // post.photo="data:image/jpeg;base64," + post.photo
     return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
   }
 

@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs'; // since RxJs 6
-import { first, map } from 'rxjs/operators';
-import { Post } from '../model/post';
 import { RestService } from './utils/rest.service';
-import { Like } from '../model/like';
-import { NewsFeedPost } from '../model/newsfeedpost';
 import { AuthenticationService } from './authentication/authentication.service';
-import { User } from '../model/user';
 import { WebSocketService } from './utils/websocket.service';
-import { PostComment } from '../model/comment';
 import { Chat } from '../model/chat';
 import { ProfileService } from './profile.service';
 import { ChatMessage } from '../model/message';
@@ -39,13 +33,7 @@ export class ChatService {
       chat.user1 = chat.user2
       chat.user2 = user
     }
-    chat.user2.photo = this.profileService.fixPhoto(chat.user2)
   }
-
-  convertMessage(message: ChatMessage) {
-    message.sender.photo = this.profileService.fixPhoto(message.sender)
-  }
-
   getMessages(numberOfRequest: number, chat: Chat): Observable<ChatMessage[]> {
     return this.socketClient
       .subscribeToNotifications('/topic/chatMessages/get/' + chat.id + "/" + numberOfRequest);

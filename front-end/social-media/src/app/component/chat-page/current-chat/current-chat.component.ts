@@ -52,7 +52,6 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
       .pipe(map(messages => messages.sort(CurrentChatComponent.ascendingByPostedAt)))
       .subscribe(messages => {
         messages.forEach(value => {
-          this.chatService.convertMessage(value)
           this.messages.push(value)
         })
         if (this.messages.length > 0)
@@ -63,7 +62,6 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
     this.chatService
       .onMessageCreated()
       .subscribe((message: ChatMessage) => {
-        this.chatService.convertMessage(message)
 
         this.messages.push(message)
         this.scrollToBottom();
@@ -85,7 +83,6 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
     this.chatService.getMessages(this.requestNumber, this.chatSelected)
       .subscribe(messages => {
         messages.forEach(value => {
-          this.chatService.convertMessage(value)
           this.messages.push(value)
         })
         this.messages = this.messages.sort(CurrentChatComponent.ascendingByPostedAt)

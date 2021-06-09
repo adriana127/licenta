@@ -20,7 +20,7 @@
                             <div *ngFor="let message of messages">
                                 <div class="row" style="padding-top: 10px;margin-left: 5%;">
                                     <div class="col-xl-1">
-                                        <img [src]="message.sender.photo"
+                                        <img [src]="message.sender.photo ? (message.sender.photo| image) : 'assets/resources/user.png'"
                                             style="width: 50px;height: 50px; border-radius: 50%;margin-top: 100%;"
                                             alt="Card image cap">
                                     </div>

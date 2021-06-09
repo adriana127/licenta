@@ -2,7 +2,7 @@
     <div class="row" style="margin-left:20%;">
         <div class="col-sm-3">
             <a href="#"> <img style="height: 100px; width: 100px; border-radius: 50%; overflow: hidden;"
-                    [src]="profile.photo">
+                    [src]="profile.photo ? (profile.photo | image) : 'assets/resources/user.png'">
             </a>
         </div>
         <div class="col-sm-5">

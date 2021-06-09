@@ -14,13 +14,7 @@ export class ProfileService {
     user!: User;
     private currentProfileSubject!: BehaviorSubject<any>;
     rawPersonalProfile!:Profile
-    fixPhoto(profile: Profile) {
-        if (profile.photo != null)
-            profile.photo = "data:image/jpeg;base64," + profile.photo
-        else
-            profile.photo = "assets/resources/user.png"
-        return profile.photo
-    }
+
     async search(input:String){
         let suggestions;
         await this.restService.get("http://localhost:8080/search/" +input)
@@ -33,7 +27,6 @@ export class ProfileService {
             .then(result => {
                 this.profile = result as Profile
             });
-        this.profile.photo=this.fixPhoto(this.profile)
         return this.profile
     }
     async getProfiles() {
@@ -70,12 +63,6 @@ export class ProfileService {
             .then(result => {
                 suggestions = result as Profile[]
             })
-        suggestions.forEach(value => {
-            if (value.photo != null)
-                value.photo = "data:image/jpeg;base64," + value.photo
-            else
-                value.photo = "assets/resources/user.png"
-        })
         return suggestions
     }
 
@@ -85,12 +72,6 @@ export class ProfileService {
             .then(result => {
                 followers = result as Profile[]
             })
-        followers.forEach(value => {
-            if (value.photo != null)
-                value.photo = "data:image/jpeg;base64," + value.photo
-            else
-                value.photo = "assets/resources/user.png"
-        })
         return followers
     }
 
@@ -100,12 +81,6 @@ export class ProfileService {
             .then(result => {
                 following = result as Profile[]
             })
-        following.forEach(value => {
-            if (value.photo != null)
-                value.photo = "data:image/jpeg;base64," + value.photo
-            else
-                value.photo = "assets/resources/user.png"
-        })
         return following
     }
 
