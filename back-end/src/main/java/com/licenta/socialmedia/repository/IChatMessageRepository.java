@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IChatMessageRepository extends PagingAndSortingRepository<ChatMessage, Long> {
-    @Query(value = "select * from chat_message"
-            + " where chat_id =:id "
-            + "order by created_on DESC ", nativeQuery = true)
+    @Query(value = "select * from chat_message c"
+            + " where c.chat_id =:id "
+            + "order by c.created_on DESC ", nativeQuery = true)
     Page<ChatMessage> findAllByChat_Id(Long id, Pageable pageRequest);
 
 }

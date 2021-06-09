@@ -1,26 +1,55 @@
-<mat-card style="text-align: center;margin-top: 35px; background-color: rgb(255,250,250); height: 830px; width: 90%; border-radius: 30px;margin-left:5%;">
+<mat-card
+    style="text-align: center;margin-top: 35px; background-color: rgb(255,250,250); height: 830px; width: 90%; border-radius: 30px;margin-left:5%;">
     <mat-card-header>
         <app-header></app-header>
     </mat-card-header>
 
     <mat-card-content style="height:90%;">
-        <div class="row" style="height: 100%;" >
+        <div class="row" style="height: 100%;">
             <div class="col-sm-4"
                 style="background-color: white; box-shadow:5px 5px 15px rgba(216, 134, 134, 0.205);border-radius: 30px; ">
                 <app-active-chats (open)="onChatSelected($event)"></app-active-chats>
             </div>
-            <!-- <div *ngIf="!isChatSelected">No chat selected</div> -->
-            <div *ngIf="!isChatSelected" class="col-sm-8">
-                <div class="container" style="height: 100%;">
+            <div *ngIf="!isChatSelected">No chat selected</div>
+            <div *ngIf="isChatSelected" class="col-sm-8">
+                <div class="container" style="height: 700px; width: 100%;">
                     <div class="row" style="height: 90%; margin-bottom: 20px;">
-<label>a</label>
+                        <div #scrollMe style="height:100%;overflow-y: scroll;overflow-x: hidden; width: 100%;">
+                            <button id="addButton" (click)="loadMoreMessages()" *ngIf="checkMessages"> Load more</button>
+
+                            <div *ngFor="let message of messages">
+                                <div class="row" style="padding-top: 10px;margin-left: 5%;">
+                                    <div class="col-xl-1">
+                                        <img [src]="message.sender.photo"
+                                            style="width: 50px;height: 50px; border-radius: 50%;margin-top: 100%;"
+                                            alt="Card image cap">
+                                    </div>
+                                    <div class="col-xl-8">
+                                        <label
+                                            style="font-size: smaller; text-align: left;">{{message.sender.user.nickname}}
+                                            , {{message.createdOn}}</label>
+                                        <mat-card style="width: 100%;">{{message.message}}
+                                        </mat-card>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
-                        <mat-form-field style="width: 85%; margin-left: 5%;">
-                            <mat-label>Insert message</mat-label>
-                            <input matInput >
-                          </mat-form-field>                   
-                         </div>
+                        <div class="col-sm-9">
+                            <mat-form-field style="width: 100%; margin-left: 5%;">
+                                <mat-label>Insert message</mat-label>
+                                <input [(ngModel)]="inputValue" matInput>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-sm-1">
+                            <a>
+                                <img (click)="createMessage()" *ngIf='inputValue'
+                                    src="../../../assets/resources/addComment.png"
+                                    style="max-height: 20px;margin-left: -30px;">
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 

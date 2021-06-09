@@ -13,4 +13,6 @@ public interface IChatMessageService {
     Optional<ChatMessage> findById(Long id);
 
     List<ChatMessage> getAll(Long id, int requestNumber);
+    List<ChatMessage> getLastMessage(Long id);
+
 }

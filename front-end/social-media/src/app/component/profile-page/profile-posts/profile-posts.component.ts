@@ -35,6 +35,7 @@ export class ProfilePostsComponent implements OnInit {
       .then(result=>{
         this.user=result as unknown as User;
       }).catch()
+      
     await this.postService.loadData(this.user)
     this.posts = this.postService.getPersonalPosts()
     this.loaded=true;

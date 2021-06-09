@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Profile } from 'src/app/model/profile';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { User } from 'src/app/model/user';
 import { PostService } from 'src/app/service/post.service';
 import { ProfileService } from 'src/app/service/profile.service';
-import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { map } from 'rxjs/operators';
 import { PostComment } from 'src/app/model/comment';
 import { Post } from 'src/app/model/post';

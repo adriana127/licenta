@@ -37,7 +37,7 @@ public class ChatService implements IChatService {
     }
 
     @Override
-    public List<Chat> getAll(Long id) {
-        return chatRepository.findAllByUser1_IdOrUser2_Id(id, PageRequest.of(0,5)).getContent();
+    public List<Chat> getAll(Long id,int numberRequest) {
+        return chatRepository.findAllByUser1_IdOrUser2_Id(id, PageRequest.of(numberRequest,5)).getContent();
     }
 }

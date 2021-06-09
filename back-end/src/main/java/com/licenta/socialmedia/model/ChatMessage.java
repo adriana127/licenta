@@ -25,6 +25,7 @@ public class ChatMessage {
     @ManyToOne
     @JoinColumn
     private Chat chat;
+
     private Date createdOn;
     boolean state;
 

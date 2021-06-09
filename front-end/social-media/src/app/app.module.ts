@@ -37,6 +37,8 @@ import { FollowDetailsComponent } from './component/profile-page/follow-details/
 import { CurrentChatComponent } from './component/chat-page/current-chat/current-chat.component';
 import { ActiveChatsComponent } from './component/chat-page/active-chats/active-chats.component';
 import { ChatComponent } from './component/chat-page/chat/chat.component';
+import { ImagePipe } from './pipe/image.pipe';
+import { ProfilePipe } from './pipe/profile.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +59,8 @@ import { ChatComponent } from './component/chat-page/chat/chat.component';
     CurrentChatComponent,
     ActiveChatsComponent,
     ChatComponent,
+    ImagePipe,
+    ProfilePipe,
   ],
   imports: [
     BrowserModule,

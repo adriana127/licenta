@@ -13,7 +13,7 @@ export class ProfileService {
     profile!: Profile
     user!: User;
     private currentProfileSubject!: BehaviorSubject<any>;
-
+    rawPersonalProfile!:Profile
     fixPhoto(profile: Profile) {
         if (profile.photo != null)
             profile.photo = "data:image/jpeg;base64," + profile.photo
@@ -129,6 +129,7 @@ export class ProfileService {
     getPersonalProfile(): Profile {
         return this.currentProfileSubject.getValue();
       }
+
       setCurrentProfile(profile:Profile){
         localStorage.setItem('currentProfile', JSON.stringify(profile));
         this.currentProfileSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentProfile')!));

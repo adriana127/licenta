@@ -1,20 +1,15 @@
 package com.licenta.socialmedia.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.licenta.socialmedia.dto.request.UploadPostRequest;
 import com.licenta.socialmedia.model.Chat;
 import com.licenta.socialmedia.model.ChatMessage;
-import com.licenta.socialmedia.model.Post;
 import com.licenta.socialmedia.service.implementation.ChatMessageService;
 import com.licenta.socialmedia.service.implementation.ChatService;
-import com.licenta.socialmedia.util.PhotoUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,8 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ChatController {
     @Autowired
-    private final SimpMessagingTemplate template;
-    @Autowired
     private final ChatService chatService;
     @Autowired
     private final ChatMessageService chatMessageService;
@@ -32,26 +25,49 @@ public class ChatController {
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/createChat")
     public Chat createChat(@RequestBody Chat chat) throws Exception {
-        var result=chatService.findByUsers(chat.getUser1(),chat.getUser2());
-        if(result!=null)
+        var result = chatService.findByUsers(chat.getUser1(), chat.getUser2());
+        if (result != null)
             return result;
-        return  chatService.add(chat);
+        else {
+            result = chatService.findByUsers(chat.getUser2(), chat.getUser1());
+            if (result != null)
+                return result;
+        }
+        return chatService.add(chat);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(path = "/updateChat")
+    public Chat updateChat(@RequestBody Chat chat) throws Exception {
+        return chatService.add(chat);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/createChatMessage")
     public ChatMessage createChatMessage(@RequestBody ChatMessage chatMessage) throws Exception {
-        return  chatMessageService.add(chatMessage);
+        return chatMessageService.add(chatMessage);
     }
 
     @GetMapping(value = "/chat")
     Chat postById(@RequestBody Chat chat) {
-        return chatService.findByUsers(chat.getUser1(),chat.getUser2());
+        return chatService.findByUsers(chat.getUser1(), chat.getUser2());
     }
 
-    @GetMapping(value = "/chatMessages/{id}/{requestNumber}")
-    List<ChatMessage> postById(@PathVariable Long id,
-                               @PathVariable int requestNumber) {
-        return chatMessageService.getAll(id,requestNumber);
+    @SubscribeMapping(value = "/chatMessages/get/{id}/{requestNumber}")
+    List<ChatMessage> getChatMessages(@DestinationVariable Long id,
+                               @DestinationVariable int requestNumber) {
+        return chatMessageService.getAll(id, requestNumber);
+    }
+
+    @GetMapping(value = "/chat/getLastMessage/{id}")
+    ChatMessage getLastChatMessages(@PathVariable Long id) {
+        var a=chatMessageService.getLastMessage(id);
+        return a.get(0);
+    }
+
+    @SubscribeMapping(value = "/chat/{id}/{requestNumber}")
+    List<Chat> getUserChats(@DestinationVariable Long id,
+                            @DestinationVariable int requestNumber) {
+        return chatService.getAll(id, requestNumber);
     }
 }

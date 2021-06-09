@@ -9,6 +9,7 @@ import { AuthenticationService } from './authentication/authentication.service';
 import { User } from '../model/user';
 import { WebSocketService } from './utils/websocket.service';
 import { PostComment } from '../model/comment';
+import { ChatMessage } from '../model/message';
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +47,7 @@ export class PostService {
     return this.restService.post("addComment", { postId: postId, comment: { user: this.authenticationService.getCurrentUser(),message:message,createdOn:new Date() } });
   }
 
-  async getPostById(postId: number) {
+  getPostById(postId: number) {
     return this.restService.get("http://localhost:8080/post/" + postId)
   }
 
@@ -61,7 +62,7 @@ export class PostService {
 
   convertPostToNewsFeedPost(post:Post):NewsFeedPost{
     let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
-    post.photo="data:image/jpeg;base64," + post.photo
+   // post.photo="data:image/jpeg;base64," + post.photo
     return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
   }
 
