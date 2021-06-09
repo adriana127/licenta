@@ -56,18 +56,30 @@ public class ChatController {
     @SubscribeMapping(value = "/chatMessages/get/{id}/{requestNumber}")
     List<ChatMessage> getChatMessages(@DestinationVariable Long id,
                                @DestinationVariable int requestNumber) {
-        return chatMessageService.getAll(id, requestNumber);
+        return chatMessageService.getLastMessages(id, requestNumber);
     }
 
     @GetMapping(value = "/chat/getLastMessage/{id}")
     ChatMessage getLastChatMessages(@PathVariable Long id) {
-        var a=chatMessageService.getLastMessage(id);
-        return a.get(0);
+        var messages=chatMessageService.getLastMessages(id,0);
+        if(!messages.isEmpty())
+            return messages.get(0);
+        return new ChatMessage();
     }
 
     @SubscribeMapping(value = "/chat/{id}/{requestNumber}")
     List<Chat> getUserChats(@DestinationVariable Long id,
                             @DestinationVariable int requestNumber) {
         return chatService.getAll(id, requestNumber);
+    }
+
+    @GetMapping(value = "/chat/checkMessages/{id}")
+    boolean checkMessages(@PathVariable Long id) {
+        var messages=chatMessageService.getAll(id);
+        return !messages.isEmpty();
+    }
+    @GetMapping(value = "/chat/open/{id}")
+    void openChat(@PathVariable Long id) {
+        chatMessageService.openChat(id);
     }
 }

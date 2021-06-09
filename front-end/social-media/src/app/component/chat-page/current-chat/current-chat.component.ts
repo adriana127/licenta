@@ -37,11 +37,11 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     } catch (err) { }
   }
+  isSentByCurrentUser(profile:Profile){
+    return this.authenticationService.getCurrentUser().id==profile.user.id
+  }
   onChatSelected(chat: Chat) {
-    if (chat.user2.photo === "assets/resources/user.png") {
-      chat.user2.photo = null
-      console.log("se indep")
-    }
+    
 
     this.messages = []
     this.checkMessages = false
@@ -72,8 +72,6 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
     let sender: Profile;
     await this.profileService.getProfile(this.authenticationService.getCurrentUser()).then(profile => {
       sender = profile;
-      if (sender.photo == "assets/resources/user.png")
-        sender.photo = null
     })
     this.chatService.sendMessage({ id: 0, message: this.inputValue, sender: sender!, chat: this.chatSelected, createdOn: new Date(), state: false })
       .subscribe(() => { })

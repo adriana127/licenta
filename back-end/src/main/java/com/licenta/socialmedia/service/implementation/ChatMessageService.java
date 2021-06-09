@@ -1,5 +1,6 @@
 package com.licenta.socialmedia.service.implementation;
 
+import com.licenta.socialmedia.model.Chat;
 import com.licenta.socialmedia.model.ChatMessage;
 import com.licenta.socialmedia.repository.IChatMessageRepository;
 import com.licenta.socialmedia.service.IChatMessageService;
@@ -34,17 +35,25 @@ public class ChatMessageService implements IChatMessageService {
     }
 
     @Override
+    public void openChat(Long id) {
+        getAll(id).forEach(message -> {
+            message.setState(true);
+            messageRepository.save(message);
+        });
+    }
+
+    @Override
     public Optional<ChatMessage> findById(Long id) {
         return messageRepository.findById(id);
     }
 
     @Override
-    public List<ChatMessage> getAll(Long id, int requestNumber) {
-        return messageRepository.findAllByChat_Id(id, PageRequest.of(requestNumber,5)).getContent();
+    public List<ChatMessage> getAll(Long id) {
+        return messageRepository.findAllByChat_Id(id, PageRequest.of(0,Integer.MAX_VALUE)).getContent();
     }
 
     @Override
-    public List<ChatMessage> getLastMessage(Long id) {
-        return messageRepository.findAllByChat_Id(id,PageRequest.of(0,5)).getContent();
+    public List<ChatMessage> getLastMessages(Long id, int requestNumber) {
+        return messageRepository.findAllByChat_Id(id,PageRequest.of(requestNumber,5)).getContent();
     }
 }

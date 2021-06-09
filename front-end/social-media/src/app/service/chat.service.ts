@@ -48,6 +48,12 @@ export class ChatService {
     console.log(chat.id)
     return this.restService.get("http://localhost:8080/chat/getLastMessage/" + chat.id)
   }
+  checkChat(chat:Chat){
+    return this.restService.get("http://localhost:8080/chat/checkMessages/" + chat.id)
+  }
+  public openChat(chat: Chat) {
+    return this.restService.get("http://localhost:8080/chat/open/"+ chat.id)
+  }
 
   public createChat(chat: Chat) {
     return this.restService.post("createChat", chat);

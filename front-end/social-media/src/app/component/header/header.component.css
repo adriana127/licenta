@@ -53,3 +53,10 @@ nav {
         a:hover {
           background-color: transparent;
         }
+.new {
+    background-color: rgb(255,208,196);
+}
+
+.seen {
+    background-color: transparent;
+}

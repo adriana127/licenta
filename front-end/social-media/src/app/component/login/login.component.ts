@@ -83,7 +83,6 @@ export class LoginComponent {
               this.router.navigateByUrl("/home");
             });
         }, error => {
-          console.log(error.message)
         });
   };
 
