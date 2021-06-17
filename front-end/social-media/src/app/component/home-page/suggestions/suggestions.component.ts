@@ -10,15 +10,11 @@ import { ProfileService } from 'src/app/service/profile.service';
 })
 export class SuggestionsComponent implements OnInit {
   loaded: boolean = false;
-  suggestions: Suggestion[] = []
   constructor(private profileService: ProfileService) {
   }
 
+  suggestions: Suggestion[] = []
   async ngOnInit() {
-    await this.reloadData()
-  }
-
-  async reloadData() {
     await this.profileService.getSuggestions().then(data => {
       data.forEach(profile => {
         this.suggestions.push({ profile: profile, disabled: false })

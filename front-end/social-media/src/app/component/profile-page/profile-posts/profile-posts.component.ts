@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
-import { Post } from 'src/app/model/post';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
@@ -27,7 +26,7 @@ export class ProfilePostsComponent implements OnInit {
     private userService: UserService) {
   }
 
-  async ngOnInit(): Promise<void> {
+  async ngOnInit() {
      if (this.route.snapshot.queryParamMap.get('username') == null)
       this.user = this.authenticationService.getCurrentUser()
     else

@@ -18,6 +18,7 @@ import { ProfileService } from 'src/app/service/profile.service';
 export class ActiveChatsComponent implements OnInit {
   @Output() open: EventEmitter<any> = new EventEmitter();
   @Output() close: EventEmitter<any> = new EventEmitter();
+
   searchControl = new FormControl();
   options: Profile[] = []
   chats: DisplayChat[] = []
@@ -25,6 +26,7 @@ export class ActiveChatsComponent implements OnInit {
   loaded: boolean = false
   inputValue: string = ""
   canLoadMoreChats: boolean = true
+  
   constructor(private profileService: ProfileService,
     private chatService: ChatService,
     private authenticationService: AuthenticationService) {
