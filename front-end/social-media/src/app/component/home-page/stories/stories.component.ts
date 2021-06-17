@@ -19,9 +19,6 @@ stories:IStory[]=[]
 
   imageToShow: any = null;
   ngOnInit(): void {
-//     this.storyService.getFollowingStories(0).then(result=>{
-// console.log(result)
-//     })
   }
   private createImage(image: Blob) {
       let reader = new FileReader();
