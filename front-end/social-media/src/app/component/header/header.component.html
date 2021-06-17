@@ -75,7 +75,7 @@
                     <mat-menu #menu2="matMenu" (mouseleave)="onMenuClose()">
                         <div *ngFor="let chat of chats" style="width: 200px;">
                             <button mat-menu-item style="border: none !important;box-shadow: none !important;" 
-                                [ngClass]="{'new' : chat.message.state === false}">
+                                [ngClass]="{'new' : chat.message.state === false}" >
                                       <div class="row" style="height: 20px;">
                                         <div class="col-sm-1">
                                           <img [src]="chat.chat.user2.photo ? (chat.chat.user2.photo| image) : 'assets/resources/user.png'"

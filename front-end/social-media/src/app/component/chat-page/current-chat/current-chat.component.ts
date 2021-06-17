@@ -41,13 +41,10 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
     return this.authenticationService.getCurrentUser().id==profile.user.id
   }
   onChatSelected(chat: Chat) {
-    
-
     this.messages = []
     this.checkMessages = false
     this.chatSelected = chat
     this.isChatSelected = true
-
     this.chatService.getMessages(this.requestNumber, this.chatSelected)
       .pipe(map(messages => messages.sort(CurrentChatComponent.ascendingByPostedAt)))
       .subscribe(messages => {
@@ -57,15 +54,13 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
         if (this.messages.length > 0)
           this.checkMessages = true
         this.scrollToBottom();
-
       });
+
     this.chatService
       .onMessageCreated()
       .subscribe((message: ChatMessage) => {
-
         this.messages.push(message)
         this.scrollToBottom();
-
       });
   }
   async createMessage() {
@@ -74,8 +69,11 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
       sender = profile;
     })
     this.chatService.sendMessage({ id: 0, message: this.inputValue, sender: sender!, chat: this.chatSelected, createdOn: new Date(), state: false })
-      .subscribe(() => { })
+      .subscribe(() => {
+        this.inputValue="" 
+      })
   }
+
   loadMoreMessages() {
     this.requestNumber += 1
     this.chatService.getMessages(this.requestNumber, this.chatSelected)
@@ -87,7 +85,6 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
         if (this.messages.length > 0)
           this.checkMessages = true
         this.scrollToBottom();
-
       });
 
   }

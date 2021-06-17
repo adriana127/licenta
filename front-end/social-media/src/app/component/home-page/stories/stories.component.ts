@@ -1,5 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { IStory } from 'src/app/model/story';
+import { StoryService } from 'src/app/service/story.service';
+import { CreateStoryComponent } from '../create-story/create-story.component';
 
 @Component({
   selector: 'app-stories',
@@ -7,13 +11,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./stories.component.css']
 })
 export class StoriesComponent implements OnInit {
-
-  constructor(private httpClient: HttpClient) { 
+stories:IStory[]=[]
+  constructor(private dialog: MatDialog,
+    private storyService:StoryService) { 
     this.imageToShow="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg"
   }
 
   imageToShow: any = null;
   ngOnInit(): void {
+//     this.storyService.getFollowingStories(0).then(result=>{
+// console.log(result)
+//     })
   }
   private createImage(image: Blob) {
       let reader = new FileReader();
@@ -22,6 +30,12 @@ export class StoriesComponent implements OnInit {
       }, false);
 
       reader.readAsDataURL(image);
+  }
+  createStory() {
+    this.dialog.open(CreateStoryComponent, {
+      width: '600px',
+      height: '700px'
+    })
   }
   cards = [
     {

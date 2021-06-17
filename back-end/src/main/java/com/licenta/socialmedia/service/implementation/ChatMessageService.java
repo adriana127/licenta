@@ -25,7 +25,8 @@ public class ChatMessageService implements IChatMessageService {
     public ChatMessage add(ChatMessage message) {
         message=messageRepository.save(message);
         template.convertAndSend(NotificationEndpoints.MESSAGE_CREATED+message.getChat().getUser1().getUser().getId().toString(), message);
-        template.convertAndSend(NotificationEndpoints.MESSAGE_CREATED+message.getChat().getUser2().getUser().getId().toString(), message);
+        if(message.getChat().getUser1().getUser().getId()!=message.getChat().getUser2().getUser().getId())
+            template.convertAndSend(NotificationEndpoints.MESSAGE_CREATED+message.getChat().getUser2().getUser().getId().toString(), message);
         return message;
     }
 

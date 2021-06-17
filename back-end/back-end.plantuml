@@ -1,0 +1,897 @@
+@startuml
+
+title __SOCIALMEDIA's Class Diagram__\n
+
+  namespace  {
+    class MavenWrapperDownloader {
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      class com.licenta.socialmedia.SocialmediaApplication {
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace configuration {
+        class com.licenta.socialmedia.configuration.WebSecurityConfigurer {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace configuration {
+        class com.licenta.socialmedia.configuration.WebSocketConfigurer {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.AuthenticationController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.ChatController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.CommentController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.LikeController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.NotificationController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.PostController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.ProfileController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.StoryController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace controller {
+        class com.licenta.socialmedia.controller.UserController {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.request {
+        class com.licenta.socialmedia.dto.request.AuthenticationRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.request {
+        class com.licenta.socialmedia.dto.request.CommentPostRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.request {
+        class com.licenta.socialmedia.dto.request.LikePostRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.request {
+        class com.licenta.socialmedia.dto.request.OpenNotificationRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.request {
+        class com.licenta.socialmedia.dto.request.UpdateProfileRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.request {
+        class com.licenta.socialmedia.dto.request.UploadPostRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.request {
+        class com.licenta.socialmedia.dto.request.UploadStoryRequest {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.response {
+        class com.licenta.socialmedia.dto.response.AuthenticationResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace dto.response {
+        class com.licenta.socialmedia.dto.response.MessageResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace exception {
+        class com.licenta.socialmedia.exception.ApiExceptionResponse {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Chat {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.ChatMessage {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Comment {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Follow {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Like {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Notification {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Post {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Profile {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Role {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Story {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.Tag {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace model {
+        class com.licenta.socialmedia.model.User {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.IChatMessageRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.IChatRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.ICommentRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.IFollowRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.ILikeRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.INotificationRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.IPostRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.IProfileRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.IRoleRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.IStoryRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace repository {
+        interface com.licenta.socialmedia.repository.IUserRepository {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace security {
+        class com.licenta.socialmedia.security.JwtEntryPoint {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace security {
+        class com.licenta.socialmedia.security.JwtTokenFilter {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace security {
+        class com.licenta.socialmedia.security.JwtUtil {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace security {
+        class com.licenta.socialmedia.security.UserDetailsImpl {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace security {
+        namespace session {
+          class com.licenta.socialmedia.security.session.ActiveUserStore {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.IChatMessageService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.IChatService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.ICommentService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.IFollowService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.ILikeService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.INotificationService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.IPostService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.IProfileService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.IRoleService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.ISecurityService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.IStoryService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        interface com.licenta.socialmedia.service.IUserService {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.ChatMessageService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.ChatService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.CommentService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.FollowService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.LikeService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.MyUserDetailsService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.NotificationService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.PostService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.ProfileService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.RoleService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.SecurityService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.StoryService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace service {
+        namespace implementation {
+          class com.licenta.socialmedia.service.implementation.UserService {
+          }
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace util {
+        class com.licenta.socialmedia.util.NotificationEndpoints {
+        }
+      }
+    }
+  }
+  
+
+  namespace  {
+    namespace om.licenta.socialmedia {
+      namespace util {
+        class com.licenta.socialmedia.util.PhotoUtils {
+        }
+      }
+    }
+  }
+  
+
+  com.licenta.socialmedia.configuration.WebSecurityConfigurer -up-|> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+  com.licenta.socialmedia.configuration.WebSecurityConfigurer o-- com.licenta.socialmedia.security.JwtEntryPoint : unauthorizedHandler
+  com.licenta.socialmedia.configuration.WebSocketConfigurer .up.|> org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
+  com.licenta.socialmedia.configuration.WebSocketConfigurer -up-|> org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer
+  com.licenta.socialmedia.controller.AuthenticationController o-- com.licenta.socialmedia.security.session.ActiveUserStore : activeUserStore
+  com.licenta.socialmedia.controller.AuthenticationController o-- com.licenta.socialmedia.service.implementation.ProfileService : profileService
+  com.licenta.socialmedia.controller.AuthenticationController o-- com.licenta.socialmedia.service.implementation.SecurityService : securityService
+  com.licenta.socialmedia.controller.AuthenticationController o-- com.licenta.socialmedia.service.implementation.UserService : userService
+  com.licenta.socialmedia.controller.ChatController o-- com.licenta.socialmedia.service.implementation.ChatMessageService : chatMessageService
+  com.licenta.socialmedia.controller.ChatController o-- com.licenta.socialmedia.service.implementation.ChatService : chatService
+  com.licenta.socialmedia.controller.CommentController o-- com.licenta.socialmedia.service.implementation.CommentService : commentService
+  com.licenta.socialmedia.controller.CommentController o-- com.licenta.socialmedia.service.implementation.FollowService : followService
+  com.licenta.socialmedia.controller.CommentController o-- com.licenta.socialmedia.service.implementation.NotificationService : notificationService
+  com.licenta.socialmedia.controller.CommentController o-- com.licenta.socialmedia.service.implementation.PostService : postService
+  com.licenta.socialmedia.controller.LikeController o-- com.licenta.socialmedia.service.implementation.FollowService : followService
+  com.licenta.socialmedia.controller.LikeController o-- com.licenta.socialmedia.service.implementation.LikeService : likeService
+  com.licenta.socialmedia.controller.LikeController o-- com.licenta.socialmedia.service.implementation.NotificationService : notificationService
+  com.licenta.socialmedia.controller.LikeController o-- com.licenta.socialmedia.service.implementation.PostService : postService
+  com.licenta.socialmedia.controller.NotificationController o-- com.licenta.socialmedia.service.implementation.NotificationService : notificationService
+  com.licenta.socialmedia.controller.PostController o-- com.licenta.socialmedia.service.implementation.FollowService : followService
+  com.licenta.socialmedia.controller.PostController o-- com.licenta.socialmedia.service.implementation.PostService : postService
+  com.licenta.socialmedia.controller.PostController o-- com.licenta.socialmedia.service.implementation.UserService : userService
+  com.licenta.socialmedia.controller.ProfileController o-- com.licenta.socialmedia.service.implementation.FollowService : followService
+  com.licenta.socialmedia.controller.ProfileController o-- com.licenta.socialmedia.service.implementation.NotificationService : notificationService
+  com.licenta.socialmedia.controller.ProfileController o-- com.licenta.socialmedia.service.implementation.ProfileService : profileService
+  com.licenta.socialmedia.controller.ProfileController o-- com.licenta.socialmedia.service.implementation.UserService : userService
+  com.licenta.socialmedia.controller.StoryController o-- com.licenta.socialmedia.service.implementation.StoryService : storyService
+  com.licenta.socialmedia.controller.UserController o-- com.licenta.socialmedia.service.implementation.UserService : userService
+  com.licenta.socialmedia.dto.request.CommentPostRequest o-- com.licenta.socialmedia.model.Comment : comment
+  com.licenta.socialmedia.dto.request.LikePostRequest o-- com.licenta.socialmedia.model.Like : like
+  com.licenta.socialmedia.dto.response.AuthenticationResponse o-- com.licenta.socialmedia.model.User : user
+  com.licenta.socialmedia.model.Chat o-- com.licenta.socialmedia.model.Profile : user1
+  com.licenta.socialmedia.model.Chat o-- com.licenta.socialmedia.model.Profile : user2
+  com.licenta.socialmedia.model.ChatMessage o-- com.licenta.socialmedia.model.Chat : chat
+  com.licenta.socialmedia.model.ChatMessage o-- com.licenta.socialmedia.model.Profile : sender
+  com.licenta.socialmedia.model.Comment o-- com.licenta.socialmedia.model.User : user
+  com.licenta.socialmedia.model.Follow o-- com.licenta.socialmedia.model.User : followed
+  com.licenta.socialmedia.model.Follow o-- com.licenta.socialmedia.model.User : follower
+  com.licenta.socialmedia.model.Like o-- com.licenta.socialmedia.model.User : user
+  com.licenta.socialmedia.model.Notification o-- com.licenta.socialmedia.model.Post : post
+  com.licenta.socialmedia.model.Notification o-- com.licenta.socialmedia.model.User : receiver
+  com.licenta.socialmedia.model.Notification o-- com.licenta.socialmedia.model.User : sender
+  com.licenta.socialmedia.model.Post o-- com.licenta.socialmedia.model.User : user
+  com.licenta.socialmedia.model.Profile o-- com.licenta.socialmedia.model.User : user
+  com.licenta.socialmedia.model.Story o-- com.licenta.socialmedia.model.User : user
+  com.licenta.socialmedia.model.Tag o-- com.licenta.socialmedia.model.User : user
+  com.licenta.socialmedia.security.JwtEntryPoint .up.|> org.springframework.security.web.AuthenticationEntryPoint
+  com.licenta.socialmedia.security.JwtTokenFilter -up-|> org.springframework.web.filter.OncePerRequestFilter
+  com.licenta.socialmedia.security.JwtTokenFilter o-- com.licenta.socialmedia.security.JwtUtil : jwtUtil
+  com.licenta.socialmedia.security.JwtTokenFilter o-- com.licenta.socialmedia.service.implementation.MyUserDetailsService : userDetailsService
+  com.licenta.socialmedia.security.UserDetailsImpl .up.|> org.springframework.security.core.userdetails.UserDetails
+  com.licenta.socialmedia.service.implementation.ChatMessageService .up.|> com.licenta.socialmedia.service.IChatMessageService
+  com.licenta.socialmedia.service.implementation.ChatMessageService o-- com.licenta.socialmedia.repository.IChatMessageRepository : messageRepository
+  com.licenta.socialmedia.service.implementation.ChatService .up.|> com.licenta.socialmedia.service.IChatService
+  com.licenta.socialmedia.service.implementation.ChatService o-- com.licenta.socialmedia.repository.IChatRepository : chatRepository
+  com.licenta.socialmedia.service.implementation.CommentService .up.|> com.licenta.socialmedia.service.ICommentService
+  com.licenta.socialmedia.service.implementation.CommentService o-- com.licenta.socialmedia.repository.ICommentRepository : commentRepository
+  com.licenta.socialmedia.service.implementation.FollowService .up.|> com.licenta.socialmedia.service.IFollowService
+  com.licenta.socialmedia.service.implementation.FollowService o-- com.licenta.socialmedia.repository.IFollowRepository : followRepository
+  com.licenta.socialmedia.service.implementation.FollowService o-- com.licenta.socialmedia.repository.IProfileRepository : profileRepository
+  com.licenta.socialmedia.service.implementation.FollowService o-- com.licenta.socialmedia.repository.IUserRepository : userRepository
+  com.licenta.socialmedia.service.implementation.LikeService .up.|> com.licenta.socialmedia.service.ILikeService
+  com.licenta.socialmedia.service.implementation.LikeService o-- com.licenta.socialmedia.repository.ILikeRepository : likeRepository
+  com.licenta.socialmedia.service.implementation.MyUserDetailsService .up.|> org.springframework.security.core.userdetails.UserDetailsService
+  com.licenta.socialmedia.service.implementation.MyUserDetailsService o-- com.licenta.socialmedia.repository.IUserRepository : userRepository
+  com.licenta.socialmedia.service.implementation.NotificationService .up.|> com.licenta.socialmedia.service.INotificationService
+  com.licenta.socialmedia.service.implementation.NotificationService o-- com.licenta.socialmedia.repository.INotificationRepository : notificationRepository
+  com.licenta.socialmedia.service.implementation.PostService .up.|> com.licenta.socialmedia.service.IPostService
+  com.licenta.socialmedia.service.implementation.PostService o-- com.licenta.socialmedia.repository.IPostRepository : postRepository
+  com.licenta.socialmedia.service.implementation.PostService o-- com.licenta.socialmedia.repository.IUserRepository : userRepository
+  com.licenta.socialmedia.service.implementation.ProfileService .up.|> com.licenta.socialmedia.service.IProfileService
+  com.licenta.socialmedia.service.implementation.ProfileService o-- com.licenta.socialmedia.repository.IProfileRepository : profileRepository
+  com.licenta.socialmedia.service.implementation.SecurityService .up.|> com.licenta.socialmedia.service.ISecurityService
+  com.licenta.socialmedia.service.implementation.SecurityService o-- com.licenta.socialmedia.security.JwtUtil : jwtUtils
+  com.licenta.socialmedia.service.implementation.SecurityService o-- com.licenta.socialmedia.repository.IUserRepository : userRepository
+  com.licenta.socialmedia.service.implementation.StoryService .up.|> com.licenta.socialmedia.service.IStoryService
+  com.licenta.socialmedia.service.implementation.StoryService o-- com.licenta.socialmedia.service.implementation.FollowService : followService
+  com.licenta.socialmedia.service.implementation.StoryService o-- com.licenta.socialmedia.repository.IStoryRepository : storyRepository
+  com.licenta.socialmedia.service.implementation.StoryService o-- com.licenta.socialmedia.service.implementation.UserService : userService
+  com.licenta.socialmedia.service.implementation.UserService .up.|> com.licenta.socialmedia.service.IUserService
+  com.licenta.socialmedia.service.implementation.UserService o-- com.licenta.socialmedia.repository.IUserRepository : userRepository
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

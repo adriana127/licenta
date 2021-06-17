@@ -1,0 +1,32 @@
+<div id="background">
+    <div class="container">
+      <mat-card style="box-shadow: none !important; border-radius: 30px;">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row">
+        <img [src]="imgURL" id="image" (click)="file.click()">
+        <input #file type="file" accept='image/*' id="fileupload" (change)="preview(file.files)" />
+      </div>
+     
+        </mat-card-content>
+      
+      <mat-card-actions>
+        <div class="row">
+          <div class="col-sm-6">
+            <button mat-raised-button color="primary" id="discardButton" value="upload"
+            class="addfiles">DISCARD</button>
+            
+          </div>
+          <div class="col-sm-6">
+            <button mat-raised-button color="primary" id="uploadButton" (click)="onUpload()" value="upload"
+            class="addfiles">UPLOAD</button>
+            
+          </div>
+        </div>
+      
+      </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>

@@ -2,7 +2,6 @@ package com.licenta.socialmedia.service;
 
 import com.licenta.socialmedia.model.Chat;
 import com.licenta.socialmedia.model.Profile;
-import com.licenta.socialmedia.model.User;
 
 import java.util.List;
 import java.util.Optional;

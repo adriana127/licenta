@@ -113,7 +113,7 @@ export class HeaderComponent implements AfterViewInit {
   updateNewMessage(message: ChatMessage) {
     if (message.sender.user.id == this.authenticationService.getCurrentUser().id)
       message!.state = true
-    else if (!message!.state)
+    else if (!message!.state&&this.chats.filter(chat=>chat.message.state===false).length==0)
       this.numberOfMessages += 1
     this.messagesBadge = this.numberOfMessages == 0
   }
