@@ -1,0 +1,55 @@
+  <div *ngIf="newPostsCreated" style="position: fixed;background-color: tomato;  margin-bottom: 10%; height: 30px;">
+    <button (click)="loadLatestPosts()">See latest posts.</button>
+  </div><div id="mydiv" *ngIf="loaded"  style="margin-top: 30px;" >
+
+  <div >
+  <button mat-flat-button id="addButton" (click)="createPost()">Create Post</button>
+
+  <div *ngFor="let newsfeedPost of posts">
+    <mat-card id="newsfeedCard">
+      <mat-card-header>
+        <mat-card-title>
+          <p>{{newsfeedPost.post.user.nickname}}</p>
+        </mat-card-title>
+      </mat-card-header>
+      <img [src]="newsfeedPost.post.photo | image" (click)="popupPost(newsfeedPost)"
+        style="max-width: 400px;min-width: 100px;max-height: 200px; min-height: 200px;" alt="Can't load the image.">
+      <mat-card-content>
+        {{newsfeedPost.post.description}}
+        <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
+          <mat-chip class="example-box" cdkDrag *ngFor="let tag of newsfeedPost.post.tags">
+            {{tag.nickname}}
+          </mat-chip>
+        </mat-chip-list>
+
+      </mat-card-content>
+      <hr>
+      <mat-card-actions>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-1">
+              <a (click)="onLike(newsfeedPost)"> <img *ngIf="!newsfeedPost.liked" style="max-height: 30px;max-width: 40px;"
+                  src="assets\resources\heart-empty.png"></a>
+              <a (click)="onUnlike(newsfeedPost)"> <img *ngIf="newsfeedPost.liked" style="max-height: 30px;max-width: 40px;"
+                  src="assets\resources\2h.png"></a>
+
+            </div>
+            <div class="col-sm-2">
+              <p style="font-size: small; margin-top: 5px; margin-left:-10px;">{{newsfeedPost.numberOfLikes}}</p>
+            </div>
+            <div class="col-sm-1">
+              <a (click)="popupPost(newsfeedPost)"> <img style="height: 25px;width: 30px;" src="assets\resources\comment.png"></a>
+            </div>
+            <div class="col-sm-3">
+              <p style="font-size: small;margin-top: 5px;">{{newsfeedPost.numberOfComments}}</p>
+            </div>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <button id="addButton" (click)="loadMorePosts()" *ngIf="postExits"> Load more</button>
+</div>
+</div>
+<mat-spinner *ngIf="!loaded" style="margin:0 auto;" 
+mode="indeterminate"></mat-spinner>

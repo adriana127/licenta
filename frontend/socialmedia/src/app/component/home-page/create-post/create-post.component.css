@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Itim&family=Patrick+Hand&display=swap');
+#fileupload {
+    display: none;
+}
+#image{
+    display:block;
+    margin:auto;
+    min-height: 300px;
+    min-width: 200px;
+    max-height: 300px;
+    max-width: 400px;
+}
+#uploadButton{
+    display:block;
+    margin:auto;
+    width: 150px;
+    background-color: rgb(255, 122, 118) ;
+    padding-left: inherit;
+    border-radius: 30px;
+    font-family: 'Itim', cursive;
+    
+}
+#discardButton{
+    display:block;
+    margin:auto;
+    width: 150px;
+    color: black;
+    background-color: rgb(255, 255, 255) ;
+    padding-left: inherit;
+    border-radius: 30px;
+    font-family: 'Itim', cursive;
+    
+}
+
+.row{
+    
+      padding-bottom: 20px;
+      margin: auto;
+
+}
+.container {
+    padding-right: 1rem;
+    padding-left: 1rem;
+    width: 500px;
+    border-radius: 30px;
+}
+.label{
+    font-family: 'Itim', cursive;
+
+}
+  

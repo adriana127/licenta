@@ -24,15 +24,15 @@ export class SuggestionsComponent implements OnInit {
   }
 
   async follow(user: User) {
-    this.profileService.follow(user).subscribe(data => { });
-    this.suggestions.forEach(value => {
-      if (value.profile.user.id === user.id)
-        value.disabled = true;
+    this.profileService.follow(user).subscribe(async () => {
+      this.suggestions.forEach(value => {
+        if (value.profile.user.id === user.id)
+          value.disabled = true;
+      });
+      await this.delay(3000)
+      this.suggestions = this.suggestions.filter(suggestion => suggestion.profile.user != user)
     });
-    await this.delay(3000)
-    this.suggestions = this.suggestions.filter(va => va.profile.user != user)
   }
-  
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }

@@ -1,0 +1,122 @@
+<div *ngIf="loaded">
+    <body>
+        <nav class="navbar navbar-expand-sm">
+            <div class="container-fluid">
+
+                <div class="col-sm-2">
+                    <img id="logo" routerLink="/home" src="assets/resources/logo.png">
+                </div>
+
+                <div class="col-sm-1">
+                    <a routerLink="/home">
+                        <img id="home" src="assets/resources/home.png">
+                    </a>
+                </div>
+
+                <div class="col-sm-5">
+                    <mat-form-field id="search">
+                        <input  
+                        (input)="onSearchChange()"
+                        type="text"
+                        placeholder="Search"
+                        aria-label="Number"
+                        matInput
+                        [formControl]="searchControl"
+                        [matAutocomplete]="auto"
+                        aria-label="Search">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of options" [value]="option">
+                                <button mat-menu-item [routerLink]="['/profile']" [queryParams]="{ username:option.user.username}">
+                                    <div class="row" style="width: 100%; margin-left: 0%;">
+                                        <div class="col-sm-4">
+                                            <img [src]="option.photo ? (option.photo| image) : 'assets/resources/user.png'" style="width: 30px;height: 30px; border-radius: 50%;"
+                                                alt="Card image cap">
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <label style="font-size: smaller;">{{option.user.nickname}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </button>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-sm-1" style="margin-left: 40px;">
+                    <button [matMenuTriggerFor]="menu" [matBadge]="numberOfNotifications" matBadgeColor="warn"
+                        [matBadgeHidden]="hidden"
+                        
+                        style="padding-top: 0px;padding-right: 0px;background-color:transparent;border: transparent;">
+                        <img id="notification" src="assets/resources/notification.png" (click)="onNotificationOpen()">
+                    </button>
+
+                    <mat-menu #menu="matMenu" (mouseleave)="onMenuClose()">
+                        <div *ngFor="let notification of notifications" style="width: 200px;">
+                            <button mat-menu-item (click)="onClick(notification)">
+                                    <label style="font-size: smaller;">{{notification.message}}</label>
+                            </button>
+                        </div>
+                        <button mat-menu-item style="width: 100%; background-color: wheat;" (click)="loadMoreNotifications()" (click)="$event.stopPropagation();">
+                            <div class="row" style="padding-top: 10px;margin-left: 5%; ">
+                                <label style="font-size: smaller;">Load more notifications.</label>
+                            </div>
+                        </button>
+                    </mat-menu>
+                </div>
+                <div class="col-sm-1">
+                    <button [matMenuTriggerFor]="menu2" [matBadge]="numberOfMessages" matBadgeColor="warn"
+                        [matBadgeHidden]="messagesBadge"
+                        
+                        style="padding-top: 0px;padding-right: 0px;background-color:transparent;border: transparent;">
+                        <img id="notification" src="assets/resources/chat.png" (click)="onNotificationOpen()">
+                    </button>
+
+                    <mat-menu #menu2="matMenu" (mouseleave)="onMenuClose()">
+                        <div *ngFor="let chat of chats" style="width: 200px;">
+                            <button mat-menu-item style="border: none !important;box-shadow: none !important;" 
+                                [ngClass]="{'new' : chat.message.state === false}" >
+                                      <div class="row" style="height: 20px;">
+                                        <div class="col-sm-1">
+                                          <img [src]="chat.chat.user2.photo ? (chat.chat.user2.photo| image) : 'assets/resources/user.png'"
+                                              style="width: 20px;height: 20px; border-radius: 50%;" alt="Card image cap">
+                                        </div>
+                                        <div class="col-sm-9" style="font-size: small; margin: 0;">
+                                          <div class="row" style="margin: 0; padding-top: 0%;">
+                            
+                                            <p>{{chat.chat.user2.user.nickname}}</p>
+                                          </div>
+                                          <div class="row" style="margin: 0;">
+                                            <p>{{chat.message.message}}</p>
+                                          </div>
+                                        </div>
+                                    </div>
+                            </button>
+                        </div>
+                        <button mat-menu-item style="width: 100%; " [routerLink]="['/chat']" (click)="$event.stopPropagation();">
+                            <div class="row" style="padding-top: 10px;margin-left: 5%; ">
+                                <label style="font-size: smaller;">Open chats.</label>
+                            </div>
+                        </button>
+                    </mat-menu>
+                </div>
+                <div class="col-sm-1">
+                    <a routerLink="/profile" [queryParams]="{ username:profile.user.username}">
+                        <p id="username">{{profile.user.nickname}}</p>
+                    </a>
+                </div>
+
+                <div class="col-sm-1">
+                    <a routerLink="/profile" [queryParams]="{username:profile.user.username}">
+                        <img id="profilePhoto" [src]="profile.photo ? (profile.photo| image) : 'assets/resources/user.png'">
+                    </a>
+                </div>
+
+                <div class="col-sm-1">
+                    <a routerLink="/login" (click)="logout()"> <img id="logout" src="assets/resources/logut2.png">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </body>
+</div>

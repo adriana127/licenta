@@ -1,0 +1,22 @@
+<mat-card style="text-align: center;margin-top: 35px; background-color: rgb(255,250,250); height: 830px; width: 90%; border-radius: 30px;margin-left:5%;">
+    <mat-card-header>
+        <app-header></app-header>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="row">
+            <div class="col-sm-2"
+                style="background-color: white; box-shadow:5px 5px 15px rgba(216, 134, 134, 0.205);border-radius: 30px; ">
+                <app-stories></app-stories>
+            </div>
+            <div class="col-sm-8" id="content">
+                <app-news-feed>
+                </app-news-feed>
+            </div>
+            <div class="col-sm-2"
+                style="background-color: white; box-shadow:4px 4px 10px rgba(216, 134, 134, 0.459);border-radius: 30px">
+                <app-suggestions></app-suggestions>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

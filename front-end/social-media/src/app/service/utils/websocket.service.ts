@@ -19,7 +19,8 @@ export class WebSocketService {
 
     private connect(): Observable<Client> {
         return new Observable<Client>(observer => {
-            this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
+            this.state.pipe(filter(state => state === SocketClientState.CONNECTED))
+            .subscribe(() => {
                 observer.next(this.stompClient);
             });
         });

@@ -1,0 +1,35 @@
+<div *ngIf="loaded">
+    <div *ngFor="let suggestion of suggestions">
+        <mat-card style="border: none !important;box-shadow: none !important;">
+            <mat-card-content>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <a [routerLink]="['/profile']" [queryParams]="{ username:suggestion.profile.user.username}">
+                            <img [src]="suggestion.profile.photo? (suggestion.profile.photo| image) : 'assets/resources/user.png'" style="width: 50px;height: 50px; border-radius: 50%;"
+                                alt="Can't load the image.">
+                        </a>
+                    </div>
+                    <div class="col-sm-6" style="font-size: small; ">
+
+                        <div class="row">
+                            <div class="col-sm-6" style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
+
+                                <p [routerLink]="['/profile']" [queryParams]="{ username:suggestion.profile.user.username}"
+                                    style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
+                                    {{suggestion.profile.user.nickname}}</p>
+
+                                <div class="col-sm-6" style="font-size: small;padding-left: 0px;">
+                                    <button id="addButton" [disabled]="suggestion.disabled"
+                                        (click)="follow(suggestion.profile.user)">follow</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-card-content>
+        </mat-card>
+        <hr>
+    </div>
+
+</div>

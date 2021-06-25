@@ -1,0 +1,17 @@
+
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+#mydiv {
+    max-height: 720px;
+    overflow-y: scroll;
+  }
+#newsfeedCard{
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: white; 
+    box-shadow:4px 4px 10px rgba(216, 134, 134, 0.459); 
+    border-radius: 30px;
+    width: 90%;
+    margin-left: 5%;
+  }
+

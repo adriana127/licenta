@@ -1,0 +1,58 @@
+<div *ngIf="loaded">
+  <div class="container">
+
+    <div class="col-sm-12">
+      <mat-form-field id="search" style="width: 90%;">
+        <input [(ngModel)]="inputValue" (input)="onSearchChange()" type="text" placeholder="Search" aria-label="Number" matInput
+          [formControl]="searchControl" [matAutocomplete]="auto" aria-label="Search">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of options">
+            <button (click)="createChat(option,undefined) ">
+              <div class="row" style="width: 100%; margin-left: 0%;">
+                <div class="col-sm-4">
+                  <img [src]="option.photo ? (option.photo| image) : 'assets/resources/user.png'"
+                    style="width: 30px;height: 30px; border-radius: 50%;" alt="Card image cap">
+                </div>
+                <div class="col-sm-8">
+                  <label style="font-size: smaller;">{{option.user.nickname}}
+                  </label>
+                </div>
+              </div>
+            </button>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div *ngFor="let chat of chats">
+    <mat-card style="border: none !important;box-shadow: none !important;" 
+   
+    (click)="createChat(chat.chat.user2,chat.message)" >
+
+      <mat-card-content>
+        <div class="container"  >
+          <div class="row" [ngClass]="{'new' : chat.message.state === false}">
+            <div class="col-sm-3">
+              <img
+                  [src]="chat.chat.user2.photo ? (chat.chat.user2.photo| image) : 'assets/resources/user.png'"
+                  style="width: 50px;height: 50px; border-radius: 50%;" alt="Card image cap">
+            </div>
+            <div class="col-sm-9" style="font-size: small; margin-top: 15px; margin: 0;">
+              <div class="row">
+
+                <p>{{chat.chat.user2.user.nickname}}</p>
+              </div>
+              <div class="row">
+                <p>{{chat.message.message}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <button id="addButton" *ngIf="canLoadMoreChats" (click)="loadMoreChats()"> Load more</button>
+
+</div>

@@ -37,7 +37,6 @@ export class CreateStoryComponent implements OnInit {
     }
   }
 
-
   onUpload() {
     this.storyService.createStory(this.story, this.selectedFile)
       .subscribe((response) => {
