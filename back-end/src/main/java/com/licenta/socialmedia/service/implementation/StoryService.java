@@ -4,6 +4,7 @@ import com.licenta.socialmedia.model.Story;
 import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.repository.IStoryRepository;
 import com.licenta.socialmedia.service.IStoryService;
+import com.licenta.socialmedia.util.PhotoUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -51,6 +52,7 @@ public class StoryService implements IStoryService {
             stories.addAll(result
                     .getContent());
         });
+        stories.forEach(story->{story.setPhoto(PhotoUtils.decompressBytes(story.getPhoto()));});
         return stories;
     }
 }

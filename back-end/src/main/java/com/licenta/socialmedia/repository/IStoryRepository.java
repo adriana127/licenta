@@ -13,12 +13,13 @@ import java.util.Optional;
 @Repository
 public interface IStoryRepository extends PagingAndSortingRepository<Story, Long> {
     @Query(value = "select * from socialmedia.story s " +
-            "WHERE NOT EXISTS " +
+            "WHERE  DATEDIFF( now(),s.created_on )<1 AND NOT EXISTS " +
             "(" +
             "SELECT * FROM socialmedia.story_followers sf " +
             "where s.id=sf.story_id " +
             "AND sf.followers_id=:followerId " +
-            "AND s.user_id=:userId " +
+            "AND s.created_on < curdate() + interval 1 day " +
+            "AND s.user_id=:userId )" +
             "order by s.created_on DESC", nativeQuery = true)
     Optional<Page<Story>> findAllByUser_IdnAndAndFollowers_Id(Long userId, Long followerId, Pageable pageRequest);
 }

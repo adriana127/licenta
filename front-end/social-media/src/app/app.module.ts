@@ -38,6 +38,7 @@ import { CurrentChatComponent } from './component/chat-page/current-chat/current
 import { ActiveChatsComponent } from './component/chat-page/active-chats/active-chats.component';
 import { ImagePipe } from './pipe/image.pipe';
 import { CreateStoryComponent } from './component/home-page/create-story/create-story.component';
+import { StoryPopupComponent } from './component/home-page/story-popup/story-popup.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +60,7 @@ import { CreateStoryComponent } from './component/home-page/create-story/create-
     ActiveChatsComponent,
     ImagePipe,
     CreateStoryComponent,
+    StoryPopupComponent,
   ],
   imports: [
     BrowserModule,
