@@ -23,7 +23,18 @@ public class ChatService implements IChatService {
     UserService userService;
     @Override
     public Chat add(Chat user) {
-        return chatRepository.save(user);
+        if(user.getUser1().getPhoto()!=null)
+            user.getUser1().setPhoto(PhotoUtils.compressBytes(user.getUser1().getPhoto()));
+        if(!user.getUser1().getId().equals(user.getUser2().getId()))
+            if(user.getUser2().getPhoto()!=null)
+            user.getUser2().setPhoto(PhotoUtils.compressBytes(user.getUser2().getPhoto()));
+        user=chatRepository.save(user);
+        if(user.getUser1().getPhoto()!=null)
+            user.getUser1().setPhoto(PhotoUtils.decompressBytes(user.getUser1().getPhoto()));
+        if(!user.getUser1().getId().equals(user.getUser2().getId()))
+        if(user.getUser2().getPhoto()!=null)
+            user.getUser2().setPhoto(PhotoUtils.decompressBytes(user.getUser2().getPhoto()));
+        return user;
     }
 
     @Override
@@ -49,10 +60,12 @@ public class ChatService implements IChatService {
     public List<Chat> getAll(Long id,int numberRequest) {
         var chats=chatRepository.findAllByUser1_IdOrUser2_Id(id, PageRequest.of(numberRequest,5)).getContent();
         chats.forEach(message -> {
-            if(message.getUser1().getPhoto()!=null)
+            if(!message.getUser1().getId().equals(message.getUser2().getId()))
+                if(message.getUser1().getPhoto()!=null)
                 message.getUser1().setPhoto(PhotoUtils.decompressBytes(message.getUser1().getPhoto()));
-        if(message.getUser2().getPhoto()!=null)
-            message.getUser2().setPhoto(PhotoUtils.decompressBytes(message.getUser2().getPhoto()));});
+            if(!message.getUser1().getId().equals(message.getUser2().getId()))
+                if(message.getUser2().getPhoto()!=null)
+                     message.getUser2().setPhoto(PhotoUtils.decompressBytes(message.getUser2().getPhoto()));});
         return chats;
     }
 }
