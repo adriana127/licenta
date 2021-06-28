@@ -39,6 +39,8 @@ import { ActiveChatsComponent } from './component/chat-page/active-chats/active-
 import { ImagePipe } from './pipe/image.pipe';
 import { CreateStoryComponent } from './component/home-page/create-story/create-story.component';
 import { StoryPopupComponent } from './component/home-page/story-popup/story-popup.component';
+import { PostCreatedResponseComponent } from './component/response-pages/post-created-response/post-created-response.component';
+import { StoryCreatedResponseComponent } from './component/response-pages/story-created-response/story-created-response.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,6 +63,8 @@ import { StoryPopupComponent } from './component/home-page/story-popup/story-pop
     ImagePipe,
     CreateStoryComponent,
     StoryPopupComponent,
+    PostCreatedResponseComponent,
+    StoryCreatedResponseComponent,
   ],
   imports: [
     BrowserModule,

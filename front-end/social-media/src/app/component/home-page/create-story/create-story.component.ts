@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { IStory } from 'src/app/model/story';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { StoryService } from 'src/app/service/story.service';
+import { StoryCreatedResponseComponent } from '../../response-pages/story-created-response/story-created-response.component';
 
 @Component({
   selector: 'app-create-story',
@@ -14,6 +15,7 @@ export class CreateStoryComponent implements OnInit {
   constructor(
     private storyService:StoryService,
     private dialogRef: MatDialogRef<CreateStoryComponent>,
+    private dialog: MatDialog,
     private authenticationService:AuthenticationService
     ) {
     this.story = { id: 0, user: this.authenticationService.getCurrentUser(), createdOn: new Date(),followers: [], photo: "" };
@@ -40,10 +42,13 @@ export class CreateStoryComponent implements OnInit {
   onUpload() {
     this.storyService.createStory(this.story, this.selectedFile)
       .subscribe((response) => {
-        alert(response)
-        this.closeDialog()
-      }
-      );
+        this.dialog.open(StoryCreatedResponseComponent, {
+          width: '500px',
+          height: '200px'
+        })
+      this.closeDialog()
+    }
+    );
   }
 
   closeDialog(){

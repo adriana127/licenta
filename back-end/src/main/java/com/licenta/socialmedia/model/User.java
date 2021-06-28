@@ -27,7 +27,7 @@ public class User {
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Post> tags;
 

@@ -1,7 +1,8 @@
-  <div *ngIf="newPostsCreated" style="position: fixed;background-color: tomato;  margin-bottom: 10%; height: 30px;">
-    <button (click)="loadLatestPosts()">See latest posts.</button>
-  </div><div id="mydiv" *ngIf="loaded"  style="margin-top: 30px;" >
-
+  <div *ngIf="newPostsCreated" style="position: fixed; margin-bottom: 10%; height: 30px; width: 55%;">
+      <button style="background-color: transparent;border-color: transparent;    box-shadow:0px 0px 5px rgba(216, 134, 134, 0.459); 
+      ;width: 100%; text-align: center;" (click)="loadLatestPosts()"><p style=" font-family: 'Itim', cursive;">See latest posts.</p>
+  </button>
+  </div><div id="mydiv" *ngIf="loaded"  style="margin-top: 50px;" >
   <div >
   <button mat-flat-button id="addButton" (click)="createPost()">Create Post</button>
 
