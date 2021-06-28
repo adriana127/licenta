@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { Post } from 'src/app/model/post';
 import { PostService } from 'src/app/service/post.service';
+import { ProfileService } from 'src/app/service/profile.service';
 import { PostPopupComponent } from '../../post-page/post-popup/post-popup.component';
 
 import { CreatePostComponent } from '../create-post/create-post.component'
@@ -22,7 +23,8 @@ export class NewsFeedComponent implements OnInit{
               private postService: PostService){
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.postService.loadData()
     this.posts=[]
     this.loadMorePostsRequestNumber=0
     this.newPostsCreated=false

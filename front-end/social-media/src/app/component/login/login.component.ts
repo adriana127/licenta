@@ -79,6 +79,8 @@ export class LoginComponent {
         .subscribe(async data => {
           this.profileService.getProfile(data.user)
             .then(data => {
+          console.log(data)
+              
               this.profileService.setCurrentProfile(data)
               this.router.navigateByUrl("/home");
             });

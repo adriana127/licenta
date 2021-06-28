@@ -65,7 +65,7 @@ public class PostController {
 
         if(!followService.getFollowing(userService.findById(id).get()).isEmpty())
         return postService.getNewsFeedPosts(id,followService.getFollowing(userService.findById(id).get()),numberOfRequest);
-   return new ArrayList<>();
+        return new ArrayList<>();
     }
 
     @RequestMapping(value = "/personalPosts/{id}", method = RequestMethod.GET)

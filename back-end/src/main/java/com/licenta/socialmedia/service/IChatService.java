@@ -13,6 +13,7 @@ public interface IChatService {
 
     Optional<Chat> findById(Long id);
     Chat findByUsers(Profile user1, Profile user2);
+    Chat findByUsersUsernames(String user1, String user2);
 
     List<Chat> getAll(Long id,int numberRequest);
 

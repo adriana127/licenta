@@ -75,6 +75,7 @@
                     <mat-menu #menu2="matMenu" (mouseleave)="onMenuClose()">
                         <div *ngFor="let chat of chats" style="width: 200px;">
                             <button mat-menu-item style="border: none !important;box-shadow: none !important;" 
+                            routerLink="/chat" [queryParams]="{username:chat.chat.user2.user.username}"
                                 [ngClass]="{'new' : chat.message.state === false}" >
                                       <div class="row" style="height: 20px;">
                                         <div class="col-sm-1">

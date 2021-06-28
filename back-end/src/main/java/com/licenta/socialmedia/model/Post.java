@@ -31,7 +31,7 @@ public class Post {
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Like> likes;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> tags;
 
     @Lob

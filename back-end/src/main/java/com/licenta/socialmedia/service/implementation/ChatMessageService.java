@@ -5,6 +5,7 @@ import com.licenta.socialmedia.model.ChatMessage;
 import com.licenta.socialmedia.repository.IChatMessageRepository;
 import com.licenta.socialmedia.service.IChatMessageService;
 import com.licenta.socialmedia.util.NotificationEndpoints;
+import com.licenta.socialmedia.util.PhotoUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +24,11 @@ public class ChatMessageService implements IChatMessageService {
 
     @Override
     public ChatMessage add(ChatMessage message) {
+        if(message.getSender().getPhoto()!=null)
+            message.getSender().setPhoto(PhotoUtils.compressBytes(message.getSender().getPhoto()));
         message=messageRepository.save(message);
+        if(message.getSender().getPhoto()!=null)
+            message.getSender().setPhoto(PhotoUtils.decompressBytes( message.getSender().getPhoto()));
         template.convertAndSend(NotificationEndpoints.MESSAGE_CREATED+message.getChat().getUser1().getUser().getId().toString(), message);
         if(message.getChat().getUser1().getUser().getId()!=message.getChat().getUser2().getUser().getId())
             template.convertAndSend(NotificationEndpoints.MESSAGE_CREATED+message.getChat().getUser2().getUser().getId().toString(), message);
@@ -50,11 +55,15 @@ public class ChatMessageService implements IChatMessageService {
 
     @Override
     public List<ChatMessage> getAll(Long id) {
-        return messageRepository.findAllByChat_Id(id, PageRequest.of(0,Integer.MAX_VALUE)).getContent();
+        var messages=messageRepository.findAllByChat_Id(id, PageRequest.of(0,Integer.MAX_VALUE)).getContent();
+
+        return messages;
     }
 
     @Override
     public List<ChatMessage> getLastMessages(Long id, int requestNumber) {
-        return messageRepository.findAllByChat_Id(id,PageRequest.of(requestNumber,5)).getContent();
+        var messages=messageRepository.findAllByChat_Id(id,PageRequest.of(requestNumber,5)).getContent();
+
+        return messages;
     }
 }

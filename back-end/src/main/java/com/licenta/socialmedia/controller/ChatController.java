@@ -41,7 +41,11 @@ public class ChatController {
     public Chat updateChat(@RequestBody Chat chat) throws Exception {
         return chatService.add(chat);
     }
-
+    @GetMapping(value = "/chat/{user1}/{user2}")
+    Chat getChatByUsers(@PathVariable String user1,
+                        @PathVariable String user2) {
+        return chatService.findByUsersUsernames(user1,user2)!=null?chatService.findByUsersUsernames(user1,user2):chatService.findByUsersUsernames(user2,user1);
+    }
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/createChatMessage")
     public ChatMessage createChatMessage(@RequestBody ChatMessage chatMessage) throws Exception {
