@@ -79,6 +79,7 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
     this.chatService
       .onMessageCreated()
       .subscribe((message: ChatMessage) => {
+        if(this.messages.filter(m=>m.id===message.id).length===0)
         this.messages.push(message)
         this.scrollToBottom();
       });

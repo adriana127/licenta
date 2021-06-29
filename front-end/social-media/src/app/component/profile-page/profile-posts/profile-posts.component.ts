@@ -48,6 +48,7 @@ export class ProfilePostsComponent implements OnInit {
   }
 
   popupPost(post:NewsFeedPost) {
+    this.postService.setSelectedPost(post)
     this.dialog.open(PostPopupComponent, {
       width: '900px',
       height: '780px',

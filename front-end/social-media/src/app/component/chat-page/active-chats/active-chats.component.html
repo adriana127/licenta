@@ -7,7 +7,7 @@
           [formControl]="searchControl" [matAutocomplete]="auto" aria-label="Search">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of options">
-            <button (click)="createChat(option,undefined) ">
+            <div (click)="createChat(option,undefined) ">
               <div class="row" style="width: 100%; margin-left: 0%;">
                 <div class="col-sm-4">
                   <img [src]="option.photo ? (option.photo| image) : 'assets/resources/user.png'"
@@ -18,7 +18,7 @@
                   </label>
                 </div>
               </div>
-            </button>
+            </div>
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>

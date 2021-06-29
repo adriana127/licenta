@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface IPostService {
     Post add(Post user,List<Profile>followers);
 
-    void delete(Post user);
+    void delete(Post post);
 
     Optional<Post> findById(Long id);
 

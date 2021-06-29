@@ -22,7 +22,7 @@ public class CommentService implements ICommentService {
 
     @Override
     public void delete(Comment user) {
-
+        commentRepository.delete(user);
     }
 
     @Override

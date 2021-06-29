@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Post } from 'src/app/model/post';
 import { PostService } from 'src/app/service/post.service';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/model/user';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Profile } from 'src/app/model/profile';
 import { ProfileService } from 'src/app/service/profile.service';
 import { PostCreatedResponseComponent } from '../../response-pages/post-created-response/post-created-response.component';
@@ -22,12 +22,14 @@ import { PostCreatedResponseComponent } from '../../response-pages/post-created-
 export class CreatePostComponent {
 
   constructor(private postService: PostService,
-              private authenticationService: AuthenticationService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
               private dialogRef: MatDialogRef<CreatePostComponent>,
               private profileService:ProfileService,
               private dialog: MatDialog,) {
-    this.post = { id: 0, user: this.authenticationService.getCurrentUser(), description: "", createdOn: new Date(), likes: [], comments: [], tags: [], photo: "" };
-    this.imgURL = "https://i.stack.imgur.com/y9DpT.jpg";
+    this.post = Object.assign({},data.dataKey);
+    if(this.postService.getSelectedPost()){
+    this.chipBoxUsers=this.postService.getSelectedPost().tags.map((a: { nickname: any; }) => a.nickname);
+    this.selectedUsers=this.postService.getSelectedPost().tags}
   }
 
   post!: Post;
@@ -46,7 +48,7 @@ export class CreatePostComponent {
     var reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.imgURL = reader.result;
+      this.post.photo = reader.result?.slice(23);
     }
   }
 
@@ -63,6 +65,8 @@ export class CreatePostComponent {
 
   onUpload() {
     this.post.tags=this.selectedUsers
+    console.log(this.post)
+    if(this.post.id==0)
     this.postService.createPost(this.post, this.selectedFile)
       .subscribe(() => {
        
@@ -70,6 +74,18 @@ export class CreatePostComponent {
             width: '500px',
             height: '200px'
           })
+        this.closeDialog()
+      }
+      );
+      else
+      this.postService.updatePost(this.post)
+      .subscribe(() => {
+       
+          this.dialog.open(PostCreatedResponseComponent, {
+            width: '500px',
+            height: '200px'
+          })
+          this.postService.setSelectedPost(this.postService.convertPostToNewsFeedPost(this.post))
         this.closeDialog()
       }
       );

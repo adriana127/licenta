@@ -73,7 +73,7 @@ public class ChatController {
 
     @SubscribeMapping(value = "/chat/{id}/{requestNumber}")
     List<Chat> getUserChats(@DestinationVariable Long id,
-                            @DestinationVariable int requestNumber) {
+                            @DestinationVariable Integer requestNumber) {
         return chatService.getAll(id, requestNumber);
     }
 

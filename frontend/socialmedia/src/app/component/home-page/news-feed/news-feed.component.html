@@ -1,7 +1,8 @@
-  <div *ngIf="newPostsCreated" style="position: fixed;background-color: tomato;  margin-bottom: 10%; height: 30px;">
-    <button (click)="loadLatestPosts()">See latest posts.</button>
-  </div><div id="mydiv" *ngIf="loaded"  style="margin-top: 30px;" >
-
+  <div *ngIf="newPostsCreated" style="position: fixed; margin-bottom: 10%; height: 30px; width: 55%;">
+      <button style="background-color: transparent;border-color: transparent;    box-shadow:0px 0px 5px rgba(216, 134, 134, 0.459); 
+      ;width: 100%; text-align: center;" (click)="loadLatestPosts()"><p style=" font-family: 'Itim', cursive;">See latest posts.</p>
+  </button>
+  </div><div id="mydiv" *ngIf="loaded"  style="margin-top: 50px;" >
   <div >
   <button mat-flat-button id="addButton" (click)="createPost()">Create Post</button>
 
@@ -9,7 +10,26 @@
     <mat-card id="newsfeedCard">
       <mat-card-header>
         <mat-card-title>
-          <p>{{newsfeedPost.post.user.nickname}}</p>
+          <div class="row" >
+            <div class="col-sm-6">
+                <a [routerLink]="['/profile']" [queryParams]="{ username:newsfeedPost.post.user.username}">
+                    <img [src]="newsfeedPost.profile.photo ? (newsfeedPost.profile.photo| image) : 'assets/resources/user.png'" style="width: 50px;height: 50px; border-radius: 50%;"
+                        alt="Card image cap">
+                </a>
+            </div>
+            <div class="col-sm-6" style="font-size: small; ">
+
+                <div class="row">
+                    <div class="col-sm-6" style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
+
+                        <p [routerLink]="['/profile']" [queryParams]="{ username:newsfeedPost.post.user.username}"
+                            style="font-size: small;margin-bottom: 0px;padding-left: 10px; margin-top: 15px;">
+                            {{newsfeedPost.profile.user.nickname}}</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
         </mat-card-title>
       </mat-card-header>
       <img [src]="newsfeedPost.post.photo | image" (click)="popupPost(newsfeedPost)"
@@ -18,7 +38,7 @@
         {{newsfeedPost.post.description}}
         <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
           <mat-chip class="example-box" cdkDrag *ngFor="let tag of newsfeedPost.post.tags">
-            {{tag.nickname}}
+            <div [routerLink]="['/profile']" [queryParams]="{ username:tag.username}">{{tag.nickname}}</div>
           </mat-chip>
         </mat-chip-list>
 

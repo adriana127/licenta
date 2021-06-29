@@ -37,7 +37,7 @@ export class EditProfileComponent  {
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
     reader.onload = (_event) => {
-      this.imgURL = reader.result;
+      this.imgURL = reader.result?.slice(23);
     }
   }
 

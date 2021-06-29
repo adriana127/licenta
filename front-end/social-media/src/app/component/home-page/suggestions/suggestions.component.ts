@@ -17,6 +17,7 @@ export class SuggestionsComponent implements OnInit {
   async ngOnInit() {
     await this.profileService.getSuggestions().then(data => {
       data.forEach(profile => {
+        if(this.suggestions.length<6)
         this.suggestions.push({ profile: profile, disabled: false })
       });
     }).catch(err => { console.log(err) })

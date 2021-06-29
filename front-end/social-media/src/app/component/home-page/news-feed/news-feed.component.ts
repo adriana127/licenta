@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { map } from 'rxjs/operators';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { Post } from 'src/app/model/post';
+import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
 import { ProfileService } from 'src/app/service/profile.service';
 import { PostPopupComponent } from '../../post-page/post-popup/post-popup.component';
@@ -20,24 +21,35 @@ export class NewsFeedComponent implements OnInit{
   newPostsCreated:boolean=false
   postExits:boolean=false
   constructor(private dialog: MatDialog,
-              private postService: PostService){
+              private postService: PostService,
+              private authenticationService:AuthenticationService){
   }
 
   async ngOnInit() {
-    this.postService.loadData()
+    await this.postService.loadData()
     this.posts=[]
     this.loadMorePostsRequestNumber=0
     this.newPostsCreated=false
-    this.postService.findAll(this.loadMorePostsRequestNumber)
-    .pipe(map(posts => posts.sort(NewsFeedComponent.descendingByPostedAt)))
-    .subscribe(posts => {
+    await this.postService.findAll(this.loadMorePostsRequestNumber)
+    .then(data => {
+      console.log(data)
+      let posts=data as Post[]
       posts.forEach(value=>{
       this.posts.push(this.postService.convertPostToNewsFeedPost(value))})
-      this.loaded=true
       if(this.posts.length>0)
         this.postExits=true
-    });
-
+    this.posts.sort((n1,n2) => {
+      if (n1.post.createdOn< n2.post.createdOn) {
+        return 1;
+    }
+    if (n1.post.createdOn > n2.post.createdOn) {
+        return -1;
+    }
+    return 0;
+  });
+    }
+    );
+    this.loaded=true
     this.postService
     .onPost()
     .subscribe(() => {  
@@ -57,22 +69,37 @@ export class NewsFeedComponent implements OnInit{
   loadMorePosts(){
     this.loadMorePostsRequestNumber+=1
     this.postService.findAll(this.loadMorePostsRequestNumber)
-    .pipe(map(posts => posts.sort(NewsFeedComponent.descendingByPostedAt)))
-    .subscribe(posts => {
+    .then(data => {
+      let posts=data as Post[]
       posts.forEach(value=>{
       this.posts.push(this.postService.convertPostToNewsFeedPost(value))})
       this.loaded=true
-    });
-
+      if(this.posts.length>0)
+        this.postExits=true
+    this.posts.sort((n1,n2) => {
+      if (n1.post.createdOn.getTime() < n2.post.createdOn.getTime()) {
+          return 1;
+      }
+      if (n1.post.createdOn.getTime() > n2.post.createdOn.getTime()) {
+          return -1;
+      }
+      return 0;
+  });
+    }).catch()
   }
 
   createPost() {
     this.dialog.open(CreatePostComponent, {
       width: '600px',
-      height: '700px'
+      height: '700px',
+      data: {
+        dataKey:{ id: 0, user: this.authenticationService.getCurrentUser(), description: "", createdOn: new Date(), likes: [], comments: [], tags: [], photo: "" }
+      }
     })
   }
   popupPost(post:NewsFeedPost) {
+    this.postService.setSelectedPost(post)
+
     this.dialog.open(PostPopupComponent, {
       width: '900px',
       height: '780px',

@@ -3,6 +3,8 @@ package com.licenta.socialmedia.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.socialmedia.dto.request.UploadPostRequest;
 import com.licenta.socialmedia.model.Post;
+import com.licenta.socialmedia.model.Profile;
+import com.licenta.socialmedia.model.User;
 import com.licenta.socialmedia.service.implementation.FollowService;
 import com.licenta.socialmedia.service.implementation.PostService;
 import com.licenta.socialmedia.service.implementation.UserService;
@@ -50,7 +52,14 @@ public class PostController {
 
         return  post;
     }
-
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping(path = "/updatePost")
+    public Post updatePost(@RequestBody Post post) throws Exception {
+        var optionalPost = postService.findById(post.getId());
+        optionalPost.get().setDescription(post.getDescription());
+        optionalPost.get().setTags(post.getTags());
+        return postService.add(optionalPost.get(),followService.getFollowers(post.getUser()));
+    }
     @GetMapping(value = "/post/{postId}")
     Post postById(@PathVariable Long postId) {
         var response = postService.findById(postId)
@@ -59,13 +68,18 @@ public class PostController {
         return response;
     }
 
-    @SubscribeMapping(value = "/posts/newsfeed/{id}/{numberOfRequest}")
-    public List<Post> getNewsfeedPosts(@DestinationVariable("id") long id,
-                                       @DestinationVariable("numberOfRequest") int numberOfRequest) {
+    @GetMapping(value = "/posts/newsfeed/{id}/{numberOfRequest}")
+    public List<Post> getNewsfeedPosts(@PathVariable ("id") Long id,
+                                       @PathVariable ("numberOfRequest") int numberOfRequest) {
 
         if(!followService.getFollowing(userService.findById(id).get()).isEmpty())
         return postService.getNewsFeedPosts(id,followService.getFollowing(userService.findById(id).get()),numberOfRequest);
         return new ArrayList<>();
+    }
+
+    @PostMapping("/deletePost")
+    public void deletePost(@RequestBody Post post) throws Exception {
+        postService.delete(post);
     }
 
     @RequestMapping(value = "/personalPosts/{id}", method = RequestMethod.GET)

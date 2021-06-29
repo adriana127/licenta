@@ -28,7 +28,7 @@ export class ProfileInformationComponent implements OnInit {
     public route: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private profileService: ProfileService,
-    private postService: PostService,
+    public postService: PostService,
     private userService: UserService,
     private router: Router) { 
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -58,8 +58,6 @@ export class ProfileInformationComponent implements OnInit {
     .then(data => {
       this.following=data
     }).catch(err => { console.log(err) })
-    
-    this.postsNumber = this.postService.getPersonalPosts().length
     this.loaded = true;
   }
 

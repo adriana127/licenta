@@ -119,11 +119,12 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   onClick(notification: INotification) {
+    this.postService.setSelectedPost(this.postService.convertPostToNewsFeedPost(notification.post))
     if (notification.post)
       this.dialog.open(PostPopupComponent, {
         width: '900px',
         height: '780px',
-        data: { dataKey: this.postService.convertPostToNewsFeedPost(notification.post) }
+        data: { dataKey: this.postService.getSelectedPost() }
       })
     else
       this.router.navigate(['/profile'], { queryParams: { username: notification.sender.username } });

@@ -10,19 +10,25 @@ import { User } from '../model/user';
 import { WebSocketService } from './utils/websocket.service';
 import { PostComment } from '../model/comment';
 import { ChatMessage } from '../model/message';
+import { ProfileService } from './profile.service';
+import { Profile } from '../model/profile';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
+
   posts!: Post[]
   newsfeedposts: NewsFeedPost[] = []
   personalPosts: NewsFeedPost[] = []
   user!: User
-
+  profiles!:Profile[]
+  numberOfPosts=0
   constructor(private restService: RestService,
+    private profileService:ProfileService,
     private authenticationService: AuthenticationService,
     private socketClient: WebSocketService) {
+     
  }
 
   public createPost(user: Post, image: File) {
@@ -31,9 +37,16 @@ export class PostService {
     formData.append('post', JSON.stringify(user));
     return this.restService.post("createPost", formData);
   }
-
-  getPersonalPosts() {
-    return this.personalPosts;
+  setNumberOfPosts(length: number) {
+    this.numberOfPosts=length;
+  }
+  getNumberOfPosts() {
+   return this.numberOfPosts
+  }
+  getPersonalPosts(user:User) {
+    this.user = user
+    this.personalPosts = []
+    return this.restService.get("http://localhost:8080/personalPosts/" + user.id)
   }
 
   likePost(postId: number) {
@@ -61,8 +74,10 @@ export class PostService {
   }
 
   convertPostToNewsFeedPost(post:Post):NewsFeedPost{
+    
     let isLiked = this.checkIfPostIsLikedByCurrentUser(post.likes, this.authenticationService.getCurrentUser().id)
-    return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length, tags: post.tags }
+    let profile=this.profiles.find(profile=>profile.user.id===post.user.id)
+    return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length,profile:profile!, tags: post.tags }
   }
 
   findAll(numberOfRequest:number): Observable<Post[]> {
@@ -89,16 +104,12 @@ export class PostService {
     return {...post, postedAt};
   }
 
-  async loadData(user: User) {
-    this.user = user
-    this.personalPosts = []
-     
-    await this.restService.get("http://localhost:8080/personalPosts/" + user.id)
-      .then(res => {
-        let posts = res as Post[]
-        posts.forEach((post: Post) => {
-          this.personalPosts.push(this.convertPostToNewsFeedPost(post))
-        })
-      })
+  async loadData() {
+    this.profiles=[]
+    await this.profileService.getProfiles()
+    .then(data=>{
+      this.profiles=data as Profile[]
+    }).catch();
+    
   }
 }

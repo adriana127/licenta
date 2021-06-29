@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
+import { Post } from 'src/app/model/post';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { PostService } from 'src/app/service/post.service';
@@ -34,9 +35,15 @@ export class ProfilePostsComponent implements OnInit {
       .then(result=>{
         this.user=result as unknown as User;
       }).catch()
-      
-    await this.postService.loadData(this.user)
-    this.posts = this.postService.getPersonalPosts()
+      this.posts=[]
+    await this.postService.loadData()
+    await this.postService.getPersonalPosts(this.user).then(data=>{
+      let posts:Post[]=data as Post[]
+      posts.forEach(post=>{
+        this.posts.push(this.postService.convertPostToNewsFeedPost(post))
+      })
+      this.postService.setNumberOfPosts(this.posts.length)
+    })
     this.loaded=true;
   }
 

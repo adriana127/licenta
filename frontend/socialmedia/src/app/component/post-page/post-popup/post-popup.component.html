@@ -35,7 +35,7 @@
                     <div class="row">
                         <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
                             <mat-chip class="example-box" cdkDrag *ngFor="let tag of tags">
-                                {{tag.nickname}}
+                                <div (click)="closeDialog()" [routerLink]="['/profile']" [queryParams]="{ username:tag.username}">{{tag.nickname}}</div>
                             </mat-chip>
                         </mat-chip-list>
                     </div>

@@ -3,6 +3,8 @@ package com.licenta.socialmedia.model;
 import lombok.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,6 +28,4 @@ public class Notification {
     User receiver;
     @ManyToOne
     Post post;
-
-
 }

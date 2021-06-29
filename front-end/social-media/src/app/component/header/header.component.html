@@ -26,7 +26,7 @@
                         aria-label="Search">
                         <mat-autocomplete #auto="matAutocomplete">
                             <mat-option *ngFor="let option of options" [value]="option">
-                                <button mat-menu-item [routerLink]="['/profile']" [queryParams]="{ username:option.user.username}">
+                                <div mat-menu-item [routerLink]="['/profile']" [queryParams]="{ username:option.user.username}">
                                     <div class="row" style="width: 100%; margin-left: 0%;">
                                         <div class="col-sm-4">
                                             <img [src]="option.photo ? (option.photo| image) : 'assets/resources/user.png'" style="width: 30px;height: 30px; border-radius: 50%;"
@@ -37,7 +37,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                </button>
+                                </div>
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>

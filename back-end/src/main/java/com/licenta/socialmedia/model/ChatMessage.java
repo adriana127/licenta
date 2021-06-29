@@ -1,6 +1,8 @@
 package com.licenta.socialmedia.model;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -22,6 +24,7 @@ public class ChatMessage {
     @ManyToOne
     @JoinColumn
     private Profile sender;
+
     @ManyToOne
     @JoinColumn
     private Chat chat;

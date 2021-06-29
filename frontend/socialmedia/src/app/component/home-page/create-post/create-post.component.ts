@@ -9,9 +9,10 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/model/user';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Profile } from 'src/app/model/profile';
 import { ProfileService } from 'src/app/service/profile.service';
+import { PostCreatedResponseComponent } from '../../response-pages/post-created-response/post-created-response.component';
 
 @Component({
   selector: 'app-create-post',
@@ -23,7 +24,8 @@ export class CreatePostComponent {
   constructor(private postService: PostService,
               private authenticationService: AuthenticationService,
               private dialogRef: MatDialogRef<CreatePostComponent>,
-              private profileService:ProfileService) {
+              private profileService:ProfileService,
+              private dialog: MatDialog,) {
     this.post = { id: 0, user: this.authenticationService.getCurrentUser(), description: "", createdOn: new Date(), likes: [], comments: [], tags: [], photo: "" };
     this.imgURL = "https://i.stack.imgur.com/y9DpT.jpg";
   }
@@ -62,8 +64,12 @@ export class CreatePostComponent {
   onUpload() {
     this.post.tags=this.selectedUsers
     this.postService.createPost(this.post, this.selectedFile)
-      .subscribe((response) => {
-        alert(response)
+      .subscribe(() => {
+       
+          this.dialog.open(PostCreatedResponseComponent, {
+            width: '500px',
+            height: '200px'
+          })
         this.closeDialog()
       }
       );

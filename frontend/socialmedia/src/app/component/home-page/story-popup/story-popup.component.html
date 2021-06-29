@@ -1,0 +1,32 @@
+<div id="background">
+    <div class="container" *ngIf="loaded">
+      <mat-card style="box-shadow: none !important; border-radius: 30px;">
+        <mat-card-content>
+            <div class="row" style="padding-top: 0%; margin-bottom: 30px;" (click)="closeDialog()">
+                <div class="col-sm-4">
+                    <a [routerLink]="['/profile']" [queryParams]="{ username:creatorProfile.user.username}" >
+                        <img [src]="creatorProfile.photo ? (creatorProfile.photo| image) : 'assets/resources/user.png'" style="width: 50px;height: 50px; border-radius: 50%;"
+                            alt="Card image cap">
+                    </a>
+                </div>
+                <div class="col-sm-6" style="font-size: small; ">
+
+                    <div class="row">
+                        <div class="col-sm-6" style="font-size: small;margin-bottom: 0px;padding-left: 0px; ">
+<a [routerLink]="['/profile']" [queryParams]="{ username:creatorProfile.user.username}">
+                            <p 
+                                style="font-size: small;margin-bottom: 0px;padding-left: 10px; margin-top: 15px;">
+                                {{creatorProfile.user.nickname}}</p>
+</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <div class="row">
+        <img [src]="story.photo ? (story.photo| image) : 'assets/resources/user.png'" style="max-width: 500px;max-height: 500px;" id="image" (click)="onClick()">
+      </div>
+     
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

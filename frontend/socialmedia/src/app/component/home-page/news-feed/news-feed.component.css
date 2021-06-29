@@ -2,7 +2,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 #mydiv {
-    max-height: 720px;
+    max-height: 670px;
     overflow-y: scroll;
   }
 #newsfeedCard{

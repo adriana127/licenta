@@ -1,11 +1,14 @@
 import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Chat } from 'src/app/model/chat';
 import { ChatMessage } from 'src/app/model/message';
 import { Profile } from 'src/app/model/profile';
+import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { ChatService } from 'src/app/service/chat.service';
 import { ProfileService } from 'src/app/service/profile.service';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-current-chat',
@@ -17,14 +20,30 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
   isChatSelected: boolean = false
   chatSelected!: Chat
   constructor(private chatService: ChatService,
+    public route: ActivatedRoute,
     private authenticationService: AuthenticationService,
-    private profileService: ProfileService) { }
+    private userService: UserService,
+
+    private profileService: ProfileService) { 
+
+    }
   inputValue: string = ""
   requestNumber: number = 0
   messages: ChatMessage[] = []
   checkMessages: boolean = false
-  ngOnInit(): void {
+  currentProfile!:Profile
+  senderProfile!:Profile
+  loaded:boolean=false;
+  async ngOnInit(): Promise<void> {
+    if(this.route.snapshot.queryParamMap.get('username'))
+  
+      await this.chatService.getChatByUsersUsername(this.authenticationService.getCurrentUser().username,
+      this.route.snapshot.queryParamMap.get('username')).then(async chat=>{
+        console.log(chat)
+      await this.onChatSelected(chat as Chat)
+      });
     this.scrollToBottom();
+    this.loaded=true;
   }
   ngAfterViewChecked() {
     this.scrollToBottom();
@@ -40,11 +59,12 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
   isSentByCurrentUser(profile:Profile){
     return this.authenticationService.getCurrentUser().id==profile.user.id
   }
-  onChatSelected(chat: Chat) {
+  async onChatSelected(chat: Chat) {
     this.messages = []
     this.checkMessages = false
     this.chatSelected = chat
     this.isChatSelected = true
+    this.chatService.convertChat(this.chatSelected)
     this.chatService.getMessages(this.requestNumber, this.chatSelected)
       .pipe(map(messages => messages.sort(CurrentChatComponent.ascendingByPostedAt)))
       .subscribe(messages => {
@@ -62,6 +82,10 @@ export class CurrentChatComponent implements OnInit, AfterViewChecked {
         this.messages.push(message)
         this.scrollToBottom();
       });
+      this.currentProfile=this.profileService.getPersonalProfile()
+      await this.profileService.getProfile(this.chatSelected.user2.user).then(data=>{
+        this.senderProfile=data
+      }).catch()
   }
   async createMessage() {
     let sender: Profile;

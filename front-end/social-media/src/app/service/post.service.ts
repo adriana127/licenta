@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs'; // since RxJs 6
-import { first, map } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { Post } from '../model/post';
 import { RestService } from './utils/rest.service';
 import { Like } from '../model/like';
@@ -18,12 +18,16 @@ import { Profile } from '../model/profile';
 })
 export class PostService {
 
+
+
   posts!: Post[]
   newsfeedposts: NewsFeedPost[] = []
   personalPosts: NewsFeedPost[] = []
   user!: User
   profiles!:Profile[]
   numberOfPosts=0
+  selectedPost!:NewsFeedPost
+
   constructor(private restService: RestService,
     private profileService:ProfileService,
     private authenticationService: AuthenticationService,
@@ -36,6 +40,16 @@ export class PostService {
     formData.append('photo', image);
     formData.append('post', JSON.stringify(user));
     return this.restService.post("createPost", formData);
+  }
+  getSelectedPost(){
+    return this.selectedPost;
+  }
+  setSelectedPost(post:NewsFeedPost){
+    this.selectedPost=post;
+  }
+  updatePost(post: Post) { 
+    post.photo=null
+    return this.restService.post("updatePost", post);
   }
   setNumberOfPosts(length: number) {
     this.numberOfPosts=length;
@@ -59,7 +73,13 @@ export class PostService {
   commentPost(postId: number,message:String) {
     return this.restService.post("addComment", { postId: postId, comment: { user: this.authenticationService.getCurrentUser(),message:message,createdOn:new Date() } });
   }
-
+  deleteComment(postId: number,comment:any) {
+    return this.restService.post("deleteComment", { postId: postId, comment: {id:comment.id,message:comment.message.message, user: comment.user,createdOn:comment.createdOn } });
+  }
+  deletePost(post: Post) {
+    console.log(post)
+    return this.restService.post("deletePost", post)
+  }
   getPostById(postId: number) {
     return this.restService.get("http://localhost:8080/post/" + postId)
   }
@@ -80,10 +100,8 @@ export class PostService {
     return { post: Object.assign({}, post), liked: isLiked, numberOfLikes: post.likes.length, numberOfComments: post.comments.length,profile:profile!, tags: post.tags }
   }
 
-  findAll(numberOfRequest:number): Observable<Post[]> {
-    return this.socketClient
-      .subscribeToNotifications('/topic/posts/newsfeed/'+this.authenticationService.getCurrentUser().id+"/"+numberOfRequest)
-      .pipe(first(), map(posts => posts.map(PostService.getPostListing)));
+  findAll(numberOfRequest:number) {
+    return this.restService.get('http://localhost:8080/posts/newsfeed/'+this.authenticationService.getCurrentUser().id+"/"+numberOfRequest)
   }
   
   onPost(): any{
@@ -110,6 +128,7 @@ export class PostService {
     .then(data=>{
       this.profiles=data as Profile[]
     }).catch();
+    console.log(this.profiles)
     
   }
 }

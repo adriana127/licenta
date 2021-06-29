@@ -8,6 +8,10 @@
                         style="max-width:500px;max-height: 350px;" id="image">
                 </div>
                 <div class="col-sm-4">
+                    <img *ngIf="isPersonalPost" src="assets/resources/delete1.png"
+                    style="max-width:30px;max-height: 30px;" id="image" (click)="deletePost()">
+                    <img *ngIf="isPersonalPost" src="assets/resources/edit.png"
+                    style="max-width:30px;max-height: 30px;" id="image" (click)="updatePost()">
                     <div class="row" style="margin-top: 30px;">
                         <div class="col-sm-4">
                             <a [routerLink]="['/profile']" [queryParams]="{ username:creatorProfile.user.username}">
@@ -28,13 +32,14 @@
                             </div>
                         </div>
                     </div>
+                   
                     <hr>
                     <div class="row">
-                        <p>{{post.post.description}}</p>
+                        <p>{{postService.getSelectedPost().post.description}}</p>
                     </div>
                     <div class="row">
                         <mat-chip-list class="example-chip" cdkDropList cdkDropListOrientation="horizontal">
-                            <mat-chip class="example-box" cdkDrag *ngFor="let tag of tags">
+                            <mat-chip class="example-box" cdkDrag *ngFor="let tag of postService.getSelectedPost().tags">
                                 <div (click)="closeDialog()" [routerLink]="['/profile']" [queryParams]="{ username:tag.username}">{{tag.nickname}}</div>
                             </mat-chip>
                         </mat-chip-list>
@@ -99,10 +104,15 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-xl-8">
+                <div class="col-xl-7">
                     <label style="font-size: smaller;">{{comment.profile.user.username}}</label>
                     <mat-card style="width: 100%;">{{comment.message.message}}
                     </mat-card>
+                    
+                </div>
+                <div class="col-xl-1" style="margin-top: 40px;">
+                    <img src="assets/resources/delete1.png" *ngIf="comment.profile.user.id==authenticationService.getCurrentUser().id || isPersonalPost"
+                    style="max-width:20px;max-height:20px;" id="image" (click)="deleteComment(comment)">
                 </div>
             </div>
            

@@ -21,7 +21,7 @@ export class EditProfileComponent  {
   constructor(private profileService: ProfileService,
               private authenticationService: AuthenticationService,
               private dialogRef: MatDialogRef<EditProfileComponent>) {
-    this.profile=this.profileService.getPersonalProfile();
+    this.profile=JSON.parse(JSON.stringify(this.profileService.getPersonalProfile()));
     this.imgURL=this.profile.photo
   }
 
@@ -41,12 +41,17 @@ export class EditProfileComponent  {
     }
   }
 
-  saveProfile() {
+   saveProfile() {
     this.profileService.updateProfile(this.profile, this.selectedFile)
-    .subscribe(data => {
+    .subscribe(async data => {
       this.authenticationService.setCurrentUser(data.user)
-      this.closeDialog()
+      await this.profileService.getProfile(data.user)
+            .then(data => {
+              this.profileService.setCurrentProfile(data)
+                    this.closeDialog()
       window.location.reload();
+            }).catch()
+
       }, err => {
         alert(err.message)
       });

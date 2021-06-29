@@ -11,6 +11,9 @@ import { ChatMessage } from '../model/message';
   providedIn: 'root'
 })
 export class ChatService {
+  getChatByUsersUsername(username: string, arg1: string | null) {
+    return this.restService.get("http://localhost:8080/chat/" + arg1+"/"+username)
+  }
 
   selectedChat!: Chat
   constructor(private restService: RestService,

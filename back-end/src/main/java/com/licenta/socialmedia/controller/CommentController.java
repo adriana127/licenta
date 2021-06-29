@@ -58,9 +58,9 @@ public class CommentController {
 
     @PostMapping(value = "/deleteComment")
     void deleteComment(@RequestBody CommentPostRequest model) {
-        postService.findById(model.getPostId()).get()
-                .getComments()
-                .removeIf(like -> (like.getUser().getId().equals(model.getComment().getUser().getId())));
+        var post=postService.findById(model.getPostId()).get();
+        post.getComments()
+                .removeIf(comment -> (comment.getId().equals(model.getComment().getId())));
         commentService.delete(model.getComment());
     }
 

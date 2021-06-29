@@ -1,0 +1,24 @@
+<div id="background">
+    <div class="container">
+      <mat-card style="box-shadow: none !important; border-radius: 30px;">
+        <mat-card-header style="margin-left: 20%;  margin-top: 20px;">
+              Are you sure you want to delete this post?
+        </mat-card-header>
+        <mat-card-actions>
+            <div class="row" style="margin-left: 20%;">
+              <div class="col-sm-6">
+                <button style="  margin-top: 30px;" mat-flat-button id="addButton" (click)="onDelete()">YES</button>
+
+                
+              </div>
+              <div class="col-sm-6">
+                <button style=" margin-top: 30px;" mat-flat-button id="addButton" (click)="closeDialog()">NO</button>
+
+                
+              </div>
+            </div>
+          
+          </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>

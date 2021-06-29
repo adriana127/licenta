@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Profile } from 'src/app/model/profile';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { NewsFeedPost } from 'src/app/model/newsfeedpost';
 import { User } from 'src/app/model/user';
@@ -25,7 +25,9 @@ export class PostPopupComponent implements OnInit {
   aux:any
     constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private postService: PostService,
-    private profileService: ProfileService) {
+    private profileService: ProfileService,
+  private dialogRef: MatDialogRef<PostPopupComponent>,
+  ) {
     this.post = data.dataKey
     this.tags = this.post.tags
 
@@ -93,5 +95,8 @@ export class PostPopupComponent implements OnInit {
     .subscribe(() => { 
       this.inputValue = "" 
     })
+  }
+  closeDialog(){
+    this.dialogRef.close();
   }
 }

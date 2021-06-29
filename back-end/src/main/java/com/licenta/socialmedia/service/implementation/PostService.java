@@ -4,8 +4,7 @@ import com.licenta.socialmedia.model.Notification;
 import com.licenta.socialmedia.model.Post;
 import com.licenta.socialmedia.model.Profile;
 import com.licenta.socialmedia.model.User;
-import com.licenta.socialmedia.repository.IPostRepository;
-import com.licenta.socialmedia.repository.IUserRepository;
+import com.licenta.socialmedia.repository.*;
 import com.licenta.socialmedia.service.IPostService;
 import com.licenta.socialmedia.util.NotificationEndpoints;
 import com.licenta.socialmedia.util.PhotoUtils;
@@ -36,6 +35,14 @@ public class PostService implements IPostService {
     IPostRepository postRepository;
     @Autowired
     IUserRepository userRepository;
+    @Autowired
+    ILikeRepository likeRepository;
+    @Autowired
+    ICommentRepository commentRepository;
+    @Autowired
+    ITagRepository tagRepository;
+    @Autowired
+    INotificationRepository notificationRepository;
     @Override
     public Post add(Post post, List<Profile> followers) {
         boolean existing=post.getId()==0;
@@ -55,8 +62,12 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void delete(Post user) {
-
+    public void delete(Post post) {
+        likeRepository.deleteLikeById(post.getId());
+        commentRepository.deleteCommentByPostId(post.getId());
+        tagRepository.deleteTagById(post.getId());
+        notificationRepository.deletePostById(post.getId());
+        postRepository.deletePostById(post.getId());
     }
 
     @Override

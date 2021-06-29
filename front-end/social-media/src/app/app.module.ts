@@ -41,6 +41,10 @@ import { CreateStoryComponent } from './component/home-page/create-story/create-
 import { StoryPopupComponent } from './component/home-page/story-popup/story-popup.component';
 import { PostCreatedResponseComponent } from './component/response-pages/post-created-response/post-created-response.component';
 import { StoryCreatedResponseComponent } from './component/response-pages/story-created-response/story-created-response.component';
+import { AskDeleteResponseComponent } from './component/response-pages/ask-delete-response/ask-delete-response.component';
+import { LoginFailedComponent } from './component/response-pages/login-failed/login-failed.component';
+import { SignupFailedComponent } from './component/response-pages/signup-failed/signup-failed.component';
+import { SignupSuccessComponent } from './component/response-pages/signup-success/signup-success.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +69,10 @@ import { StoryCreatedResponseComponent } from './component/response-pages/story-
     StoryPopupComponent,
     PostCreatedResponseComponent,
     StoryCreatedResponseComponent,
+    AskDeleteResponseComponent,
+    LoginFailedComponent,
+    SignupFailedComponent,
+    SignupSuccessComponent,
   ],
   imports: [
     BrowserModule,

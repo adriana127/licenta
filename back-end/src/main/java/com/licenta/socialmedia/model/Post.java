@@ -1,6 +1,8 @@
 package com.licenta.socialmedia.model;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,10 +28,10 @@ public class Post {
     private String description;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<Comment> comments;
+    private Set<Like> likes;
 
     @OneToMany(fetch = FetchType.EAGER)
-    private Set<Like> likes;
+    private Set<Comment> comments;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> tags;

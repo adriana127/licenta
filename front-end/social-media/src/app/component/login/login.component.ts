@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/service/authentication/authentication.service';
 import { ProfileService } from 'src/app/service/profile.service';
+import { LoginFailedComponent } from '../response-pages/login-failed/login-failed.component';
+import { SignupFailedComponent } from '../response-pages/signup-failed/signup-failed.component';
+import { SignupSuccessComponent } from '../response-pages/signup-success/signup-success.component';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +37,8 @@ export class LoginComponent {
   }
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
-              private profileService: ProfileService) {
+              private profileService: ProfileService,
+              private dialog: MatDialog,) {
 
     if (authenticationService.getCurrentUser())
       this.router.navigateByUrl("\home");
@@ -77,14 +82,24 @@ export class LoginComponent {
     else
       this.authenticationService.login(this.loginForm.getRawValue())
         .subscribe(async data => {
+          console.log(data)
+          if (data.type === "Bearer")
+
           this.profileService.getProfile(data.user)
             .then(data => {
-          console.log(data)
-              
               this.profileService.setCurrentProfile(data)
               this.router.navigateByUrl("/home");
             });
+            else
+            this.dialog.open(LoginFailedComponent, {
+              width: '500px',
+              height: '200px'
+            })
         }, error => {
+          this.dialog.open(LoginFailedComponent, {
+            width: '500px',
+            height: '200px'
+          })
         });
   };
 
@@ -99,10 +114,21 @@ export class LoginComponent {
             this.authenticationService.login({
               username: this.registerForm.getRawValue().username,
               password: this.registerForm.getRawValue().password
+              
             }).subscribe(data => {
+              this.dialog.open(SignupSuccessComponent, {
+                width: '500px',
+                height: '200px'
+              })
             }, err => {
-              alert(err.message)
+            
             });
+          }
+          else{
+              this.dialog.open(SignupFailedComponent, {
+                width: '500px',
+                height: '200px'
+              })
           }
         });
   }
